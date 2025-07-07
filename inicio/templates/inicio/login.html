@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edificio Cartagena - Iniciar Sesión</title>
+    <link rel="stylesheet" href="{% static 'inicio/css/estilos_generales.css' %}">
+</head>
+<body>
+    <div class="contenedor-login">
+        <h2 class="titulo-login">Edificio Cartagena</h2>
+        <p class="subtitulo-login">Sistema de Administración</p>
+
+        <div class="selector-usuario">
+            <button class="tipo-usuario activo">
+                Administrador
+            </button>
+            <button class="tipo-usuario">
+                Arrendatario
+            </button>
+        </div>
+
+        <form method="post">
+            <div class="grupo-formulario">
+                <label for="usuario">Usuario</label>
+                <input type="text" id="usuario" name="usuario" required>
+            </div>
+
+            <div class="grupo-formulario">
+                <label for="clave">Contraseña</label>
+                <input type="password" id="clave" name="clave" required>
+            </div>
+
+            <button type="submit" class="boton-login">Iniciar Sesión</button>
+
+            <a href="#" class="enlace-olvido">¿Olvidaste tu contraseña?</a>
+        </form>
+    </div>
+</body>
+</html>

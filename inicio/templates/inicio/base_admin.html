@@ -1,0 +1,41 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block titulo %}Dashboard Administrador{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'inicio/css/estilos_generales.css' %}">
+    <link rel="stylesheet" href="{% static 'inicio/css/dashboard.css' %}">
+</head>
+<body>
+    <div class="contenedor-dashboard">
+        
+        <aside class="sidebar">
+            <h2>Panel Admin</h2>
+            <ul>
+                <li><a href="{% url 'dashboard_admin' %}">Inicio Dashboard</a></li>
+                <li><a href="#">Contratos</a></li>
+                <li><a href="#">Arrendatarios</a></li>
+                <li><a href="#">Pagos</a></li>
+                <li><a href="{% url 'bienvenida' %}">Volver al sitio</a></li>
+            </ul>
+        </aside>
+
+        <div class="contenido-principal">
+            <nav class="navbar">
+                <span>Edificio Cartagena - Administrador</span>
+            </nav>
+
+            <main class="contenido">
+                {% block contenido %}
+                {% endblock %}
+            </main>
+
+            <footer class="footer">
+                &copy; 2025 Edificio Cartagena. Todos los derechos reservados.
+            </footer>
+        </div>
+    </div>
+</body>
+</html>
