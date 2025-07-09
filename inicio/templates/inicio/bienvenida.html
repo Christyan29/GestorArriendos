@@ -3,14 +3,12 @@
 {% block titulo %}Inicio - Cartagena{% endblock %}
 
 {% block contenido %}
-<div class="contenido_principal">
-    <h1 class="titulo_inicio">Gestión de Arriendos</h1>
-    <p>
-        Plataforma web del Edificio <strong>Cartagena</strong> para administrar fácilmente los arriendos de 20 departamentos.
-    </p>
-    <p>
-        Administradores: gestionan contratos, documentos y notificaciones.<br>
-        Arrendatarios: revisan contratos activos y reciben alertas por correo.
-    </p>
-</div>
+<section class="hero">
+    <div class="hero-content">
+        <h1>Gestión de arriendos</h1>
+        <p>Plataforma web del Edificio Cartagena para administrar fácilmente los arriendos de 20 departamentos.</p>
+        <a href="{% url 'login' %}" class="btn-principal">Iniciar sesión</a>
+        <a href="{% url 'registrarse' %}" class="btn-secundario">Registrarse</a>
+    </div>
+</section>
 {% endblock %}

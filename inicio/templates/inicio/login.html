@@ -3,8 +3,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edificio Cartagena - Iniciar Sesión</title>
+    <title>Iniciar Sesión</title>
     <link rel="stylesheet" href="{% static 'inicio/css/estilos_generales.css' %}">
 </head>
 <body>
@@ -12,16 +11,16 @@
         <h2 class="titulo-login">Edificio Cartagena</h2>
         <p class="subtitulo-login">Sistema de Administración</p>
 
-        <div class="selector-usuario">
-            <button class="tipo-usuario activo">
-                Administrador
-            </button>
-            <button class="tipo-usuario">
-                Arrendatario
-            </button>
-        </div>
-
         <form method="post">
+            {% csrf_token %}
+            {% if messages %}
+                <ul class="mensajes-error">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
             <div class="grupo-formulario">
                 <label for="usuario">Usuario</label>
                 <input type="text" id="usuario" name="usuario" required>
@@ -33,8 +32,6 @@
             </div>
 
             <button type="submit" class="boton-login">Iniciar Sesión</button>
-
-            <a href="#" class="enlace-olvido">¿Olvidaste tu contraseña?</a>
         </form>
     </div>
 </body>
