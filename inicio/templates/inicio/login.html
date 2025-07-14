@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <title>Iniciar Sesión</title>
     <link rel="stylesheet" href="{% static 'inicio/css/estilos_generales.css' %}">
+<<<<<<< HEAD
+=======
+    <link rel="stylesheet" href="{% static 'inicio/css/login.css' %}">
+>>>>>>> main
 </head>
 <body>
     <div class="contenedor-login">
@@ -21,6 +25,18 @@
                 </ul>
             {% endif %}
 
+<<<<<<< HEAD
+=======
+            <div class="tipo-usuario-selector">
+                <input type="radio" id="admin" name="tipo_usuario" value="admin_edificio" checked>
+                <label for="admin">Administrador</label>
+
+                <input type="radio" id="arrendatario" name="tipo_usuario" value="arrendatario">
+                <label for="arrendatario">Arrendatario</label>
+            </div>
+
+
+>>>>>>> main
             <div class="grupo-formulario">
                 <label for="usuario">Usuario</label>
                 <input type="text" id="usuario" name="usuario" required>
@@ -32,6 +48,11 @@
             </div>
 
             <button type="submit" class="boton-login">Iniciar Sesión</button>
+<<<<<<< HEAD
+=======
+
+            <a href="#" class="enlace-olvido">¿Olvidaste tu contraseña?</a>
+>>>>>>> main
         </form>
     </div>
 </body>
