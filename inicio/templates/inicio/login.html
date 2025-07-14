@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="{% static 'inicio/css/estilos_generales.css' %}">
+    <link rel="stylesheet" href="{% static 'inicio/css/login.css' %}">
+</head>
+<body>
+    <div class="contenedor-login">
+        <h2 class="titulo-login">Edificio Cartagena</h2>
+        <p class="subtitulo-login">Sistema de Administración</p>
+
+        <form method="post">
+            {% csrf_token %}
+            {% if messages %}
+                <ul class="mensajes-error">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <div class="tipo-usuario-selector">
+                <input type="radio" id="admin" name="tipo_usuario" value="admin_edificio" checked>
+                <label for="admin">Administrador</label>
+
+                <input type="radio" id="arrendatario" name="tipo_usuario" value="arrendatario">
+                <label for="arrendatario">Arrendatario</label>
+            </div>
+
+
+            <div class="grupo-formulario">
+                <label for="usuario">Usuario</label>
+                <input type="text" id="usuario" name="usuario" required>
+            </div>
+
+            <div class="grupo-formulario">
+                <label for="clave">Contraseña</label>
+                <input type="password" id="clave" name="clave" required>
+            </div>
+
+            <button type="submit" class="boton-login">Iniciar Sesión</button>
+
+            <a href="#" class="enlace-olvido">¿Olvidaste tu contraseña?</a>
+        </form>
+    </div>
+</body>
+</html>

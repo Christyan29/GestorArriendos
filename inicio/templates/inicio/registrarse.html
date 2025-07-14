@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrarse - Edificio Cartagena</title>
+    <link rel="stylesheet" href="{% static 'inicio/css/estilos_generales.css' %}">
+</head>
+<body>
+    <div class="contenedor-login">
+        <h2 class="titulo-login">Registro de Arrendatario</h2>
+        <p class="subtitulo-login">Completa tus datos para registrarte</p>
+
+        <form method="post">
+            {% csrf_token %}
+            {% if messages %}
+                <ul class="mensajes-error">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <div class="grupo-formulario">
+                <label for="nombre_completo">Nombre completo</label>
+                <input type="text" id="nombre_completo" name="nombre_completo" required>
+            </div>
+
+            <div class="grupo-formulario">
+                <label for="usuario">Nombre de usuario</label>
+                <input type="text" id="usuario" name="usuario" required>
+            </div>
+
+            <div class="grupo-formulario">
+                <label for="correo">Correo electrónico</label>
+                <input type="email" id="correo" name="correo" required>
+            </div>
+
+            <div class="grupo-formulario">
+                <label for="telefono">Teléfono</label>
+                <input type="text" id="telefono" name="telefono" required>
+            </div>
+ 
+            <div class="grupo-formulario">
+                <label for="clave">Contraseña</label>
+                <input type="password" id="clave" name="clave" required>
+            </div>
+
+            <button type="submit" class="boton-login">Registrarse</button>
+        </form>
+    </div>
+</body>
+</html>

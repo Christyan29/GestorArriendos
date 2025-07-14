@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block titulo %}Cartagena - Plataforma{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'inicio/css/estilos_generales.css' %}">
+</head>
+<body>
+
+    <nav class="navbar-general">
+        <div class="logo">Cartagena</div>
+        <div class="nav-links">
+            <a href="{% url 'bienvenida' %}">Inicio</a>
+            <a href="{% url 'nosotros' %}">Nosotros</a>
+            <a href="{% url 'contacto' %}">Contacto</a>
+            <a href="{% url 'registrarse' %}">Registrarse</a>
+            <a href="{% url 'login' %}">Iniciar sesión</a>
+        </div>
+    </nav>
+
+    <main style="padding-top: 100px;">
+        {% block contenido %}
+        {% endblock %}
+    </main>
+
+    <footer class="footer-general">
+        <p>&copy; 2025 Edificio Cartagena. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>

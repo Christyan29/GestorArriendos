@@ -1,0 +1,14 @@
+{% extends 'inicio/base.html' %}
+
+{% block titulo %}Inicio - Cartagena{% endblock %}
+
+{% block contenido %}
+<section class="hero">
+    <div class="hero-content">
+        <h1>Gestión de arriendos</h1>
+        <p>Plataforma web del Edificio Cartagena para administrar fácilmente los arriendos de 20 departamentos.</p>
+        <a href="{% url 'login' %}" class="btn-principal">Iniciar sesión</a>
+        <a href="{% url 'registrarse' %}" class="btn-secundario">Registrarse</a>
+    </div>
+</section>
+{% endblock %}
