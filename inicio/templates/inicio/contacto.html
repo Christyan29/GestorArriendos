@@ -1,29 +1,16 @@
 {% extends 'inicio/base.html' %}
-<<<<<<< HEAD
-=======
 {% load static %}
->>>>>>> main
-
 {% block titulo %}Contacto - Cartagena{% endblock %}
-
 {% block contenido %}
-<<<<<<< HEAD
-<section class="contenido_principal">
-    <h1>Contacto</h1>
-    <p>¿Tienes preguntas? Contáctanos:</p>
-    <ul>
-        <li>Email: contacto@cartagena.com</li>
-        <li>Teléfono: 123-456-789</li>
-    </ul>
-=======
+
 <link rel="stylesheet" href="{% static 'inicio/css/contacto.css' %}">
 
 <section class="contenido_principal">
     <h1>Contacto</h1>
     <p>¿Tienes preguntas? Llena el formulario y te responderemos lo antes posible:</p>
 
-    <form method="post">
-        {% csrf_token %}
+    <form method="post"> 
+        {% csrf_token %} 
 
         {% if messages %}
             <ul class="mensajes-error">
@@ -55,6 +42,6 @@
 
     <p><strong>Email:</strong> contacto@cartagena.com</p>
     <p><strong>Teléfono:</strong> 123-456-789</p>
->>>>>>> main
+
 </section>
 {% endblock %}

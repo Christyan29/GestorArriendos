@@ -75,20 +75,10 @@ WSGI_APPLICATION = 'Web_Alquileres.wsgi.application'
 
 DATABASES = {
     'default': {
-<<<<<<< HEAD
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-=======
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'edificio_cartagena_db',
-        'USER': 'django_user',     
-        'PASSWORD': 'intesud150',       
-        'HOST': 'localhost',          
-        'PORT': '5432',   
->>>>>>> main
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
