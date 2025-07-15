@@ -1,0 +1,35 @@
+# Archivos de configuración local
+.env
+local_settings.py
+
+# Archivos del IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Base de datos
+*.sqlite3
+db.sqlite3
+
+# Entorno virtual
+env/
+venv/
+.venv/
+
+# Logs
+*.log
+logs/
+
+# Media files
+media/
