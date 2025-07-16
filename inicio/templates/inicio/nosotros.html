@@ -1,10 +1,18 @@
 {% extends 'inicio/base.html' %}
+{% load static %}
 
 {% block titulo %}Nosotros - Cartagena{% endblock %}
 
 {% block contenido %}
+<link rel="stylesheet" href="{% static 'inicio/css/nosotros.css' %}">
+
 <section class="contenido_principal">
     <h1>Sobre Nosotros</h1>
-    <p>Somos una plataforma especializada en la administración de arriendos del Edificio Cartagena, diseñada para facilitar la gestión de contratos, notificaciones y más.</p>
+    <p>
+        Somos una plataforma que gestiona la administración de arriendos del <strong>Edificio Cartagena</strong>,
+        diseñada para simplificar y automatizar la gestión de contratos, vencimientos, pagos y notificaciones electrónicas. <br><br>
+        Nuestra misión es proporcionar herramientas eficientes tanto para administradores como arrendatarios, promoviendo una administración
+        clara, organizada y digitalizada.
+    </p>
 </section>
 {% endblock %}

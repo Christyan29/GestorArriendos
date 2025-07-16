@@ -5,16 +5,16 @@
     <meta charset="UTF-8">
     <title>Registrarse - Edificio Cartagena</title>
     <link rel="stylesheet" href="{% static 'inicio/css/estilos_generales.css' %}">
+    <link rel="stylesheet" href="{% static 'inicio/css/registrarse.css' %}">
 </head>
 <body>
     <div class="contenedor-login">
         <h2 class="titulo-login">Registro de Arrendatarios</h2>
-=======
-        <h2 class="titulo-login">Registro de Arrendatario</h2>
         <p class="subtitulo-login">Completa tus datos para registrarte</p>
 
         <form method="post">
             {% csrf_token %}
+
             {% if messages %}
                 <ul class="mensajes-error">
                     {% for message in messages %}

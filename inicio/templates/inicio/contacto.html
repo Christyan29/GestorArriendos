@@ -1,7 +1,13 @@
 {% extends 'inicio/base.html' %}
+
+
 {% load static %}
+
+
 {% block titulo %}Contacto - Cartagena{% endblock %}
+
 {% block contenido %}
+
 
 <link rel="stylesheet" href="{% static 'inicio/css/contacto.css' %}">
 
@@ -9,8 +15,8 @@
     <h1>Contacto</h1>
     <p>¿Tienes preguntas? Llena el formulario y te responderemos lo antes posible:</p>
 
-    <form method="post"> 
-        {% csrf_token %} 
+    <form method="post">
+        {% csrf_token %}
 
         {% if messages %}
             <ul class="mensajes-error">
@@ -39,9 +45,6 @@
     </form>
 
     <hr style="margin-top: 40px;">
-
-    <p><strong>Email:</strong> contacto@cartagena.com</p>
-    <p><strong>Teléfono:</strong> 123-456-789</p>
 
 </section>
 {% endblock %}

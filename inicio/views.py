@@ -3,15 +3,43 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.models import User
 from inicio.models import PerfilUsuario
+from django.http import HttpResponse
+from django.contrib.auth.models import User
+from .models import PerfilUsuario
+from django.contrib.auth import logout
 
 def bienvenida(request):
     return render(request, 'inicio/bienvenida.html')
+
+def crear_usuarios_quemados(request):
+    if request.GET.get('clave') != 'admin123':
+        return HttpResponse(" No autorizado")
+
+    # usuario:administrador -contra: 12345
+    if not User.objects.filter(username='administrador').exists():
+        admin = User.objects.create_user(
+            username='administrador',
+            password='12345',
+            email='cvmacas@gmail.com',
+            first_name='Administrador General'
+        )
+        admin.is_staff = True
+        admin.save()
+
+        PerfilUsuario.objects.create(
+            user=admin,
+            tipo_usuario='admin_edificio',
+            telefono='0946455496'
+        )
+
+    return HttpResponse(" Usuario quemado creado: administrador / 12345")
+    #link para quermar el usuario:http://127.0.0.1:8000/crear-usuarios/?clave=admin123
 
 def vista_login(request):
     if request.method == 'POST':
         usuario = request.POST.get('usuario')
         clave = request.POST.get('clave')
-        tipo = request.POST.get('tipo_usuario') 
+        tipo = request.POST.get('tipo_usuario')  
 
         usuario_autenticado = authenticate(request, username=usuario, password=clave)
 
@@ -19,19 +47,19 @@ def vista_login(request):
             login(request, usuario_autenticado)
 
             if usuario_autenticado.is_superuser:
-                return redirect('/admin/')
-            else:
-                try:
-                    perfil = PerfilUsuario.objects.get(user=usuario_autenticado)
+                return redirect('/admin/')  
 
-                    if tipo == 'admin' and perfil.tipo_usuario == 'admin_edificio':
-                        return redirect('dashboard_admin')
-                    elif tipo == 'arrendatario' and perfil.tipo_usuario == 'arrendatario':
-                        return redirect('bienvenida')
-                    else:
-                        messages.error(request, 'Acceso denegado para el tipo de usuario seleccionado.')
-                except PerfilUsuario.DoesNotExist:
-                    messages.error(request, 'Perfil no encontrado.')
+            try:
+                perfil = PerfilUsuario.objects.get(user=usuario_autenticado)
+
+                if tipo == 'admin' and perfil.tipo_usuario == 'admin_edificio':
+                    return redirect('dashboard_admin')
+                elif tipo == 'arrendatario' and perfil.tipo_usuario == 'arrendatario':
+                    return redirect('bienvenida')
+                else:
+                    messages.error(request, 'Acceso denegado para el tipo de usuario seleccionado.')
+            except PerfilUsuario.DoesNotExist:
+                messages.error(request, 'El perfil del usuario no existe.')
         else:
             messages.error(request, 'Usuario o contraseña incorrectos.')
 
@@ -78,10 +106,25 @@ def vista_nosotros(request):
     return render(request, 'inicio/nosotros.html')
 
 def vista_contacto(request):
-
     return render(request, 'inicio/contacto.html')
-
-
 
 def dashboard_admin(request):
     return render(request, 'inicio/dashboard_admin.html')
+
+
+
+def cerrar_sesion(request):
+    logout(request)
+    return redirect('bienvenida')
+
+
+def usuarios_admin(request):
+    return render(request, 'inicio/usuarios_admin.html')
+
+def contratos_admin(request):
+    return render(request, 'inicio/contratos_admin.html')
+
+def reportes_admin(request):
+    return render(request, 'inicio/reportes_admin.html')
+
+

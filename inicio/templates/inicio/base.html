@@ -14,13 +14,11 @@
             <a href="{% url 'bienvenida' %}">Inicio</a>
             <a href="{% url 'nosotros' %}">Nosotros</a>
             <a href="{% url 'contacto' %}">Contacto</a>
-            <a href="{% url 'registrarse' %}">Registrarse</a>
-            <a href="{% url 'login' %}">Iniciar sesión</a>
         </div>
     </nav>
 
 
-    <main style="padding-top: 100px;">
+    <main>
         {% block contenido %}
         {% endblock %}
     </main>

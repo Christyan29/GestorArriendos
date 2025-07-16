@@ -4,11 +4,18 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Segoe UI', Arial, sans-serif;
+html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     color: #333;
     line-height: 1.6;
+}
+
+.layout-pagina {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 h1, h2, h3, h4, h5 {
@@ -16,9 +23,9 @@ h1, h2, h3, h4, h5 {
     margin-bottom: 15px;
 }
 
-/* NAVBAR */
+/* barra de navegacion */
 .navbar-general {
-    background-color: #2c3e50;
+    background-color: rgba(44, 62, 80, 0.7);
     color: white;
     padding: 15px 30px;
     display: flex;
@@ -38,8 +45,8 @@ h1, h2, h3, h4, h5 {
 
 .navbar-general a {
     color: white;
-    margin-left: 20px;
-    font-weight: bold;
+    margin-left: 40px;
+    font-size: 1.2rem;
     text-decoration: none;
     transition: color 0.3s ease;
 }
@@ -48,47 +55,15 @@ h1, h2, h3, h4, h5 {
     color: #3498db;
 }
 
-/* HERO SECTION (Fondo con imagen) */
-.hero {
-    background-image: url('{% static "inicio/img/portada.jpg" %}');
-
-    background-size: cover;
-    background-position: center;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    position: relative;
+main.contenido {
+    flex: 1;
+    padding-top: 80px;
 }
 
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: rgba(0, 0, 0, 0.6);
-}
-
-.hero-content {
-    position: relative;
-    z-index: 1;
-    color: white;
-}
-
-.hero h1 {
-    font-size: 3rem;
-    font-weight: bold;
-}
-
-.hero p {
-    font-size: 1.2rem;
-    margin-bottom: 30px;
-}
-
-/* Botones */
+/* botones */
 .btn-principal {
-    background-color: #e74c3c;
-    border: none;
+    background: transparent;
+    border: 2px solid rgb(247, 55, 55);
     padding: 12px 25px;
     border-radius: 5px;
     color: white;
@@ -96,6 +71,7 @@ h1, h2, h3, h4, h5 {
     cursor: pointer;
     margin-right: 10px;
     transition: background-color 0.3s ease;
+    text-decoration: none;
 }
 
 .btn-principal:hover {
@@ -111,6 +87,7 @@ h1, h2, h3, h4, h5 {
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
+    text-decoration: none;
 }
 
 .btn-secundario:hover {
@@ -118,16 +95,16 @@ h1, h2, h3, h4, h5 {
     color: #2c3e50;
 }
 
-/* Footer */
+/* footer  */
 .footer-general {
-    background-color: #2c3e50;
+    background-color: rgba(44, 62, 80, 0.7);
     color: white;
     text-align: center;
     padding: 20px;
-    margin-top: 50px;
+    width: 100%;
 }
 
-
+/* login */
 .contenedor-login {
     max-width: 500px;
     margin: 100px auto;
@@ -167,8 +144,7 @@ h1, h2, h3, h4, h5 {
     background-color: #2980b9;
 }
 
-
-/* Mensajes de error */
+/* mensajes de eror  */
 .mensajes-error {
     background-color: #f8d7da;
     color: #721c24;

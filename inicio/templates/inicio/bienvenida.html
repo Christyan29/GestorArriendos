@@ -1,8 +1,12 @@
 {% extends 'inicio/base.html' %}
 
+{% load static %}
+
 {% block titulo %}Inicio - Cartagena{% endblock %}
 
 {% block contenido %}
+
+<link rel="stylesheet" href="{% static 'inicio/css/bienvenida.css' %}">
 <section class="hero">
     <div class="hero-content">
         <h1>Gestión de arriendos</h1>
@@ -12,3 +16,4 @@
     </div>
 </section>
 {% endblock %}
+
