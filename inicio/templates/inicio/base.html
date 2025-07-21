@@ -5,38 +5,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block titulo %}Cartagena{% endblock %}</title>
-
-  <!-- Tailwind y FontAwesome -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link 
-    rel="stylesheet" 
+  <link
+    rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
   >
-
-  <!-- Configuración de Tailwind -->
   <script>
     tailwind.config = {
       theme: {
         extend: {
           animation: {
-            'typewriter': 'typewriter 2s steps(11) forwards',
-            'blink':       'blink 1s steps(11) infinite',
-            'fade-in':     'fadeIn 1s ease-out forwards',
-            'float':       'float 6s ease-in-out infinite'
+            "typewriter": "typewriter 2s steps(11) forwards",
+            "blink":      "blink 1s steps(11) infinite",
+            "fade-in":    "fadeIn 1s ease-out forwards",
+            "float":      "float 6s ease-in-out infinite"
           },
           keyframes: {
-            typewriter: { from: { width: '0' }, to: { width: '11ch' } },
-            blink:      { from: {'border-right-color':'transparent'}, to:{'border-right-color':'#ec4899'} },
-            fadeIn:     { from: {opacity:'0'}, to:{opacity:'1'} },
-            float:      { '0%,100%':{transform:'translateY(0)'}, '50%':{transform:'translateY(-15px)'} }
+            typewriter: { from: { width: "0" }, to: { width: "11ch" } },
+            blink:      { from: { "border-right-color": "transparent" }, to: { "border-right-color": "#ec4899" } },
+            fadeIn:     { from: { opacity: "0" }, to: { opacity: "1" } },
+            float:      { "0%,100%": { transform: "translateY(0)" }, "50%": { transform: "translateY(-15px)" } }
           },
-          fontFamily: { mono: ['"Fira Code"', 'monospace'] }
+          fontFamily: { mono: ['"Fira Code"', "monospace"] }
         }
       }
     }
   </script>
-
-  <!-- Utilidades personalizadas -->
   <style type="text/tailwindcss">
     @layer utilities {
       .text-gradient {
@@ -50,49 +44,37 @@
       .delay-300 { animation-delay: 300ms; }
     }
   </style>
-
   {% block extra_head %}{% endblock %}
 </head>
-
 <body class="bg-gray-900 text-gray-100 min-h-screen">
-
-  <!-- Navbar -->
   <nav class="fixed top-0 left-0 w-full py-4 px-6 z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800 transition-colors duration-300">
-    <div class="max-w-7xl mx-auto flex justify-between items-center">
-
-      <!-- Logo -->
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
       <a href="{% url 'bienvenida' %}">
-        <img 
-          src="{% static 'inicio/images/logo.png' %}" 
-          alt="Logo Edificio Cartagena" 
-          class="h-10 w-auto"
-        >
+        <img src="{% static 'inicio/images/logo.png' %}" alt="Logo Edificio Cartagena" class="h-8 w-auto">
       </a>
-
-      <!-- Links (desktop) -->
       <div class="hidden md:flex space-x-8">
-        <a href="{% url 'bienvenida' %}" class="relative group hover:text-white text-gray-300 transition-colors duration-300">
+        <a href="{% url 'bienvenida' %}" class="relative group text-gray-300 hover:text-white transition-colors duration-300">
           <span class="relative">
             Inicio
             <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-600 group-hover:w-full transition-all duration-300"></span>
           </span>
         </a>
-        <a href="{% url 'login' %}" class="relative group hover:text-white text-gray-300 transition-colors duration-300">
-          Iniciar sesión
+        <a href="{% url 'nosotros' %}" class="relative group text-gray-300 hover:text-white transition-colors duration-300">
+          <span class="relative">
+            Nosotros
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-600 group-hover:w-full transition-all duration-300"></span>
+          </span>
         </a>
-        <a href="{% url 'registrarse' %}" class="relative group hover:text-white text-gray-300 transition-colors duration-300">
-          Registrarse
-        </a>
-        <a href="{% url 'contacto' %}" class="relative group hover:text-white text-gray-300 transition-colors duration-300">
-          Contacto
+        <a href="{% url 'contacto' %}" class="relative group text-gray-300 hover:text-white transition-colors duration-300">
+          <span class="relative">
+            Contacto
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-600 group-hover:w-full transition-all duration-300"></span>
+          </span>
         </a>
       </div>
-
-      <!-- Botones (mobile + dark mode) -->
       <div class="flex items-center space-x-4">
-        <button class="hidden md:block px-4 py-2 text-gray-300 hover:text-white transition-colors dark-mode-toggle">
-          <i class="fas fa-moon"></i>
-        </button>
+        <a href="{% url 'login' %}" class="px-4 py-2 text-gray-300 hover:text-white transition-colors duration-300">Iniciar sesión</a>
+        <a href="{% url 'registrarse' %}" class="px-4 py-2 text-gray-300 hover:text-white transition-colors duration-300">Registrarse</a>
         <button class="md:hidden mobile-menu-btn flex flex-col space-y-1.5">
           <span class="w-6 h-0.5 bg-gray-300"></span>
           <span class="w-6 h-0.5 bg-gray-300"></span>
@@ -104,31 +86,53 @@
 
   {% block contenido %}{% endblock %}
 
-  <!-- Scripts de interacción -->
+  <footer class="bg-gray-900 text-gray-400 py-8 mt-16">
+    <div class="max-w-7xl mx-auto px-6 grid sm:grid-cols-2 md:grid-cols-4 gap-8">
+      <div>
+        <h3 class="text-white text-lg font-semibold mb-4">Edificio Cartagena</h3>
+        <p class="text-sm">Software para gestionar el arriendo</p>
+      </div>
+      <div>
+        <h4 class="text-white font-semibold mb-4">Enlaces</h4>
+        <ul class="space-y-2">
+          <li><a href="{% url 'bienvenida' %}" class="hover:text-white">Inicio</a></li>
+          <li><a href="{% url 'nosotros' %}" class="hover:text-white">Nosotros</a></li>
+          <li><a href="{% url 'contacto' %}" class="hover:text-white">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white font-semibold mb-4">Contáctanos</h4>
+        <p class="text-sm">cvmacas@gmail.com</p>
+        <p class="text-sm">+593 986542334</p>
+      </div>
+      <div>
+        <h4 class="text-white font-semibold mb-4">Síguenos</h4>
+        <div class="flex space-x-4">
+          <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-8 text-sm text-gray-500">
+      &copy; 2025 Edificio Cartagena. Todos los derechos reservados.
+    </div>
+  </footer>
+
   <script>
-    // Efecto navbar al hacer scroll
     window.addEventListener('scroll', function() {
       const nav = document.querySelector('nav');
       if (window.scrollY > 20) {
-        nav.classList.replace('bg-gray-900/80','bg-gray-900');
+        nav.classList.replace('bg-gray-900/80', 'bg-gray-900');
         nav.classList.add('shadow-lg');
       } else {
-        nav.classList.replace('bg-gray-900','bg-gray-900/80');
+        nav.classList.replace('bg-gray-900', 'bg-gray-900/80');
         nav.classList.remove('shadow-lg');
       }
     });
-
-    // Toggle menú móvil (placeholder)
-    document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
-      console.log('Toggle menú móvil');
-    });
-
-    // Toggle modo oscuro (placeholder)
-    document.querySelector('.dark-mode-toggle').addEventListener('click', () => {
-      console.log('Toggle dark mode');
-    });
+    document.querySelector('.mobile-menu-btn').addEventListener('click', () => console.log('Toggle móvil'));
   </script>
-
   {% block extra_scripts %}{% endblock %}
 </body>
 </html>

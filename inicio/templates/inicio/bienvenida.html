@@ -5,53 +5,34 @@
 
 {% block contenido %}
 <section class="min-h-screen flex items-center justify-center pt-16 pb-12 px-6">
-
-  <!-- Fondo degradado -->
   <div class="fixed inset-0 bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 -z-10"></div>
-
-  <!-- Partículas flotantes -->
   <div class="fixed inset-0 -z-10 opacity-20 overflow-hidden">
     <div class="absolute w-3 h-3 bg-pink-500 rounded-full top-1/4 left-1/4 animate-float"></div>
     <div class="absolute w-2 h-2 bg-purple-500 rounded-full top-1/3 right-1/4 animate-float delay-200"></div>
     <div class="absolute w-4 h-4 bg-indigo-500 rounded-full bottom-1/4 left-1/3 animate-float delay-300"></div>
     <div class="absolute w-3 h-3 bg-pink-600 rounded-full bottom-1/3 right-1/4 animate-float"></div>
   </div>
-
-  <!-- Contenido Hero -->
   <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center animate-fade-in">
-
-    <!-- Texto y botones -->
     <div class="space-y-6">
       <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
         <span class="text-gradient">Gestión de Arriendos</span>
       </h1>
-
       <div class="h-12 overflow-hidden">
         <h2 class="text-xl md:text-2xl font-mono whitespace-nowrap border-r-4 border-r-pink-500 pr-1 animate-typewriter animate-blink">
           Plataforma Web
         </h2>
       </div>
-
       <p class="text-gray-300 text-lg max-w-lg">
         Plataforma web del Edificio Cartagena para administrar fácilmente los arriendos de 20 departamentos.
       </p>
-
       <div class="flex flex-wrap gap-4 pt-4">
-        <a 
-          href="{% url 'login' %}" 
-          class="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 rounded-lg hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
-        >
+        <a href="{% url 'login' %}" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 rounded-lg hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
           Iniciar sesión
         </a>
-        <a 
-          href="{% url 'registrarse' %}" 
-          class="px-6 py-3 border border-gray-700 rounded-lg hover:bg-gray-800 transition-all duration-300"
-        >
+        <a href="{% url 'registrarse' %}" class="px-6 py-3 border border-gray-700 rounded-lg hover:bg-gray-800 transition-all duration-300">
           Registrarse
         </a>
       </div>
-
-      <!-- (Opcional) Enlaces sociales del edificio -->
       <div class="flex space-x-4 pt-6">
         <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-500 transition-colors duration-300">
           <i class="fab fa-facebook-f"></i>
@@ -64,19 +45,12 @@
         </a>
       </div>
     </div>
-
-    <!-- Imagen destacada -->
     <div class="relative hidden md:block">
       <div class="absolute -inset-4 bg-gradient-to-r from-pink-500 to-purple-600 rounded-2xl opacity-75 blur-xl animate-pulse"></div>
       <div class="relative rounded-2xl overflow-hidden border-4 border-gray-800 transform rotate-1 hover:rotate-0 transition-transform duration-500">
-        <img 
-          src="{% static 'inicio/images/edificio.jpg' %}" 
-          alt="Edificio Cartagena" 
-          class="w-full h-auto object-cover"
-        >
+        <img src="{% static 'inicio/images/edificio.jpg' %}" alt="Edificio Cartagena" class="w-full h-auto object-cover">
       </div>
     </div>
-
   </div>
 </section>
 {% endblock %}
