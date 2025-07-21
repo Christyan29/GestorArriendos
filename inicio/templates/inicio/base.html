@@ -2,31 +2,133 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>{% block titulo %}Cartagena - Plataforma{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'inicio/css/estilos_generales.css' %}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block titulo %}Cartagena{% endblock %}</title>
+
+  <!-- Tailwind y FontAwesome -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link 
+    rel="stylesheet" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  >
+
+  <!-- Configuración de Tailwind -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: {
+            'typewriter': 'typewriter 2s steps(11) forwards',
+            'blink':       'blink 1s steps(11) infinite',
+            'fade-in':     'fadeIn 1s ease-out forwards',
+            'float':       'float 6s ease-in-out infinite'
+          },
+          keyframes: {
+            typewriter: { from: { width: '0' }, to: { width: '11ch' } },
+            blink:      { from: {'border-right-color':'transparent'}, to:{'border-right-color':'#ec4899'} },
+            fadeIn:     { from: {opacity:'0'}, to:{opacity:'1'} },
+            float:      { '0%,100%':{transform:'translateY(0)'}, '50%':{transform:'translateY(-15px)'} }
+          },
+          fontFamily: { mono: ['"Fira Code"', 'monospace'] }
+        }
+      }
+    }
+  </script>
+
+  <!-- Utilidades personalizadas -->
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .text-gradient {
+        background: linear-gradient(90deg, #ec4899, #8b5cf6);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .delay-100 { animation-delay: 100ms; }
+      .delay-200 { animation-delay: 200ms; }
+      .delay-300 { animation-delay: 300ms; }
+    }
+  </style>
+
+  {% block extra_head %}{% endblock %}
 </head>
-<body>
 
-    <nav class="navbar-general">
-        <div class="logo">Cartagena</div>
-        <div class="nav-links">
-            <a href="{% url 'bienvenida' %}">Inicio</a>
-            <a href="{% url 'nosotros' %}">Nosotros</a>
-            <a href="{% url 'contacto' %}">Contacto</a>
-        </div>
-    </nav>
+<body class="bg-gray-900 text-gray-100 min-h-screen">
 
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 w-full py-4 px-6 z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
 
-    <main>
-        {% block contenido %}
-        {% endblock %}
-    </main>
+      <!-- Logo -->
+      <a href="{% url 'bienvenida' %}">
+        <img 
+          src="{% static 'inicio/images/logo.png' %}" 
+          alt="Logo Edificio Cartagena" 
+          class="h-10 w-auto"
+        >
+      </a>
 
+      <!-- Links (desktop) -->
+      <div class="hidden md:flex space-x-8">
+        <a href="{% url 'bienvenida' %}" class="relative group hover:text-white text-gray-300 transition-colors duration-300">
+          <span class="relative">
+            Inicio
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-600 group-hover:w-full transition-all duration-300"></span>
+          </span>
+        </a>
+        <a href="{% url 'login' %}" class="relative group hover:text-white text-gray-300 transition-colors duration-300">
+          Iniciar sesión
+        </a>
+        <a href="{% url 'registrarse' %}" class="relative group hover:text-white text-gray-300 transition-colors duration-300">
+          Registrarse
+        </a>
+        <a href="{% url 'contacto' %}" class="relative group hover:text-white text-gray-300 transition-colors duration-300">
+          Contacto
+        </a>
+      </div>
 
-    <footer class="footer-general">
-        <p>&copy; 2025 Edificio Cartagena. Todos los derechos reservados.</p>
-    </footer>
+      <!-- Botones (mobile + dark mode) -->
+      <div class="flex items-center space-x-4">
+        <button class="hidden md:block px-4 py-2 text-gray-300 hover:text-white transition-colors dark-mode-toggle">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button class="md:hidden mobile-menu-btn flex flex-col space-y-1.5">
+          <span class="w-6 h-0.5 bg-gray-300"></span>
+          <span class="w-6 h-0.5 bg-gray-300"></span>
+          <span class="w-6 h-0.5 bg-gray-300"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
 
+  {% block contenido %}{% endblock %}
+
+  <!-- Scripts de interacción -->
+  <script>
+    // Efecto navbar al hacer scroll
+    window.addEventListener('scroll', function() {
+      const nav = document.querySelector('nav');
+      if (window.scrollY > 20) {
+        nav.classList.replace('bg-gray-900/80','bg-gray-900');
+        nav.classList.add('shadow-lg');
+      } else {
+        nav.classList.replace('bg-gray-900','bg-gray-900/80');
+        nav.classList.remove('shadow-lg');
+      }
+    });
+
+    // Toggle menú móvil (placeholder)
+    document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+      console.log('Toggle menú móvil');
+    });
+
+    // Toggle modo oscuro (placeholder)
+    document.querySelector('.dark-mode-toggle').addEventListener('click', () => {
+      console.log('Toggle dark mode');
+    });
+  </script>
+
+  {% block extra_scripts %}{% endblock %}
 </body>
 </html>
