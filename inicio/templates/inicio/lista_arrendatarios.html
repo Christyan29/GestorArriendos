@@ -1,0 +1,11 @@
+{% extends 'inicio/base.html' %}
+{% block titulo %}Lista de Arrendatarios{% endblock %}
+
+{% block contenido %}
+<h1>Usuarios registrados como Arrendatarios</h1>
+<ul>
+  {% for arr in arrendatarios %}
+    <li>{{ arr.user.first_name }} ({{ arr.user.username }}) - {{ arr.telefono }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}

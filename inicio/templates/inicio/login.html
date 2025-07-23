@@ -4,9 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Iniciar Sesión</title>
-    <link rel="stylesheet" href="{% static 'inicio/css/estilos_generales.css' %}">
-
-
+    
     <link rel="stylesheet" href="{% static 'inicio/css/login.css' %}">
 
 </head>
@@ -27,13 +25,13 @@
 
 
             <div class="tipo-usuario-selector">
-                <input type="radio" id="admin" name="tipo_usuario" value="admin_edificio" checked>
+                <input type="radio" id="admin" name="tipo_usuario" value="admin" checked>
                 <label for="admin">Administrador</label>
 
                 <input type="radio" id="arrendatario" name="tipo_usuario" value="arrendatario">
                 <label for="arrendatario">Arrendatario</label>
             </div>
-
+            
             <div class="grupo-formulario">
                 <label for="usuario">Usuario</label>
                 <input type="text" id="usuario" name="usuario" required>

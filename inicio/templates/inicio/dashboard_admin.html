@@ -1,26 +1,26 @@
 {% extends 'inicio/base_admin.html' %}
 
-{% block titulo %}Dashboard - Edificio Cartagena{% endblock %}
+{% block titulo %}Dashboard - Admin{% endblock %}
+
+{% block encabezado %}Bienvenido, Administrador{% endblock %}
 
 {% block contenido %}
-<h1>Bienvenido al Dashboard Administrativo</h1>
-
 <div class="tarjetas">
-    <div class="tarjeta">
-        <h3>20</h3>
-        <p>Departamentos</p>
-    </div>
-    <div class="tarjeta">
-        <h3>15</h3>
-        <p>Contratos Activos</p>
-    </div>
-    <div class="tarjeta">
-        <h3>5</h3>
-        <p>Departamentos Disponibles</p>
-    </div>
-    <div class="tarjeta">
-        <h3>3</h3>
-        <p>Pagos Pendientes</p>
-    </div>
+  <div class="tarjeta">
+    <h3>Departamentos Ocupados</h3>
+    <p>15 de 20</p>
+  </div>
+  <div class="tarjeta">
+    <h3>Pagos Pendientes</h3>
+    <p class="estado-activo">4 pendientes</p>
+  </div>
+  <div class="tarjeta">
+    <h3>Contratos Activos</h3>
+    <ul>
+      <li>12 por vencer</li>
+      <li>3 nuevos</li>
+    </ul>
+    <button>Ver Detalles</button>
+  </div>
 </div>
 {% endblock %}
