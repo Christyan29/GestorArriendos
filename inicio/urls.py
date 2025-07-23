@@ -13,7 +13,6 @@ urlpatterns = [
     path('usuarios/', views.usuarios_admin, name='usuarios_admin'),
     path('contratos/', views.contratos_admin, name='contratos_admin'),
     path('reportes/', views.reportes_admin, name='reportes_admin'),
-    path('crear-usuarios/', views.crear_usuarios_quemados, name='crear_usuarios_quemados'),
     path('arrendatarios/', lista_arrendatarios, name='lista_arrendatarios'),
 
 ]

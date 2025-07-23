@@ -15,29 +15,6 @@ from django.shortcuts import render
 def bienvenida(request):
     return render(request, 'inicio/bienvenida.html')
 
-def crear_usuarios_quemados(request):
-    if request.GET.get('clave') != 'admin123':
-        return HttpResponse(" No autorizado")
-
-    # usuario:administrador -contra: 12345
-    if not User.objects.filter(username='administrador').exists():
-        admin = User.objects.create_user(
-            username='administrador',
-            password='12345',
-            email='cvmacas@gmail.com',
-            first_name='Administrador General'
-        )
-        admin.is_staff = True
-        admin.save()
-
-        PerfilUsuario.objects.create(
-            user=admin,
-            tipo_usuario='admin_edificio',
-            telefono='0946455496'
-        )
-
-    return HttpResponse(" Usuario quemado creado: administrador / 12345")
-    #link para quermar el usuario:http://127.0.0.1:8000/crear-usuarios/?clave=admin123
 
 def vista_login(request):
     if request.method == 'POST':
