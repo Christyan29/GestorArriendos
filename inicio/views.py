@@ -83,5 +83,5 @@ def vista_contacto(request):
 
 
 
-def dashboard_admin(request):
-    return render(request, 'inicio/dashboard_admin.html')
+def dashboard_arrendatarios(request):
+    return render(request, 'inicio/dashboard_arrendatarios.html')
