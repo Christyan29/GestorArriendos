@@ -1,0 +1,26 @@
+{
+  "name": "gestionarriendos_yadira",
+  "version": "1.0.0",
+  "scripts": {
+    "dev":   "npx tailwindcss -c tailwind.config.js -i ./inicio/static/inicio/css/input.css -o ./inicio/static/inicio/css/output.css --watch",
+    "build": "npx tailwindcss -c tailwind.config.js -i ./inicio/static/inicio/css/input.css -o ./inicio/static/inicio/css/output.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.1",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^9.1.0",
+    "autoprefixer": "^10.4.21"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Christyan29/GestorArriendos.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Christyan29/GestorArriendos/issues"
+  },
+  "homepage": "https://github.com/Christyan29/GestorArriendos#readme",
+  "description": ""
+}
