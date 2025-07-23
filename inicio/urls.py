@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from inicio.views import lista_arrendatarios
 
 urlpatterns = [
     path('', views.bienvenida, name='bienvenida'),
@@ -13,5 +14,7 @@ urlpatterns = [
     path('contratos/', views.contratos_admin, name='contratos_admin'),
     path('reportes/', views.reportes_admin, name='reportes_admin'),
     path('crear-usuarios/', views.crear_usuarios_quemados, name='crear_usuarios_quemados'),
+    path('arrendatarios/', lista_arrendatarios, name='lista_arrendatarios'),
+
 ]
 

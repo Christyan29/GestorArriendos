@@ -75,11 +75,14 @@ WSGI_APPLICATION = 'Web_Alquileres.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'edificio_cartagena_db',        # nombre de la base en pgAdmin
+        'USER': 'django_user',   # usuario creado
+        'PASSWORD': '1234',       # contraseña
+        'HOST': 'localhost',           
+        'PORT': '5432',         # puerto del PostgreSQL
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
@@ -126,3 +129,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'inicio' / 'static'
 ]
+
+LOGIN_URL = '/login/'
