@@ -3,45 +3,60 @@
 {% block titulo %}Contacto - Cartagena{% endblock %}
 {% block contenido %}
 
-<link rel="stylesheet" href="{% static 'inicio/css/contacto.css' %}">
+<section class="min-h-screen bg-white py-20">
+  <div class="max-w-7xl mx-auto grid lg:grid-cols-2 grid-cols-1">
+    
+    <!-- Columna Izquierda con Imagen -->
+    <div class="relative bg-cover bg-center" style="background-image: url('{% static "inicio/img/registros.jpeg" %}');">
+      <div class="absolute inset-0 bg-indigo-800 opacity-60"></div>
 
-<section class="contenido_principal">
-    <h1>Contacto</h1>
-    <p>¿Tienes preguntas? Llena el formulario y te responderemos lo antes posible:</p>
-
-    <form method="post"> 
-        {% csrf_token %} 
-
-        {% if messages %}
-            <ul class="mensajes-error">
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-
-        <div class="grupo-formulario">
-            <label for="nombre">Nombre completo</label>
-            <input type="text" id="nombre" name="nombre" required>
+      <div class="relative z-10 p-10 text-white flex items-end min-h-[500px]">
+        <div class="bg-white bg-opacity-90 rounded-lg shadow-lg p-6 text-indigo-900 w-full max-w-sm">
+          <ul class="space-y-4">
+            <li class="flex items-center">
+              <i class="fas fa-phone-alt text-indigo-700 mr-3"></i>
+              <span>470-601-1911</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-envelope text-indigo-700 mr-3"></i>
+              <span>yadiralucio30@gmail.com</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-map-marker-alt text-indigo-700 mr-3"></i>
+              <span>Cartagena-Ecuador</span>
+            </li>
+          </ul>
         </div>
+      </div>
+    </div>
 
-        <div class="grupo-formulario">
-            <label for="email">Correo electrónico</label>
-            <input type="email" id="email" name="email" required>
-        </div>
+    <!-- Columna Derecha: Formulario -->
+    <div class="bg-white rounded-none p-10 flex items-center">
+      <form method="post" class="w-full space-y-5">
 
-        <div class="grupo-formulario">
-            <label for="mensaje">Mensaje</label>
-            <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
-        </div>
+    <h1 class="text-3xl font-bold text-indigo-900">Contacto</h1>
+    <p class="text-gray-700">¿Tienes preguntas? Llena el formulario y te responderemos lo antes posible:</p>
+        {% csrf_token %}
+        <input type="text" name="nombre" placeholder="Nombres completos" required
+          class="w-full border border-gray-300 rounded-lg p-3 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500">
 
-        <button type="submit" class="boton-login">Enviar mensaje</button>
-    </form>
+        <input type="email" name="email" placeholder="correo" required
+          class="w-full border border-gray-300 rounded-lg p-3 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500">
 
-    <hr style="margin-top: 40px;">
+        <input type="tel" name="telefono" placeholder="telefono"
+          class="w-full border border-gray-300 rounded-lg p-3 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500">
 
-    <p><strong>Email:</strong> contacto@cartagena.com</p>
-    <p><strong>Teléfono:</strong> 123-456-789</p>
+        <textarea name="mensaje" placeholder="Message" rows="4" required
+          class="w-full border border-gray-300 rounded-lg p-3 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
 
+        <button type="submit"
+          class="w-full bg-indigo-600 text-white font-bold py-3 rounded-lg hover:bg-indigo-700 transition">
+          Enviar mensaje
+        </button>
+      </form>
+    </div>
+
+  </div>
 </section>
+
 {% endblock %}

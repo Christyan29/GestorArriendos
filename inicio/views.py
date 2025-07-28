@@ -7,35 +7,30 @@ from inicio.models import PerfilUsuario
 def bienvenida(request):
     return render(request, 'inicio/bienvenida.html')
 
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+
 def vista_login(request):
     if request.method == 'POST':
         usuario = request.POST.get('usuario')
         clave = request.POST.get('clave')
         tipo = request.POST.get('tipo_usuario') 
 
-        usuario_autenticado = authenticate(request, username=usuario, password=clave)
+        user = authenticate(request, username=usuario, password=clave)
 
-        if usuario_autenticado is not None:
-            login(request, usuario_autenticado)
+        if user is not None:
+            login(request, user)
 
-            if usuario_autenticado.is_superuser:
-                return redirect('/admin/')
-            else:
-                try:
-                    perfil = PerfilUsuario.objects.get(user=usuario_autenticado)
+            if tipo == 'arrendatario':
+                return redirect('dashboard_arrendatarios')  
 
-                    if tipo == 'admin' and perfil.tipo_usuario == 'admin_edificio':
-                        return redirect('dashboard_admin')
-                    elif tipo == 'arrendatario' and perfil.tipo_usuario == 'arrendatario':
-                        return redirect('bienvenida')
-                    else:
-                        messages.error(request, 'Acceso denegado para el tipo de usuario seleccionado.')
-                except PerfilUsuario.DoesNotExist:
-                    messages.error(request, 'Perfil no encontrado.')
+            messages.error(request, 'Este acceso es solo para arrendatarios.')
         else:
             messages.error(request, 'Usuario o contraseña incorrectos.')
 
     return render(request, 'inicio/login.html')
+
 
 
 def vista_registrarse(request):
