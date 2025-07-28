@@ -76,13 +76,17 @@ WSGI_APPLICATION = 'Web_Alquileres.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'edificio_cartagena_db',        # nombre de la base en pgAdmin
-        'USER': 'django_user',   # usuario creado
-        'PASSWORD': '1234',       # contraseña
-        'HOST': 'localhost',           
-        'PORT': '5432',         # puerto del PostgreSQL
+        'NAME': 'edificio_cartagena_db',
+        'USER': 'django_user',
+        'PASSWORD': 'C1234',
+        'HOST': 'localhost',
+        'PORT': '5432',
+        'OPTIONS': {
+            'client_encoding': 'UTF8',
+        },
     }
 }
+
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 

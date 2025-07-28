@@ -10,17 +10,17 @@ from django.contrib.auth import logout
 import logging
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+logger = logging.getLogger(__name__)
 
 
 def bienvenida(request):
     return render(request, 'inicio/bienvenida.html')
 
-
 def vista_login(request):
     if request.method == 'POST':
         usuario = request.POST.get('usuario')
         clave = request.POST.get('clave')
-        tipo = request.POST.get('tipo_usuario')  
+        tipo = request.POST.get('tipo_usuario')  # Ej. 'admin_edificio', 'arrendatario'
 
         usuario_autenticado = authenticate(request, username=usuario, password=clave)
 
@@ -33,12 +33,13 @@ def vista_login(request):
             try:
                 perfil = PerfilUsuario.objects.get(user=usuario_autenticado)
 
-                if tipo == 'admin' and perfil.tipo_usuario == 'admin_edificio':
-                    return redirect('dashboard_admin')
-                elif tipo == 'arrendatario' and perfil.tipo_usuario == 'arrendatario':
-                    return redirect('bienvenida')
+                if perfil.tipo_usuario == tipo:
+                    if tipo == 'admin_edificio':
+                        return redirect('dashboard_admin')
+                    elif tipo == 'arrendatario':
+                        return redirect('bienvenida')
                 else:
-                    messages.error(request, 'Acceso denegado para el tipo de usuario seleccionado.')
+                    messages.error(request, 'Acceso denegado para el tipo de usuario seleccionado')
             except PerfilUsuario.DoesNotExist:
                 messages.error(request, 'El perfil del usuario no existe.')
         else:
@@ -47,7 +48,6 @@ def vista_login(request):
     return render(request, 'inicio/login.html')
 
 
-logger = logging.getLogger(__name__)
 
 def vista_registrarse(request):
     if request.method == 'POST':

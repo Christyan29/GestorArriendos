@@ -1,26 +1,54 @@
 {% extends 'inicio/base_admin.html' %}
 
-{% block titulo %}Dashboard - Admin{% endblock %}
+{% block titulo %}Dashboard – Administrador{% endblock %}
 
-{% block encabezado %}Bienvenido, Administrador{% endblock %}
+{% block extra_head %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block encabezado %}Bienvenido, {{ request.user.get_full_name }}{% endblock %}
 
 {% block contenido %}
-<div class="tarjetas">
-  <div class="tarjeta">
-    <h3>Departamentos Ocupados</h3>
-    <p>15 de 20</p>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="bg-white p-4 rounded-lg shadow">
+      <h3 class="text-gray-600">Contratos Activos</h3>
+      <p class="text-2xl font-bold">{{ contratos_activos }}</p>
+    </div>
+    <div class="bg-white p-4 rounded-lg shadow">
+      <h3 class="text-gray-600">Vencimientos (30d)</h3>
+      <p class="text-2xl font-bold">{{ proximos_vencimientos }}</p>
+    </div>
+    <div class="bg-white p-4 rounded-lg shadow">
+      <h3 class="text-gray-600">Pagos Pendientes</h3>
+      <p class="text-2xl font-bold">{{ pagos_pendientes }}</p>
+    </div>
+    <div class="bg-white p-4 rounded-lg shadow">
+      <h3 class="text-gray-600">Notificaciones (30d)</h3>
+      <p class="text-2xl font-bold">{{ notificaciones_enviadas }}</p>
+    </div>
   </div>
-  <div class="tarjeta">
-    <h3>Pagos Pendientes</h3>
-    <p class="estado-activo">4 pendientes</p>
+
+  <div class="mt-8 bg-white p-6 rounded-lg shadow">
+    <canvas id="ingresosChart" height="100"></canvas>
   </div>
-  <div class="tarjeta">
-    <h3>Contratos Activos</h3>
-    <ul>
-      <li>12 por vencer</li>
-      <li>3 nuevos</li>
-    </ul>
-    <button>Ver Detalles</button>
-  </div>
-</div>
+{% endblock %}
+
+{% block extra_scripts %}
+  <script>
+    const ctx = document.getElementById('ingresosChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: {{ meses|safe }},
+        datasets: [{
+          label: 'Ingresos',
+          data: {{ ingresos_mensuales|safe }},
+          borderColor: '#4F46E5',
+          backgroundColor: 'rgba(79,70,229,0.2)',
+          fill: true
+        }]
+      },
+      options: { scales: { y: { beginAtZero: true } } }
+    });
+  </script>
 {% endblock %}

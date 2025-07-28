@@ -3,43 +3,181 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>{% block titulo %}Panel de Administración{% endblock %}</title>
-  <link rel="stylesheet" href="{% static 'inicio/css/dashboard.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Panel Admin{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  {% block extra_head %}{% endblock %}
 </head>
-<body>
+<body class="bg-gray-100">
 
-<div class="contenedor">
-  <!--barra lateral-->
-  <aside class="barra-lateral">
-    <div class="titulo">Edificio Cartagena</div>
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-gray-900 text-white flex flex-col">
+      <div class="p-4 border-b border-gray-800 flex items-center justify-between">
+        <img src="{% static 'inicio/img/logo.svg' %}" class="h-8" alt="Logo">
+        <span class="text-xl font-bold">Admin Pro</span>
+      </div>
 
-    <div class="perfil">
-      <img src="{% static 'inicio/img/avatar.png' %}" alt="Admin">
-      <span>Administrador</span>
-    </div>
+      <div class="p-4">
+        <div class="relative">
+          <input
+            type="text"
+            class="w-full bg-gray-800 text-white rounded-md pl-10 pr-4 py-2 text-sm
+                  focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            placeholder="Buscar..."
+          >
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 
+                      8a6 6 0 1110.89 3.476l4.817 
+                      4.817a1 1 0 01-1.414 
+                      1.414l-4.816-4.816A6 6 
+                      0 012 8z" clip-rule="evenodd" />
+            </svg>
+          </div>
+        </div>
+      </div>
 
-    <nav>
-      <ul>
-        <li><a href="{% url 'dashboard_admin' %}" class="active">🏠 Dashboard</a></li>
-        <li><a href="{% url 'usuarios_admin' %}">👥 Usuarios</a></li>
-        <li><a href="{% url 'contratos_admin' %}">📄 Contratos</a></li>
-        <li><a href="{% url 'reportes_admin' %}">📊 Reportes</a></li>
-        <li><a href="{% url 'logout' %}">🚪 Cerrar sesión</a></li>
-      </ul>
-    </nav>
-  </aside>
+      <nav class="flex-1 overflow-y-auto px-2 space-y-1">
+        
+        <a href="{% url 'dashboard_admin' %}"
+          class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg
+                  {% if request.resolver_match.url_name=='dashboard_admin' %}
+                    bg-gray-800 text-white
+                  {% else %}
+                    text-gray-300 hover:bg-gray-700 hover:text-white
+                  {% endif %}">
+          <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M3 12l2-2m0 0l7-7 7 
+                    7M5 10v10a1 1 0 001 
+                    1h3m10-11l2 2m-2-2v10a1 
+                    1 0 01-1 1h-3m-6 0a1 1 
+                    0 001-1v-4a1 1 0 011-1h2a1 
+                    1 0 011 1v4a1 1 0 001 
+                    1m-6 0h6"/>
+          </svg>
+          Dashboard
+        </a>
 
-  <!-- contenido i -->
-  <main class="principal">
-    <div class="encabezado-principal">
-      <h1>{% block encabezado %}Panel de administración{% endblock %}</h1>
-      <input type="text" class="buscador" placeholder="Buscar...">
-    </div>
+        <a href="{% url 'usuarios_admin' %}"
+          class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg
+                  text-gray-300 hover:bg-gray-700 hover:text-white">
+          <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M17 20h5v-2a4 4 0 
+                    00-3-3.86M9 20H4v-2a4 4 
+                    0 013-3.86m0 0A4 4 0 
+                    0112 12a4 4 0 014 4v1m-8-5V4a4 
+                    4 0 018 0v3"/>
+          </svg>
+          Usuarios
+        </a>
 
-    {% block contenido %}
-    {% endblock %}
-  </main>
-</div>
+        <a href="{% url 'contratos_admin' %}"
+          class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg
+                  text-gray-300 hover:bg-gray-700 hover:text-white">
+          <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 12h6m-6 4h6m2-10a2 2 
+                    0 00-2-2H7a2 2 0 00-2 
+                    2v12a2 2 0 002 2h8a2 2 0 
+                    002-2V6z"/>
+          </svg>
+          Contratos
+        </a>
 
+        <a href="{% url 'pagos_admin' %}"
+          class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg
+                  text-gray-300 hover:bg-gray-700 hover:text-white">
+          <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 8c-3.866 0-7 3.134-7 
+                    7s3.134 7 7 7 7-3.134 7-7-3.134-7-7-7z
+                    M12 4a2 2 0 012 2v2a2 2 0 
+                    01-2 2 2 2 0 01-2-2V6a2 2 0 012-2z"/>
+          </svg>
+          Pagos
+        </a>
+        <a href="{% url 'documentos_admin' %}"
+          class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg
+                  text-gray-300 hover:bg-gray-700 hover:text-white">
+          <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 12h6m-6 4h6m2 
+                    5H7a2 2 0 01-2-2V5a2 2 
+                    0 012-2h5.586a1 1 0 
+                    01.707.293l5.414 5.414a1 
+                    1 0 01.293.707V19a2 2 
+                    0 01-2 2z"/>
+          </svg>
+          Documentos
+        </a>
+
+        <a href="{% url 'notificaciones_admin' %}"
+          class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg
+                  text-gray-300 hover:bg-gray-700 hover:text-white">
+          <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15 17h5l-1.405-1.405A2.032 
+                    2.032 0 0118 14.158V11a6 6 
+                    0 10-12 0v3.159c0 .538-.214 
+                    1.055-.595 1.436L4 17h5m6 
+                    0v1a3 3 0 11-6 0v-1m6 
+                    0H9"/>
+          </svg>
+          Notificaciones
+        </a>
+
+        <a href="{% url 'reportes_admin' %}"
+          class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg
+                  text-gray-300 hover:bg-gray-700 hover:text-white">
+          <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 17v-6h6v6m0 0l-3 
+                    3m3-3l-3-3m9-6H3"/>
+          </svg>
+          Reportes
+        </a>
+
+        <a href="{% url 'audit_logs_admin' %}"
+          class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg
+                  text-gray-300 hover:bg-gray-700 hover:text-white">
+          <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          Auditoría
+        </a>
+      </nav>
+
+      <div class="mt-auto p-4 border-t border-gray-800 flex items-center space-x-3">
+        <img src="{% static 'inicio/img/avatar.png' %}" class="h-8 w-8 rounded-full" alt="Avatar">
+        <div>
+          <p class="text-sm font-medium">{{ request.user.get_full_name }}</p>
+          <a href="{% url 'logout' %}" class="text-xs text-red-400 hover:underline">Cerrar sesión</a>
+        </div>
+      </div>
+    </aside>
+
+    <main class="flex-1 overflow-y-auto p-6">
+      <header class="mb-6">
+        <h1 class="text-2xl font-semibold text-gray-900">{% block encabezado %}{% endblock %}</h1>
+      </header>
+      {% block contenido %}{% endblock %}
+    </main>
+  </div>
+
+  {% block extra_scripts %}{% endblock %}
 </body>
 </html>
