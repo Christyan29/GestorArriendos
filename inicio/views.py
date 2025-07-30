@@ -13,6 +13,8 @@ from django.shortcuts import render
 logger = logging.getLogger(__name__)
 
 
+
+
 def bienvenida(request):
     return render(request, 'inicio/bienvenida.html')
 
@@ -20,7 +22,7 @@ def vista_login(request):
     if request.method == 'POST':
         usuario = request.POST.get('usuario')
         clave = request.POST.get('clave')
-        tipo = request.POST.get('tipo_usuario')  # Ej. 'admin_edificio', 'arrendatario'
+        tipo = request.POST.get('tipo_usuario')  # adminisrador_edificio o  arrendatario
 
         usuario_autenticado = authenticate(request, username=usuario, password=clave)
 
@@ -47,18 +49,22 @@ def vista_login(request):
 
     return render(request, 'inicio/login.html')
 
-
-
 def vista_registrarse(request):
     if request.method == 'POST':
-        nombre_completo = request.POST.get('nombre_completo')
+        nombre = request.POST.get('nombre')
+        apellido = request.POST.get('apellido')
         nombre_usuario = request.POST.get('usuario')
         correo = request.POST.get('correo')
         telefono = request.POST.get('telefono')
         clave = request.POST.get('clave')
+        confirmar_clave = request.POST.get('confirmar_clave')
 
-        if not all([nombre_completo, nombre_usuario, correo, telefono, clave]):
+        if not all([nombre, apellido, nombre_usuario, correo, telefono, clave, confirmar_clave]):
             messages.error(request, 'Todos los campos son obligatorios.')
+            return redirect('registrarse')
+
+        if clave != confirmar_clave:
+            messages.error(request, 'Las contraseñas no coinciden.')
             return redirect('registrarse')
 
         if User.objects.filter(username=nombre_usuario).exists():
@@ -74,7 +80,8 @@ def vista_registrarse(request):
                 username=nombre_usuario,
                 email=correo,
                 password=clave,
-                first_name=nombre_completo
+                first_name=nombre,
+                last_name=apellido
             )
 
             PerfilUsuario.objects.create(
@@ -84,7 +91,7 @@ def vista_registrarse(request):
             )
 
             messages.success(request, '¡Registro exitoso!')
-            return redirect('lista_arrendatarios')  # listado
+            return redirect('lista_arrendatarios')
 
         except Exception as e:
             logger.error(f'Error en el registro: {str(e)}')
@@ -92,12 +99,11 @@ def vista_registrarse(request):
 
     return render(request, 'inicio/registrarse.html')
 
+
 @login_required
 def lista_arrendatarios(request):
     arrendatarios = PerfilUsuario.objects.filter(tipo_usuario='arrendatario')
     return render(request, 'inicio/lista_arrendatarios.html', {'arrendatarios': arrendatarios})
-
-
 
 def vista_nosotros(request):
     return render(request, 'inicio/nosotros.html')
@@ -107,7 +113,6 @@ def vista_contacto(request):
 
 def dashboard_admin(request):
     return render(request, 'inicio/dashboard_admin.html')
-
 
 
 def cerrar_sesion(request):
