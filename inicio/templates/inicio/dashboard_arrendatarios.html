@@ -9,99 +9,88 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-gray-900 text-white">
+<div class="flex h-screen">
 
-  <div class="flex h-screen">
-
-    <!-- Sidebar -->
-    <aside class="w-64 bg-gray-800 p-6 flex flex-col justify-between">
-      <div>
-        <h2 class="text-2xl font-bold text-green-400 mb-8">Dashboard</h2>
-
-        <div class="flex items-center space-x-3 mb-6">
-          <img src="{% static 'inicio/img/usuario.png' %}" alt="Foto de perfil" class="w-10 h-10 rounded-full" />
-          <span class="text-white font-medium">Yadira</span>
-        </div>
-
-        <nav class="space-y-4">
-          <a href="#" class="flex items-center space-x-3 p-2 rounded hover:bg-green-400 hover:text-black transition">
-            <img src="{% static 'inicio/img/perfil.png' %}" class="w-5 h-5" />
-            <span>Perfil</span>
-          </a>
-          <a href="#" class="flex items-center space-x-3 p-2 rounded hover:bg-green-400 hover:text-black transition">
-            <img src="{% static 'inicio/img/contrato.png' %}" class="w-5 h-5" />
-            <span>Contrato</span>
-          </a>
-          <a href="#" class="flex items-center space-x-3 p-2 rounded hover:bg-green-400 hover:text-black transition">
-            <img src="{% static 'inicio/img/tarjetaDebito.png' %}" class="w-5 h-5" />
-            <span>Pagos</span>
-          </a>
-          <a href="#" class="flex items-center space-x-3 p-2 rounded hover:bg-green-400 hover:text-black transition">
-            <img src="{% static 'inicio/img/notificacion.png' %}" class="w-5 h-5" />
-            <span>Notificaciones</span>
-          </a>
-          <a href="#" class="flex items-center space-x-3 p-2 rounded hover:bg-green-400 hover:text-black transition">
-            <img src="{% static 'inicio/img/Inmueble.png' %}" class="w-5 h-5" />
-            <span>Inmueble</span>
-          </a>
-          <a href="#" class="flex items-center space-x-3 p-2 rounded hover:bg-green-400 hover:text-black transition">
-            <img src="{% static 'inicio/img/soporte.png' %}" class="w-5 h-5" />
-            <span>Soporte técnico</span>
-          </a>
-          <a href="{% url 'bienvenida' %}" class="flex items-center space-x-3 p-2 rounded hover:bg-red-500 hover:text-white transition">
-            <img src="{% static 'inicio/img/cerrar sesion.png' %}" class="w-5 h-5" />
-            <span>Cerrar sesión</span>
-          </a>
-        </nav>
+  <!-- Sidebar -->
+  <aside class="w-64 bg-gray-800 p-6 flex flex-col justify-between">
+    <div>
+      <h2 class="text-2xl font-bold text-green-400 mb-8">Dashboard</h2>
+      <div class="flex items-center space-x-3 mb-6">
+        <img src="{% static 'inicio/img/usuario.png' %}" alt="Foto de perfil" class="w-10 h-10 rounded-full" />
+        <span class="text-white font-medium">{{ request.user.first_name }}</span>
       </div>
-    </aside>
+      <nav class="space-y-4">
+        <a href="{% url 'contrato' %}" class="flex items-center space-x-3 p-2 rounded hover:bg-green-400 hover:text-black transition">
+          <img src="{% static 'inicio/img/contrato.png' %}" class="w-5 h-5" />
+          <span>Contrato</span>
+        </a>
+        <a href="{% url 'pago' %}" class="flex items-center space-x-3 p-2 rounded hover:bg-green-400 hover:text-black transition">
+          <img src="{% static 'inicio/img/tarjetaDebito.png' %}" class="w-5 h-5" />
+          <span>Pagos</span>
+        </a>
+        <a href="{% url 'notificaciones' %}" class="flex items-center space-x-3 p-2 rounded hover:bg-green-400 hover:text-black transition">
+          <img src="{% static 'inicio/img/notificacion.png' %}" class="w-5 h-5" />
+          <span>Notificaciones</span>
+        </a>
+        <a href="{% url 'bienvenida' %}" class="flex items-center space-x-3 p-2 rounded hover:bg-red-500 hover:text-white transition">
+          <img src="{% static 'inicio/img/cerrar sesion.png' %}" class="w-5 h-5" />
+          <span>Cerrar sesión</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
 
-    <!-- Main Panel -->
-    <main class="flex-1 p-8 overflow-auto">
-      <!-- Encabezado -->
-      <div class="flex justify-between items-center mb-8">
-        <h1 class="text-3xl font-bold text-green-400">Panel de Control</h1>
-        <input type="text" placeholder="Buscar..." class="bg-gray-700 text-white px-4 py-2 rounded w-1/3 focus:outline-none focus:ring-2 focus:ring-green-400" />
+  <!-- Main Panel -->
+  <main class="flex-1 p-8 overflow-auto">
+    <h1 class="text-3xl font-bold text-green-400 mb-8">Panel de Control</h1>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Contratos -->
+      <div class="bg-gray-800 p-6 rounded-lg shadow">
+        <h3 class="text-xl font-semibold mb-2">Contrato</h3>
+        {% if contratos %}
+          {% for contrato in contratos %}
+            <p class="text-green-400 font-bold">{{ contrato.titulo }}</p>
+            {% if contrato.documento %}
+              <a href="{{ contrato.documento.url }}" download class="text-blue-400 underline">Descargar</a>
+            {% else %}
+              <p class="text-gray-400">Sin documento</p>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <p class="text-gray-400">No hay contratos</p>
+        {% endif %}
       </div>
 
-      <!-- Tarjetas -->
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Contrato -->
-        <div class="bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition">
-          <h3 class="text-xl font-semibold mb-2">Contrato</h3>
-          <p>Estado: <span class="text-green-400">Activo</span></p>
-          <p>Monto: $800</p>
-          <p>Días restantes: 251</p>
-          <button class="mt-4 bg-green-400 text-black px-4 py-2 rounded hover:bg-green-300">Ver contrato</button>
-        </div>
+      <!-- Pagos -->
+      <div class="bg-gray-800 p-6 rounded-lg shadow">
+        <h3 class="text-xl font-semibold mb-2">Pagos</h3>
+        {% if pagos %}
+          {% for pago in pagos %}
+            <p>{{ pago.descripcion }} - <span class="text-green-400">${{ pago.monto }}</span></p>
+          {% endfor %}
+        {% else %}
+          <p class="text-gray-400">No hay pagos registrados</p>
+        {% endif %}
+      </div>
 
-        <!-- Pagos -->
-        <div class="bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition">
-          <h3 class="text-xl font-semibold mb-2">Estado de Pagos</h3>
-          <p>Último pago: 05/06/2025</p>
-          <p>Próximo pago: 05/07/2025</p>
-          <p>Estado: <strong class="text-green-400">Al día</strong></p>
-          <button class="mt-4 bg-green-400 text-black px-4 py-2 rounded hover:bg-green-300">Historial de pagos</button>
-        </div>
-
-        <!-- Notificaciones -->
-        <div class="bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition">
-          <h3 class="text-xl font-semibold mb-2">Notificaciones</h3>
-          <ul class="list-disc list-inside space-y-1 text-sm text-gray-300">
-            <li>Nuevo mensaje del administrador</li>
-            <li>Mantenimiento el 10/07</li>
-            <li>Pago vencido: 05/05/2025</li>
+      <!-- Notificaciones -->
+      <div class="bg-gray-800 p-6 rounded-lg shadow">
+        <h3 class="text-xl font-semibold mb-2">Notificaciones</h3>
+        {% if notificaciones %}
+          <ul class="list-disc list-inside text-sm">
+            {% for noti in notificaciones %}
+              <li>{{ noti.mensaje }}</li>
+            {% endfor %}
           </ul>
-        </div>
-
-        <!-- Reporte -->
-        <div class="bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition">
-          <h3 class="text-xl font-semibold mb-4">Reportes de Mantenimiento</h3>
-          <button class="w-full mb-2 bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-300">Reportar un problema</button>
-          <button class="w-full bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-400">Ver historial</button>
-        </div>
+        {% else %}
+          <p class="text-gray-400">Sin notificaciones</p>
+        {% endif %}
       </div>
-    </main>
-  </div>
 
+    </div>
+  </main>
+</div>
 </body>
 </html>

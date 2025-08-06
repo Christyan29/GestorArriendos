@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pagos - Arrendatario</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white">
+  <div class="max-w-5xl mx-auto p-6">
+    <h1 class="text-3xl font-bold text-green-400 mb-6">Historial de Pagos</h1>
+
+    <table class="min-w-full bg-gray-800 rounded-lg overflow-hidden shadow">
+      <thead>
+        <tr class="bg-gray-700 text-green-400 text-left">
+          <th class="px-6 py-3">Fecha</th>
+          <th class="px-6 py-3">Monto</th>
+          <th class="px-6 py-3">Estado</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-600">
+        <tr>
+          <td class="px-6 py-4">05/07/2025</td>
+          <td class="px-6 py-4">$800</td>
+          <td class="px-6 py-4 text-green-400">Pagado</td>
+        </tr>
+        <tr>
+          <td class="px-6 py-4">05/06/2025</td>
+          <td class="px-6 py-4">$800</td>
+          <td class="px-6 py-4 text-green-400">Pagado</td>
+        </tr>
+        <tr>
+          <td class="px-6 py-4">05/05/2025</td>
+          <td class="px-6 py-4">$800</td>
+          <td class="px-6 py-4 text-red-400">Vencido</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
