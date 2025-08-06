@@ -13,8 +13,6 @@ from django.shortcuts import render
 logger = logging.getLogger(__name__)
 
 
-
-
 def bienvenida(request):
     return render(request, 'inicio/bienvenida.html')
 
