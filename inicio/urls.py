@@ -1,14 +1,21 @@
+from inicio.forms import CustomPasswordResetForm
+from inicio.forms import CustomSetPasswordForm
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 from . import views
 from inicio.views import lista_arrendatarios
 from django.urls import include
 from django.contrib.auth import views as auth_views
+from .views import crear_admin_view
 
 urlpatterns = [
     path(
         'password-reset/',
         auth_views.PasswordResetView.as_view(
-            template_name='registration/password_reset_form.html'
+            form_class=CustomPasswordResetForm,
+            template_name='registration/password_reset_form.html',
+            success_url='/password-reset/done/'
         ),
         name='password_reset'
     ),
@@ -19,13 +26,17 @@ urlpatterns = [
         ),
         name='password_reset_done'
     ),
+
     path(
-        'password-reset-confirm/<uidb64>/<token>/',
-        auth_views.PasswordResetConfirmView.as_view(
-            template_name='registration/password_reset_confirm.html'
-        ),
-        name='password_reset_confirm'
+    'password-reset-confirm/<uidb64>/<token>/',
+    auth_views.PasswordResetConfirmView.as_view(
+        form_class=CustomSetPasswordForm,
+        template_name='registration/password_reset_confirm.html',
+        success_url='/password-reset-complete/'
     ),
+    name='password_reset_confirm'
+),
+
     path(
         'password-reset-complete/',
         auth_views.PasswordResetCompleteView.as_view(
@@ -34,13 +45,15 @@ urlpatterns = [
         name='password_reset_complete'
     ),
 
+
     path('', views.bienvenida, name='bienvenida'),
+    path('admin/inicio/perfilusuario/crear-admin/', crear_admin_view, name='crear_admin'),
     path('login/', views.vista_login, name='login'),
     path('accounts/login/', views.vista_login, name='login'),
     path('nosotros/', views.vista_nosotros, name='nosotros'),
     path('contacto/', views.vista_contacto, name='contacto'),
     path('registrarse/', views.vista_registrarse, name='registrarse'),
-    path('dashboard/', views.dashboard_admin, name='dashboard_admin'),
+    path('panel/', views.dashboard_admin, name='dashboard_admin'),
     path('logout/', views.cerrar_sesion, name='logout'),
     path('usuarios/', views.usuarios_admin, name='usuarios_admin'),
     path('contratos/', views.contratos_admin, name='contratos_admin'),

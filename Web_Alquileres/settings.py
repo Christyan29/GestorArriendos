@@ -11,6 +11,18 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config # type: ignore
+
+EMAIL_BACKEND       = config('EMAIL_BACKEND')
+EMAIL_HOST          = config('EMAIL_HOST')
+EMAIL_PORT          = config('EMAIL_PORT', cast=int)
+EMAIL_USE_TLS       = config('EMAIL_USE_TLS', cast=bool)
+EMAIL_HOST_USER     = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL  = config('DEFAULT_FROM_EMAIL')
+
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,7 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
+
 ]
 
 
@@ -59,7 +72,7 @@ ROOT_URLCONF = 'Web_Alquileres.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ BASE_DIR / 'templates' ], 
+        'DIRS': [ BASE_DIR / 'templates' ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -114,13 +127,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
-
-USE_TZ = True
+USE_L10N = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -140,3 +152,6 @@ STATICFILES_DIRS = [
 ]
 
 LOGIN_URL = '/login/'
+
+
+
