@@ -1,0 +1,139 @@
+{% extends 'inicio/base_admin.html' %}
+
+{% block titulo %}Notificaciones{% endblock %}
+
+{% block contenido %}
+<div class="space-y-6 animate-fade-in">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div>
+      <h1 class="text-3xl font-bold text-gradient">Centro de notificaciones</h1>
+      <p class="text-sm text-gray-300 mt-1">Monitor y operación del sistema de avisos.</p>
+    </div>
+  </div>
+
+  <!-- kpis -->
+<div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+  <div class="bg-teal-700 border border-teal-500 rounded-lg p-4 text-center shadow-md">
+    <p class="text-sm text-white">Pendientes</p>
+    <p class="mt-1 text-2xl font-bold text-white">{{ total_pendientes }}</p>
+  </div>
+  <div class="bg-cyan-700 border border-cyan-500 rounded-lg p-4 text-center shadow-md">
+    <p class="text-sm text-white">Enviadas</p>
+    <p class="mt-1 text-2xl font-bold text-white">{{ total_enviadas }}</p>
+  </div>
+  <div class="bg-amber-700 border border-amber-500 rounded-lg p-4 text-center shadow-md">
+    <p class="text-sm text-white">Fallidas</p>
+    <p class="mt-1 text-2xl font-bold text-white">{{ total_fallidas }}</p>
+  </div>
+  <div class="bg-blue-700 border border-blue-500 rounded-lg p-4 text-center shadow-md">
+    <p class="text-sm text-white">Leídas</p>
+    <p class="mt-1 text-2xl font-bold text-white">{{ total_leidas }}</p>
+  </div>
+</div>
+
+  <!-- filtros -->
+  <form method="get" class="flex flex-wrap gap-3">
+    <select name="tipo" class="bg-gray-700 text-white rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500">
+      <option value="">Todos los tipos</option>
+      <option value="recordatorio_pago" {% if request.GET.tipo == 'recordatorio_pago' %}selected{% endif %}>Recordatorio de pago</option>
+      <option value="pago_vencido" {% if request.GET.tipo == 'pago_vencido' %}selected{% endif %}>Pago vencido</option>
+      <option value="fin_contrato" {% if request.GET.tipo == 'fin_contrato' %}selected{% endif %}>Fin de contrato</option>
+    </select>
+
+    <select name="estado" class="bg-gray-700 text-white rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500">
+      <option value="">Todos los estados</option>
+      <option value="pendiente" {% if request.GET.estado == 'pendiente' %}selected{% endif %}>Pendiente</option>
+      <option value="enviada" {% if request.GET.estado == 'enviada' %}selected{% endif %}>Enviada</option>
+      <option value="fallida" {% if request.GET.estado == 'fallida' %}selected{% endif %}>Fallida</option>
+      <option value="leida" {% if request.GET.estado == 'leida' %}selected{% endif %}>Leída</option>
+    </select>
+
+    <input type="date" name="fecha_desde" value="{{ request.GET.fecha_desde|default:'' }}"
+      class="bg-gray-700 text-white rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500">
+    <input type="date" name="fecha_hasta" value="{{ request.GET.fecha_hasta|default:'' }}"
+      class="bg-gray-700 text-white rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500">
+
+    <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium shadow-md">
+      Filtrar
+    </button>
+  </form>
+
+  <!-- tabla -->
+  <div class="bg-gray-900/70 rounded-lg border border-white/10 shadow-lg overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-white/5 text-gray-300 uppercase tracking-wide text-xs">
+        <tr>
+          <th class="px-4 py-3 text-left">Tipo</th>
+          <th class="px-4 py-3 text-left">Destinatario</th>
+          <th class="px-4 py-3 text-left">Contrato/Pago</th>
+          <th class="px-4 py-3 text-left">Programada para</th>
+          <th class="px-4 py-3 text-left">Estado</th>
+          <th class="px-4 py-3 text-left">Canal</th>
+          <th class="px-4 py-3 text-left">Intentos</th>
+          <th class="px-4 py-3 text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-white/5">
+        {% for n in notificaciones %}
+        <tr class="hover:bg-white/5 transition-colors">
+          <td class="px-4 py-3 text-gray-200">{{ n.tipo }}</td>
+          <td class="px-4 py-3 text-gray-200">{{ n.destinatario }}</td>
+          <td class="px-4 py-3 text-gray-200">{{ n.relacionado }}</td>
+          <td class="px-4 py-3 text-gray-200">{{ n.programada_para|date:"d/m/Y H:i" }}</td>
+          <td class="px-4 py-3">
+            {% if n.estado == 'pendiente' %}
+              <span class="px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-300 font-medium">Pendiente</span>
+            {% elif n.estado == 'enviada' %}
+              <span class="px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-300 font-medium">Enviada</span>
+            {% elif n.estado == 'fallida' %}
+              <span class="px-2 py-1 text-xs rounded-full bg-red-500/20 text-red-300 font-medium">Fallida</span>
+            {% elif n.estado == 'leida' %}
+              <span class="px-2 py-1 text-xs rounded-full bg-amber-500/20 text-amber-300 font-medium">Leída</span>
+            {% endif %}
+          </td>
+          <td class="px-4 py-3 text-gray-200">{{ n.canal }}</td>
+          <td class="px-4 py-3 text-gray-200">{{ n.intentos }}</td>
+          <td class="px-4 py-3 text-center space-x-2">
+            <a href="{% url 'reintentar_notificacion' n.id %}" class="px-2 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-xs">Reintentar</a>
+            <a href="{% url 'marcar_leida' n.id %}" class="px-2 py-1 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-xs">Marcar leída</a>
+            <a href="{% url 'programar_manual' %}" class="px-2 py-1 bg-green-500 hover:bg-green-600 text-white rounded-lg text-xs">Programar</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="8" class="px-4 py-6 text-center text-gray-400">
+            No hay notificaciones en el rango seleccionado.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- paaginacion -->
+  {% if notificaciones.has_other_pages %}
+  <div class="flex justify-center mt-4">
+    <nav class="flex items-center space-x-1">
+      {% if notificaciones.has_previous %}
+        <a href="?page=1&{{ request.GET.urlencode }}" class="px-3 py-1 rounded bg-gray-700 text-white hover:bg-gray-600">«</a>
+        <a href="?page={{ notificaciones.previous_page_number }}&{{ request.GET.urlencode }}" class="px-3 py-1 rounded bg-gray-700 text-white hover:bg-gray-600">‹</a>
+      {% endif %}
+
+      {% for num in notificaciones.paginator.page_range %}
+        {% if notificaciones.number == num %}
+                  <span class="px-3 py-1 rounded bg-pink-500 text-white font-semibold">{{ num }}</span>
+        {% elif num > notificaciones.number|add:-3 and num < notificaciones.number|add:3 %}
+          <a href="?page={{ num }}&{{ request.GET.urlencode }}" class="px-3 py-1 rounded bg-gray-700 text-white hover:bg-gray-600">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if notificaciones.has_next %}
+        <a href="?page={{ notificaciones.next_page_number }}&{{ request.GET.urlencode }}" class="px-3 py-1 rounded bg-gray-700 text-white hover:bg-gray-600">›</a>
+        <a href="?page={{ notificaciones.paginator.num_pages }}&{{ request.GET.urlencode }}" class="px-3 py-1 rounded bg-gray-700 text-white hover:bg-gray-600">»</a>
+      {% endif %}
+    </nav>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

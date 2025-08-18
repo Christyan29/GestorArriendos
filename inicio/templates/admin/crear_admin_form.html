@@ -1,0 +1,19 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% block content %}
+
+<h2>🛡️ Crear administrador del edificio</h2>
+
+{% if mensaje %}
+    <div style="color: green; margin-bottom: 15px;">{{ mensaje }}</div>
+{% endif %}
+
+<form method="post">{% csrf_token %}
+
+    {{ form.as_p }}
+    <input type="submit" value="Crear administrador" class="default">
+</form>
+
+<a href="{% url 'admin:index' %}" style="margin-top: 20px; display: inline-block;"> Volver al panel</a>
+
+{% endblock %}

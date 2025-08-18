@@ -1,0 +1,136 @@
+{% extends 'inicio/base_admin.html' %}
+
+{% block titulo %}Vencimientos{% endblock %}
+
+{% block contenido %}
+<div class="space-y-6 animate-fade-in">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div>
+      <h1 class="text-3xl font-bold text-gradient">Vencimientos hasta {{ fecha_limite }}</h1>
+      <p class="text-sm text-gray-300 mt-1">
+        Cuotas próximas a vencer en los próximos {{ dias_limite }} días.
+      </p>
+    </div>
+  </div>
+
+  <!-- kpis -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+  <div class="bg-teal-700 border border-teal-500 rounded-lg p-4 text-center shadow-md">
+    <p class="text-sm text-white font-medium">Vencen en 7 días</p>
+    <p class="mt-1 text-2xl font-bold text-white">{{ conteo_7 }}</p>
+  </div>
+
+  <div class="bg-cyan-700 border border-cyan-500 rounded-lg p-4 text-center shadow-md">
+    <p class="text-sm text-white font-medium">Vencen en 15 días</p>
+    <p class="mt-1 text-2xl font-bold text-white">{{ conteo_15 }}</p>
+  </div>
+
+  <div class="bg-blue-700 border border-blue-500 rounded-lg p-4 text-center shadow-md">
+    <p class="text-sm text-white font-medium">Vencen en 30 días</p>
+    <p class="mt-1 text-2xl font-bold text-white">{{ conteo_30 }}</p>
+  </div>
+</div>
+
+
+
+  <!-- Filtros -->
+  <form method="get" class="flex flex-wrap gap-3">
+    <select name="dias"
+      class="bg-gray-700 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-inner">
+      <option value="7" {% if dias_limite == 7 %}selected{% endif %}>7 días</option>
+      <option value="15" {% if dias_limite == 15 %}selected{% endif %}>15 días</option>
+      <option value="30" {% if dias_limite == 30 %}selected{% endif %}>30 días</option>
+    </select>
+
+    <input type="text" name="contrato" placeholder="Buscar contrato o depto..."
+      value="{{ request.GET.contrato|default:'' }}"
+      class="flex-1 min-w-[200px] bg-gray-700 text-white rounded-lg px-3 py-2 text-sm placeholder-gray-400
+             focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-inner">
+
+    <input type="text" name="arrendatario" placeholder="Buscar arrendatario..."
+      value="{{ request.GET.arrendatario|default:'' }}"
+      class="flex-1 min-w-[200px] bg-gray-700 text-white rounded-lg px-3 py-2 text-sm placeholder-gray-400
+             focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-inner">
+
+    <button type="submit"
+      class="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg text-sm font-medium shadow-md transition">
+      Filtrar
+    </button>
+  </form>
+
+  <!-- Tabla -->
+  <div class="bg-gray-900/70 rounded-lg border border-white/10 shadow-lg overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-white/5 text-gray-300 uppercase tracking-wide text-xs">
+        <tr>
+          <th class="px-4 py-3 text-left">Contrato</th>
+          <th class="px-4 py-3 text-left">Periodo</th>
+          <th class="px-4 py-3 text-left">Fecha venc.</th>
+          <th class="px-4 py-3 text-left">Días restantes</th>
+          <th class="px-4 py-3 text-left">Estado</th>
+          <th class="px-4 py-3 text-left">Arrendatario</th>
+          <th class="px-4 py-3 text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-white/5">
+        {% for v in vencimientos %}
+        <tr class="hover:bg-white/5 transition-colors">
+          <td class="px-4 py-3 text-gray-200">{{ v.contrato }}</td>
+          <td class="px-4 py-3 text-gray-200">{{ v.periodo }}</td>
+          <td class="px-4 py-3 text-gray-200">{{ v.fecha_vencimiento|date:"d/m/Y" }}</td>
+          <td class="px-4 py-3 text-gray-200">
+            {% if v.dias_restantes <= 0 %}
+              <span class="text-red-300 font-semibold">{{ v.dias_restantes }}</span>
+            {% else %}
+              {{ v.dias_restantes }}
+            {% endif %}
+          </td>
+          <td class="px-4 py-3">
+            {% if v.estado == 'Pendiente' %}
+              <span class="px-2 py-1 text-xs rounded-full bg-yellow-500/20 text-yellow-300 font-medium">Pendiente</span>
+            {% else %}
+              <span class="px-2 py-1 text-xs rounded-full bg-red-500/20 text-red-300 font-medium">Vencido</span>
+            {% endif %}
+          </td>
+          <td class="px-4 py-3 text-gray-200">{{ v.arrendatario }}</td>
+          <td class="px-4 py-3 text-center space-x-2">
+            <a href="{% url 'enviar_recordatorio' v.id %}" class="text-indigo-300 hover:text-indigo-200 underline-offset-2 hover:underline">📧 Recordar</a>
+            <a href="{% url 'detalle_contrato' v.contrato_id %}" class="text-pink-300 hover:text-pink-200 underline-offset-2 hover:underline">📜 Historial</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="px-4 py-6 text-center text-green-300">
+            No hay vencimientos próximos. ¡Todo al día!
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginación -->
+  {% if is_paginated %}
+  <div class="flex justify-center items-center gap-1">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}"
+         class="px-3 py-1 rounded-l border border-white/10 bg-white/5 text-gray-300 hover:bg-white/10">«</a>
+    {% else %}
+      <span class="px-3 py-1 rounded-l border border-white/10 bg-gray-800 text-gray-500 cursor-not-allowed">«</span>
+    {% endif %}
+
+    <span class="px-4 py-1 border-t border-b border-white/10 bg-white/5 text-gray-300">
+      Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}"
+         class="px-3 py-1 rounded-r border border-white/10 bg-white/5 text-gray-300 hover:bg-white/10">»</a>
+    {% else %}
+      <span class="px-3 py-1 rounded-r border border-white/10 bg-gray-800 text-gray-500 cursor-not-allowed">»</span>
+    {% endif %}
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

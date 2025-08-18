@@ -1,5 +1,5 @@
 # Archivos de configuración local
-.env
+
 local_settings.py
 
 # Archivos del IDE
@@ -35,3 +35,4 @@ logs/
 media/
 
 .history/
+

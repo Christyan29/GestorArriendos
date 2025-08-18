@@ -8,6 +8,9 @@ from inicio.views import lista_arrendatarios
 from django.urls import include
 from django.contrib.auth import views as auth_views
 from .views import crear_admin_view
+from datetime import timedelta
+from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path(
@@ -57,8 +60,15 @@ urlpatterns = [
     path('logout/', views.cerrar_sesion, name='logout'),
     path('usuarios/', views.usuarios_admin, name='usuarios_admin'),
     path('contratos/', views.contratos_admin, name='contratos_admin'),
+    path('contratos/crear/', views.crear_contrato, name='crear_contrato'),
     path('reportes/', views.reportes_admin, name='reportes_admin'),
     path('arrendatarios/', lista_arrendatarios, name='lista_arrendatarios'),
+    path('admin/buscar/', views.admin_buscar, name='admin_buscar'),
+    path('vencimientos/', views.vencimientos_admin, name='vencimientos_admin'),
+    path('pagos/', views.pagos_admin, name='pagos_admin'),
+    path('notificaciones/', views.notificaciones_admin, name='notificaciones_admin'),
+
+    path('exportar/pagos/', views.exportar_pagos_excel, name='exportar_pagos_excel'),
 
 ]
 

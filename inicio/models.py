@@ -11,11 +11,11 @@ import calendar
 
 class EnlaceCrearAdmin(models.Model):
     class Meta:
-        managed = False  # No se crea tabla en la DB
+        managed = False
         verbose_name = "Crear Administrador"
         verbose_name_plural = "Crear Administrador"
 
-# ---------------------------- PERFIL DE USUARIO ----------------------------
+# --- perfil de usario---
 
 class PerfilUsuario(models.Model):
     TIPO_USUARIO_CHOICES = [
@@ -30,7 +30,7 @@ class PerfilUsuario(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.get_tipo_usuario_display()}"
 
-# ---------------------------- CONTRATOS ----------------------------
+# --contratos ---
 
 class Contrato(models.Model):
     ESTADO_CHOICES = [
@@ -127,7 +127,7 @@ class Contrato(models.Model):
             }
         )
 
-# ---------------------------- PAGOS ----------------------------
+# --pagos -
 
 class Pago(models.Model):
     ESTADO_CHOICES = [

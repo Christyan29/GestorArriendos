@@ -1,80 +1,157 @@
-{% extends 'base_admin.html' %}
+{% extends 'inicio/base_admin.html' %}
 {% load static %}
 
 {% block titulo %}Dashboard General{% endblock %}
 
 {% block encabezado %}
-  <h1 class="text-3xl font-bold text-white">Bienvenido al Panel</h1>
-  <p class="text-sm text-gray-300 mt-1">Resumen general de contratos, pagos y vencimientos</p>
+  <h1 class="text-3xl font-bold text-gradient animate-fade-in">Bienvenido al Panel</h1>
+  <p class="text-sm text-gray-300 mt-1 animate-fade-in delay-200">
+    Resumen general de contratos, pagos y vencimientos
+  </p>
 {% endblock %}
 
 {% block contenido %}
   <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
-    <!-- Total contratos -->
-    <div class="bg-white bg-opacity-10 p-6 rounded-lg shadow-lg border border-white/10">
-      <div class="flex items-center space-x-4">
-        <div class="p-3 bg-indigo-500 rounded-full">
-          <svg class="w-6 h-6 text-white" fill="currentColor"
-               viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 6v15h18V6H3zm2 2h14v11H5V8z"></path>
-          </svg>
-        </div>
-        <div>
-          <p class="text-sm text-gray-200">Contratos activos</p>
+
+    <!-- los contratoos activos -->
+    <div class="bg-gray-900/70 p-6 rounded-lg shadow-lg border border-white/10 flex items-center space-x-4 transition-all duration-300 animate-fade-in hover:shadow-pink-500/20">
+      <div class="p-3 rounded-full flex items-center justify-center bg-pink-500">
+        <i class="fas fa-file-contract text-white text-lg"></i>
+      </div>
+      <div>
+        <p class="text-sm text-gray-300">Contratos activos</p>
+        {% if total_contratos %}
           <p class="text-2xl font-semibold text-white">{{ total_contratos }}</p>
-        </div>
+        {% else %}
+          <div class="bg-gray-500/20 rounded animate-pulse w-12 h-6"></div>
+        {% endif %}
       </div>
     </div>
 
-    <!-- Pagos pendientes -->
-    <div class="bg-white bg-opacity-10 p-6 rounded-lg shadow-lg border border-white/10">
-      <div class="flex items-center space-x-4">
-        <div class="p-3 bg-yellow-500 rounded-full">
-          <svg class="w-6 h-6 text-white" fill="currentColor"
-               viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 1a9 9 0 019 9c0 4.982-4.014 9-9 9S3 14.982 3 10a9 9 0 019-9zm0 2a7 7 0 00-7 7c0 3.859 3.141 7 7 7s7-3.141 7-7a7 7 0 00-7-7zm1 10h-2v2h2v-2zm0-6h-2v4h2V7z"></path>
-          </svg>
-        </div>
-        <div>
-          <p class="text-sm text-gray-200">Pagos pendientes</p>
+    <!-- pagos pendientes -->
+    <div class="bg-gray-900/70 p-6 rounded-lg shadow-lg border border-white/10 flex items-center space-x-4 transition-all duration-300 animate-fade-in hover:shadow-yellow-500/20 delay-100">
+      <div class="p-3 rounded-full flex items-center justify-center bg-yellow-500">
+        <i class="fas fa-exclamation-circle text-white text-lg"></i>
+      </div>
+      <div>
+        <p class="text-sm text-gray-300">Pagos pendientes</p>
+        {% if pagos_pendientes %}
           <p class="text-2xl font-semibold text-white">{{ pagos_pendientes }}</p>
-        </div>
+        {% else %}
+          <div class="bg-gray-500/20 rounded animate-pulse w-12 h-6"></div>
+        {% endif %}
       </div>
     </div>
 
-    <!-- Vencimientos próximos -->
-    <div class="bg-white bg-opacity-10 p-6 rounded-lg shadow-lg border border-white/10">
-      <div class="flex items-center space-x-4">
-        <div class="p-3 bg-red-500 rounded-full">
-          <svg class="w-6 h-6 text-white" fill="currentColor"
-               viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 2a1 1 0 00-1 1v2h14V3a1 1 0 00-1-1H6zm13 5H5v13a1 1 0 001 1h12a1 1 0 001-1V7zM9 11h6v2H9v-2z"></path>
-          </svg>
-        </div>
-        <div>
-          <p class="text-sm text-gray-200">Vencimientos (30 días)</p>
-          <p class="text-2xl font-semibold text-white">{{ vencimientos_30d }}</p>
-        </div>
+    <!-- pagos vencido -->
+    <div class="bg-gray-900/70 p-6 rounded-lg shadow-lg border border-white/10 flex items-center space-x-4 transition-all duration-300 animate-fade-in hover:shadow-red-500/20 delay-200">
+      <div class="p-3 rounded-full flex items-center justify-center bg-red-600">
+        <i class="fas fa-times-circle text-white text-lg"></i>
       </div>
+      <div>
+        <p class="text-sm text-gray-300">Pagos vencidos</p>
+        {% if pagos_vencidos %}
+          <p class="text-2xl font-semibold text-white">{{ pagos_vencidos }}</p>
+        {% else %}
+          <div class="bg-gray-500/20 rounded animate-pulse w-12 h-6"></div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- prximos vencimientos -->
+    <div class="bg-gray-900/70 p-6 rounded-lg shadow-lg border border-white/10 flex items-center space-x-4 transition-all duration-300 animate-fade-in hover:shadow-orange-500/20 delay-300">
+      <div class="p-3 rounded-full flex items-center justify-center bg-orange-500">
+        <i class="fas fa-calendar-alt text-white text-lg"></i>
+      </div>
+      <div>
+        <p class="text-sm text-gray-300">Vencimientos (30 días)</p>
+        {% if vencimientos_30d %}
+          <p class="text-2xl font-semibold text-white">{{ vencimientos_30d }}</p>
+        {% else %}
+          <div class="bg-gray-500/20 rounded animate-pulse w-12 h-6"></div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- arrendatarios -->
+    <div class="bg-gray-900/70 p-6 rounded-lg shadow-lg border border-white/10 flex items-center space-x-4 transition-all duration-300 animate-fade-in hover:shadow-green-500/20 delay-400">
+      <div class="p-3 rounded-full flex items-center justify-center bg-green-500">
+        <i class="fas fa-users text-white text-lg"></i>
+      </div>
+      <div>
+        <p class="text-sm text-gray-300">Arrendatarios registrados</p>
+        {% if total_arrendatarios %}
+          <p class="text-2xl font-semibold text-white">{{ total_arrendatarios }}</p>
+        {% else %}
+          <div class="bg-gray-500/20 rounded animate-pulse w-12 h-6"></div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- pagos del mes -->
+    <div class="bg-gray-900/70 p-6 rounded-lg shadow-lg border border-white/10 flex items-center space-x-4 transition-all duration-300 animate-fade-in hover:shadow-indigo-500/20 delay-500">
+      <div class="p-3 rounded-full flex items-center justify-center bg-indigo-500">
+        <i class="fas fa-coins text-white text-lg"></i>
+      </div>
+      <div>
+        <p class="text-sm text-gray-300">Pagos del mes</p>
+        {% if pagos_mes %}
+          <p class="text-2xl font-semibold text-white">{{ pagos_mes }}</p>
+        {% else %}
+          <div class="bg-gray-500/20 rounded animate-pulse w-12 h-6"></div>
+        {% endif %}
+      </div>
+    </div>
+
+  </section>
+
+  <!-- acciones rapiidas -->
+  <section class="mb-10 animate-fade-in delay-200">
+    <h2 class="text-lg font-semibold text-gradient mb-4">⚡ Acciones rápidas</h2>
+    <div class="flex flex-wrap gap-3">
+      <a href="{% url 'contratos_admin' %}" class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-white font-medium shadow-md transition-all bg-pink-500 hover:bg-pink-600">📁 Ver contratos</a>
+      <a href="{% url 'pagos_admin' %}" class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-gray-900 font-medium shadow-md transition-all bg-yellow-500 hover:bg-yellow-600">💳 Ver pagos</a>
+      <a href="{% url 'exportar_pagos_excel' %}" class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-white font-medium shadow-md transition-all bg-green-500 hover:bg-green-600">📤 Exportar pagos</a>
+      <a href="{% url 'crear_contrato' %}" class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-white font-medium shadow-md transition-all bg-indigo-500 hover:bg-indigo-600">➕ Crear contrato</a>
     </div>
   </section>
 
-  <!-- Últimas notificaciones -->
-  <section class="mt-10">
-    <h2 class="text-xl font-bold text-white mb-4">Actividad reciente</h2>
-    {% if notificaciones %}
-      <ul class="space-y-4">
-        {% for n in notificaciones %}
-          <li class="bg-white bg-opacity-10 rounded-lg px-4 py-3 border border-white/10">
+  <!-- actividad reciente -->
+  <section class="animate-fade-in delay-300">
+    <h2 class="text-xl font-bold text-gradient mb-4">📢 Actividad reciente</h2>
+    {% if notificaciones is not None %}
+      {% if notificaciones %}
+        <ul class="space-y-4 max-h-64 overflow-y-auto pr-2">
+          {% for n in notificaciones %}
+            <li class="bg-gray-900/70 rounded-lg px-4 py-3 border border-white/10 hover:bg-gray-800 transition-colors duration-300">
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-gray-200 flex items-center space-x-2">
+                  <i class="fas fa-bell text-pink-500"></i>
+                  <span>{{ n.mensaje }}</span>
+                </span>
+                <span class="text-xs text-gray-400">{{ n.fecha|date:"d/m/Y" }}</span>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-gray-400 italic">No hay notificaciones nuevas en este momento.</p>
+      {% endif %}
+    {% else %}
+      <
+      <ul class="space-y-4 max-h-64 overflow-y-auto pr-2">
+        {% for _ in "12345" %}
+          <li class="bg-gray-900/70 rounded-lg px-4 py-3 border border-white/10">
             <div class="flex items-center justify-between">
-              <span class="text-sm text-gray-200">{{ n.mensaje }}</span>
-              <span class="text-xs text-gray-400">{{ n.fecha|date:"d/m/Y" }}</span>
+              <span class="flex items-center gap-2">
+                <div class="bg-gray-500/20 rounded-full animate-pulse w-4 h-4"></div>
+                <div class="bg-gray-500/20 rounded animate-pulse w-48 h-4"></div>
+              </span>
+                            <div class="bg-gray-500/20 rounded animate-pulse w-12 h-3"></div>
             </div>
           </li>
         {% endfor %}
       </ul>
-    {% else %}
-      <p class="text-gray-300">No hay notificaciones nuevas en este momento.</p>
     {% endif %}
   </section>
 {% endblock %}
