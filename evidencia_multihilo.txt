@@ -1,0 +1,17 @@
+Pago creado: ID=41 | Arriendo de septiembre -Departamento 1A, Edificio Cartagena | Monto=200.00 | Estado=pendiente
+Pago creado: ID=42 | Arriendo de septiembre -Departamento 2B, Edificio Cartagena | Monto=250.00 | Estado=pendiente
+Pago creado: ID=43 | Arriendo de septiembre -Departamento 3C, Edificio Cartagena | Monto=100.00 | Estado=pendiente
+Pago creado: ID=44 | Arriendo de septiembre -Departamento 4D, Edificio Cartagena | Monto=300.00 | Estado=pendiente
+Pagos de prueba creados: 4
+Iniciando procesamiento multihilo...
+[Productor] Encolando pago 41 por 200.00
+[Productor] Encolando pago 42 por 250.00
+[Productor] Encolando pago 43 por 100.00
+[Productor] Encolando pago 44 por 300.00
+[Consumidor] Pago 41 procesado | Monto: 200.00
+[Consumidor] Pago 42 procesado | Monto: 250.00
+[Consumidor] Pago 43 procesado | Monto: 100.00
+[Consumidor] Pago 44 procesado | Monto: 300.00
+Procesamiento multihilo finalizado.
+Montos > 100 con +10% interés: [Decimal('220.00'), Decimal('275.00'), Decimal('330.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00')]
+Ordenados desc: [Decimal('330.00'), Decimal('275.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00'), Decimal('220.00')]
