@@ -1,0 +1,27 @@
+* 067ca5f (HEAD -> main, origin/main, origin/backend/christian, origin/HEAD, backend/christian) Se implementó la exportación de pagos usando librerías externas pandas y openpyxl, con un entorno de pruebas separado de los datos reales
+* e523d05 Implementación visual y funcional del formulario de administrador: vista personalizada, template integrado al panel, lógica reusable, confirmación visual, conexión con settings vía .env, migraciones y mejoras en templates
+* 70e97cb Se actualizo el templates de reseteo de contraseña y ajustes en settings
+* d79cbad se actualizo la pagina de recupar la contraseña de la pagina login
+* f7a4504 Se actualizo el formulario de registro para que se visualicen los campos en base de datos
+* f1befab se creo las plantillas para recuperar la contraseña
+* 0b0f40b se sigue desarrollando el dashboard de administrador y aplicando estilos
+* d5170d1 Últimas modificaciones  antes de fusioanr con main
+* 684090f Últimas modificaciones  antes de fusioanr con main
+* db71ee0 Se creo la base de datos en PostgreSQL y se la conecto pryecto en setting.py con los paratros default': {'ENGINE': 'django.db.backends.postgresql','NAME': 'edificio_cartagena_db', 'USER': 'django_user', 'PASSWORD': '1234'
+* df297fa Se modifco la pagina de nosotros y se agrego el footer en la base.html
+* 5ffeafc se actualizo la pagina de binvenida y se instalo Tailwind CSS
+* 0cb0f47 Creamos un nuevo repositorio con sus respectiva ramas creadas, se actualizo las vistas, estilos y los templates para login, contacto, registro y dashboard de administrador
+| * c9c9f95 (origin/frontend/yadira) Protección de acceso en dashboard; verificación de sesión en vista login; integración de sidebar con secciones dinámicas (notificaciones, contratos, pagos, perfil); implementación de descarga de PDF en contratos
+| * 4f39cc9 Se actualizo la pagina de contacto, dashboard, con el tailwind.css
+| * fa289c9 Se actualizo las paginas del registarse.html, loguin.html
+| * 4ec8676 Instalación de Tailwind con npm, configuración de input.css/output.css. Subidos templates modificados e imágenes actualizada
+|/  
+* df9e5ec Se elimaron  archivos __pycache__
+* da7a598 Se añadido el  archivo .gitignore
+* 80cce04 Eliminados archivos innecesarios del repositorio
+* 853e901 Se sube el proyecto inicial GestorArriendos
+*   e629fff Fusión completada con main
+|\  
+| * 29823e5 WIP: Cambios locales antes de cambiar de rama
+* 4aa29d4 Se actualizo el login y el registrarse, además de dar estilos generales a las paginas
+* 51b8982 proyecto en Django
