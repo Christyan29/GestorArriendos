@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from decouple import config # type: ignore
+import logging
 
 EMAIL_BACKEND       = config('EMAIL_BACKEND')
 EMAIL_HOST          = config('EMAIL_HOST')
@@ -152,3 +153,58 @@ LOGIN_URL = '/login/'
 
 
 
+# clase para darle color a los logs en consola
+class ColoresLogs:
+    RESET = "\033[0m"
+    VERDE = "\033[92m"
+    AMARILLO = "\033[93m"
+    ROJO = "\033[91m"
+    AZUL = "\033[94m"
+    MAGENTA = "\033[95m"
+
+class FormatoColoreado(logging.Formatter):
+    def format(self, record):
+        color = ColoresLogs.RESET
+        if "[COLA]" in record.msg:
+            color = ColoresLogs.AZUL
+        elif "[PRODUCTOR]" in record.msg:
+            color = ColoresLogs.VERDE
+        elif "[CONSUMIDOR]" in record.msg:
+            color = ColoresLogs.AMARILLO
+        elif "[HILO]" in record.msg:
+            color = ColoresLogs.MAGENTA
+        elif "[ERROR]" in record.msg:
+            color = ColoresLogs.ROJO
+        record.msg = f"{color}{record.msg}{ColoresLogs.RESET}"
+        return super().format(record)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,  # no apaga los loggers que ya trae django
+    'handlers': {
+        'console': {  # manda los mensajes a la consola
+            'class': 'logging.StreamHandler',
+            'formatter': 'coloreado',
+        },
+    },
+    'formatters': {
+        'coloreado': {
+            '()': FormatoColoreado,
+            'format': '%(message)s',  # solo mostramos el mensaje, sin fecha ni nivel
+        },
+    },
+    'loggers': {
+        # este es pa tu app inicio
+        'inicio': {
+            'handlers': ['console'],
+            'level': 'INFO',     # desde info pa arriba
+            'propagate': False,  # pa que no se duplique
+        },
+        # este es pa django en general
+        'django': {
+            'handlers': ['console'],
+            'level': 'WARNING',  # solo warnings y errores
+            'propagate': True,
+        },
+    },
+}

@@ -1,0 +1,23 @@
+--- evidencia actividad avanzada ---
+actividad: creación de un programa que reaccione dinamicamente a cambios de datos -
+simulacion de un sistema distribuido que comparta datos entre nodos
+
+descripcion:
+se implemento un flujo de datos tipo "observable" que notifica a un "observer" cuando hay cambios.
+el observer reacciona aplicando transformaciones (map) y ejecutando acciones en tiempo real.
+se simulo un sistema distribuido donde un nodo productor envia datos y un nodo consumidor los procesa
+
+evidencia de la ejecucion en consola:
+[COLA] consumidor iniciado
+[PRODUCTOR] encolando tarea: generar reporte de pagos
+[CONSUMIDOR] procesando tarea: generar reporte de pagos
+[HILO] enviando correo a administrador_1@gmail.com con asunto: reporte solicitado
+[HILO] correo enviado correctamente
+
+archivos .py creados y modificados para realizar laactividad:
+- cola_tareas.py: gestiona la cola de tareas y el flujo productor-consumidor con hilos.
+- tareas.py: simula el envio de correos en segundo plano para no bloquear el sistema.
+- errores.py: maneja y registra errores sin detener la ejecucion
+- views.py: contiene la vista que encola la tarea al presionar el boton en el dashboard
+- urls.py: conecta la ruta del boton con la vista correspondiente.
+- dashboard_admin.html: se agrego el boton " ejecutar tarea avanzada" que ejecuta el proceso

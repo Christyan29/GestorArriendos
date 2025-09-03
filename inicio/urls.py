@@ -12,6 +12,7 @@ from datetime import timedelta
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 
+
 urlpatterns = [
     path(
         'password-reset/',
@@ -69,6 +70,8 @@ urlpatterns = [
     path('notificaciones/', views.notificaciones_admin, name='notificaciones_admin'),
 
     path('exportar/pagos/', views.exportar_pagos_excel, name='exportar_pagos_excel'),
+    path("tarea-avanzada/", views.ejecutar_tarea_avanzada, name="tarea_avanzada"),
+
 
 ]
 
