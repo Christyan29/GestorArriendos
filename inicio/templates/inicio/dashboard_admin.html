@@ -105,16 +105,25 @@
 
   </section>
 
-  <!-- acciones rapiidas -->
-  <section class="mb-10 animate-fade-in delay-200">
-    <h2 class="text-lg font-semibold text-gradient mb-4">⚡ Acciones rápidas</h2>
-    <div class="flex flex-wrap gap-3">
-      <a href="{% url 'contratos_admin' %}" class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-white font-medium shadow-md transition-all bg-pink-500 hover:bg-pink-600">📁 Ver contratos</a>
-      <a href="{% url 'pagos_admin' %}" class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-gray-900 font-medium shadow-md transition-all bg-yellow-500 hover:bg-yellow-600">💳 Ver pagos</a>
-      <a href="{% url 'exportar_pagos_excel' %}" class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-white font-medium shadow-md transition-all bg-green-500 hover:bg-green-600">📤 Exportar pagos</a>
-      <a href="{% url 'crear_contrato' %}" class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-white font-medium shadow-md transition-all bg-indigo-500 hover:bg-indigo-600">➕ Crear contrato</a>
-    </div>
-  </section>
+  <!-- acciones rapidas -->
+<section class="mb-10 animate-fade-in delay-200">
+  <h2 class="text-lg font-semibold text-gradient mb-4">⚡ Acciones rápidas</h2>
+  <div class="flex flex-wrap gap-3">
+    <a href="{% url 'contratos_admin' %}" class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-white font-medium shadow-md transition-all bg-pink-500 hover:bg-pink-600">📁 Ver contratos</a>
+    <a href="{% url 'pagos_admin' %}" class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-gray-900 font-medium shadow-md transition-all bg-yellow-500 hover:bg-yellow-600">💳 Ver pagos</a>
+    <a href="{% url 'exportar_pagos_excel' %}" class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-white font-medium shadow-md transition-all bg-green-500 hover:bg-green-600">📤 Exportar pagos</a>
+    <a href="{% url 'crear_contrato' %}" class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-white font-medium shadow-md transition-all bg-indigo-500 hover:bg-indigo-600">➕ Crear contrato</a>
+
+    <!-- ejecutar la tarea avanzada -->
+    <form action="{% url 'tarea_avanzada' %}" method="post">
+      {% csrf_token %}
+      <button type="submit" class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-white font-medium shadow-md transition-all bg-indigo-600 hover:bg-indigo-700">
+        🧠 Ejecutar tarea avanzada
+      </button>
+    </form>
+  </div>
+</section>
+
 
   <!-- actividad reciente -->
   <section class="animate-fade-in delay-300">

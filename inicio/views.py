@@ -13,6 +13,11 @@ from django.contrib.auth.decorators import login_required
 from .models import Pago
 import logging
 logger = logging.getLogger(__name__)
+from django.contrib import messages
+from django.shortcuts import redirect
+from django.urls import reverse
+from .cola_tareas import productor, iniciar_consumidor
+# Iniciar el consumidor de la cola de tareas al cargar la aplicación
 
 def bienvenida(request):
     return render(request, 'inicio/bienvenida.html')
@@ -258,3 +263,11 @@ def exportar_pagos_excel(request):
     response['Content-Disposition'] = 'attachment; filename="pagos.xlsx"'
     df.to_excel(response, index=False)
     return response
+
+
+def ejecutar_tarea_avanzada(request):
+    if request.method == "POST":
+        iniciar_consumidor()
+        productor("Generar reporte de pagos")
+        messages.success(request, "Tarea avanzada encolada y procesándose en segundo plano.")
+    return redirect(reverse("dashboard_admin"))
