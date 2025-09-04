@@ -231,6 +231,39 @@ def notificaciones_admin(request):
 
 
 @login_required
+def reintentar_notificacion(request, id):
+    notificacion = get_object_or_404(Notificacion, id=id)
+    # Cambiar estado a pendiente para que el sistema la vuelva a enviar
+    notificacion.estado = 'pendiente'
+    notificacion.intentos = 0  # o sumar 1 si quieres registrar reintentos
+    notificacion.save()
+
+    # Aquí podrías llamar a la función que procesa/envía notificaciones
+    # procesar_notificacion(notificacion)
+
+    messages.success(request, "Notificación reprogramada para envío.")
+    return redirect('notificaciones_admin')
+
+
+@login_required
+def marcar_leida(request, id):
+    notificacion = get_object_or_404(Notificacion, id=id)
+    notificacion.estado = 'leida'
+    notificacion.save()
+    messages.success(request, "Notificación marcada como leída.")
+    return redirect('notificaciones_admin')
+
+
+@login_required
+def programar_manual(request):
+    # Aquí iría la lógica para programar una notificación manualmente
+    # Por ahora solo redirige a la lista de notificaciones
+    messages.info(request, "Función de programación manual aún no implementada.")
+    return redirect('notificaciones_admin')
+
+
+
+@login_required
 def exportar_pagos_excel(request):
     # Pagos ordenados por monto (mayor primero)
     pagos = (
