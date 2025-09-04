@@ -68,6 +68,9 @@ urlpatterns = [
     path('vencimientos/', views.vencimientos_admin, name='vencimientos_admin'),
     path('pagos/', views.pagos_admin, name='pagos_admin'),
     path('notificaciones/', views.notificaciones_admin, name='notificaciones_admin'),
+    path('notificacion/reintentar/<int:id>/', views.reintentar_notificacion, name='reintentar_notificacion'),
+    path('notificacion/leida/<int:id>/', views.marcar_leida, name='marcar_leida'),
+    path('notificacion/programar/', views.programar_manual, name='programar_manual'),
 
     path('exportar/pagos/', views.exportar_pagos_excel, name='exportar_pagos_excel'),
     path("tarea-avanzada/", views.ejecutar_tarea_avanzada, name="tarea_avanzada"),
