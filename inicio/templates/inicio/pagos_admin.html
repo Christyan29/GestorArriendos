@@ -1,46 +1,73 @@
 {% extends 'inicio/base_admin.html' %}
 
-{% block titulo %}Pagos Pendientes{% endblock %}
+{% block titulo %}Pagos y Vencimientos{% endblock %}
 
 {% block contenido %}
 <div class="space-y-6 animate-fade-in">
 
+  <!-- Encabezado -->
   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
     <div>
       <h1 class="text-3xl font-bold text-gradient">Gestión y conciliación de pagos</h1>
-      <p class="text-sm text-gray-300 mt-1">Administra pagos pendientes, realizados y vencidos.</p>
+      <p class="text-sm text-gray-300 mt-1">Administra pagos pendientes, realizados, vencidos y próximos a vencer.</p>
     </div>
     <a href="{% url 'exportar_pagos_excel' %}?{{ request.GET.urlencode }}"
        class="px-4 py-2 rounded-lg bg-green-500 hover:bg-green-600 text-white text-sm font-medium shadow-md transition">
-       📤 Exportar Excel
+       📤 Exportar Lista
     </a>
   </div>
 
-   <!-- kpsis -->
-<div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
-  <div class="bg-teal-700 border border-teal-500 rounded-lg p-4 text-center shadow-md">
+  <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+  <a href="?estado=pendiente"
+     class="bg-teal-700 border border-teal-500 rounded-lg p-4 text-center shadow-md hover:bg-teal-600 transition-colors">
     <p class="text-sm text-white font-medium">Pendientes</p>
     <p class="mt-1 text-2xl font-bold text-white">{{ total_pendientes }}</p>
-  </div>
-  <div class="bg-cyan-700 border border-cyan-500 rounded-lg p-4 text-center shadow-md">
+  </a>
+  <a href="?estado=pagado"
+     class="bg-cyan-700 border border-cyan-500 rounded-lg p-4 text-center shadow-md hover:bg-cyan-600 transition-colors">
     <p class="text-sm text-white font-medium">Pagados</p>
     <p class="mt-1 text-2xl font-bold text-white">{{ total_pagados }}</p>
-  </div>
-  <div class="bg-amber-700 border border-amber-500 rounded-lg p-4 text-center shadow-md">
+  </a>
+  <a href="?estado=vencido"
+     class="bg-amber-700 border border-amber-500 rounded-lg p-4 text-center shadow-md hover:bg-amber-600 transition-colors">
     <p class="text-sm text-white font-medium">Vencidos</p>
     <p class="mt-1 text-2xl font-bold text-white">{{ total_vencidos }}</p>
-  </div>
-  <div class="bg-blue-700 border border-blue-500 rounded-lg p-4 text-center shadow-md">
-    <p class="text-sm text-white font-medium">Total filtrado</p>
-    <p class="mt-1 text-2xl font-bold text-white">{{ total_filtrado }}</p>
-  </div>
+  </a>
+  <a href="?vence_en=7"
+     class="bg-blue-700 border border-blue-500 rounded-lg p-4 text-center shadow-md hover:bg-blue-600 transition-colors">
+    <p class="text-sm text-white font-medium">Vencen en 7 días</p>
+    <p class="mt-1 text-2xl font-bold text-white">{{ conteo_7 }}</p>
+  </a>
 </div>
 
-  <!-- filtroos -->
-  <form method="get" class="flex flex-wrap gap-3">->
+
+  <!-- Filtros -->
+  <form method="get" class="flex flex-wrap gap-3">
+    <select name="vence_en"
+            class="bg-gray-700 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-inner">
+      <option value="">Todos</option>
+      <option value="7" {% if dias_filtro == '7' %}selected{% endif %}>Vence en 7 días</option>
+      <option value="15" {% if dias_filtro == '15' %}selected{% endif %}>Vence en 15 días</option>
+      <option value="30" {% if dias_filtro == '30' %}selected{% endif %}>Vence en 30 días</option>
+    </select>
+
+    <input type="text" name="contrato" placeholder="Buscar contrato o depto..."
+           value="{{ contrato_q }}"
+           class="flex-1 min-w-[200px] bg-gray-700 text-white rounded-lg px-3 py-2 text-sm placeholder-gray-400
+                  focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-inner">
+
+    <input type="text" name="arrendatario" placeholder="Buscar arrendatario..."
+           value="{{ arrendatario_q }}"
+           class="flex-1 min-w-[200px] bg-gray-700 text-white rounded-lg px-3 py-2 text-sm placeholder-gray-400
+                  focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-inner">
+
+    <button type="submit"
+            class="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg text-sm font-medium shadow-md transition">
+      Filtrar
+    </button>
   </form>
 
-  <!-- tabla -->
+  <!-- Tabla -->
   <div class="bg-gray-900/70 rounded-lg border border-white/10 shadow-lg overflow-hidden">
     <table class="w-full text-sm">
       <thead class="bg-white/5 text-gray-300 uppercase tracking-wide text-xs">
@@ -75,15 +102,21 @@
           <td class="px-4 py-3 text-gray-200">{{ pago.fecha_pago|date:"d/m/Y" }}</td>
           <td class="px-4 py-3 text-gray-200">{{ pago.metodo_pago }}</td>
           <td class="px-4 py-3 text-gray-200">{{ pago.referencia }}</td>
-          <td class="px-4 py-3 text-center space-x-2">
-            <a href="{% url 'registrar_pago' pago.id %}"
-               class="inline-block px-2 py-1 bg-green-500 hover:bg-green-600 text-white rounded-lg text-xs shadow transition">
-               Registrar pago
-            </a>
-            <a href="{% url 'marcar_vencido' pago.id %}"
-               class="inline-block px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded-lg text-xs shadow transition">
-               Marcar vencido
-            </a>
+          <td class="px-4 py-3 text-center">
+            <div class="flex justify-center space-x-2">
+              <a href="{% url 'registrar_pago' pago.id %}"
+                 class="px-3 py-1 text-xs rounded bg-green-600 hover:bg-green-500 text-white transition-colors duration-200 shadow">
+                 Registrar pago
+              </a>
+              <a href="{% url 'marcar_vencido' pago.id %}"
+                 class="px-3 py-1 text-xs rounded bg-red-600 hover:bg-red-500 text-white transition-colors duration-200 shadow">
+                 Marcar vencido
+              </a>
+              <a href="{% url 'detalle_contrato' pago.contrato.id %}"
+                 class="px-3 py-1 text-xs rounded bg-indigo-600 hover:bg-indigo-500 text-white transition-colors duration-200 shadow">
+                 Ver detalle
+              </a>
+            </div>
           </td>
         </tr>
         {% empty %}
@@ -97,10 +130,10 @@
     </table>
   </div>
 
-  <!-- paginacioon -->
+  <!-- Paginación -->
   {% if pagos.has_other_pages %}
   <div class="flex justify-center mt-4">
-    <nav class="flex items-center space-x-1">
+      <nav class="flex items-center space-x-1">
       {% if pagos.has_previous %}
         <a href="?page=1&{{ request.GET.urlencode }}" class="px-3 py-1 rounded bg-gray-700 text-white hover:bg-gray-600">«</a>
         <a href="?page={{ pagos.previous_page_number }}&{{ request.GET.urlencode }}" class="px-3 py-1 rounded bg-gray-700 text-white hover:bg-gray-600">‹</a>
@@ -109,7 +142,7 @@
       {% for num in pagos.paginator.page_range %}
         {% if pagos.number == num %}
           <span class="px-3 py-1 rounded bg-pink-500 text-white font-semibold">{{ num }}</span>
-        {% elif num > pagos.number|add:-3 and num < pagos.number|add:3 %}
+                  {% elif num > pagos.number|add:-3 and num < pagos.number|add:3 %}
           <a href="?page={{ num }}&{{ request.GET.urlencode }}" class="px-3 py-1 rounded bg-gray-700 text-white hover:bg-gray-600">{{ num }}</a>
         {% endif %}
       {% endfor %}

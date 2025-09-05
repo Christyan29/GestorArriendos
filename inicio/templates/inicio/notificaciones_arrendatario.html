@@ -1,0 +1,17 @@
+{% extends 'inicio/base_arrendatario.html' %}
+{% block titulo %}Mis notificaciones{% endblock %}
+
+{% block contenido %}
+<h1 class="text-2xl font-bold mb-4">Mis notificaciones</h1>
+{% if notificaciones %}
+  <ul class="space-y-2">
+    {% for n in notificaciones %}
+      <li class="bg-white/5 p-4 rounded border border-white/10">
+        {{ n.tipo|capfirst }} — {{ n.programada_para|default:"Sin fecha"|date:"d/m/Y H:i" }}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p class="text-gray-400">No tienes notificaciones.</p>
+{% endif %}
+{% endblock %}

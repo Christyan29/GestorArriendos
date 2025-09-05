@@ -45,17 +45,6 @@
       <form method="post">
         {% csrf_token %}
 
-        <div class="flex justify-center mb-4 gap-4">
-          <label class="inline-flex items-center">
-            <input type="radio" class="form-radio text-indigo-500" name="tipo_usuario" value="admin_edificio" checked>
-            <span class="ml-2 text-sm text-gray-600">Administrador</span>
-          </label>
-          <label class="inline-flex items-center">
-            <input type="radio" class="form-radio text-indigo-500" name="tipo_usuario" value="arrendatario">
-            <span class="ml-2 text-sm text-gray-600">Arrendatario</span>
-          </label>
-        </div>
-
         <div class="mb-4">
           <label for="usuario" class="block text-gray-700 text-sm font-bold mb-2">Usuario</label>
           <input

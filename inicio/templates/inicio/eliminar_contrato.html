@@ -1,0 +1,26 @@
+{% extends 'inicio/base_admin.html' %}
+
+{% block titulo %}Eliminar Contrato{% endblock %}
+
+{% block contenido %}
+<div class="max-w-lg mx-auto space-y-6 animate-fade-in">
+  <h1 class="text-2xl font-bold text-red-500">¿Eliminar contrato?</h1>
+  <p class="text-gray-300">
+    Estás a punto de eliminar el contrato del inquilino <strong>{{ contrato.arrendatario.username }}</strong>
+    para el departamento <strong>{{ contrato.numero_departamento }}</strong>.
+    Esta acción no se puede deshacer.
+  </p>
+
+  <form method="post" class="flex gap-3">
+    {% csrf_token %}
+    <a href="{% url 'contratos_admin' %}"
+       class="px-4 py-2 rounded-lg bg-gray-600 hover:bg-gray-700 text-white font-medium shadow-md transition">
+       Cancelar
+    </a>
+    <button type="submit"
+            class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-medium shadow-md transition">
+      Eliminar
+    </button>
+  </form>
+</div>
+{% endblock %}

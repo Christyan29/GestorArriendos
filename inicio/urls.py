@@ -57,15 +57,32 @@ urlpatterns = [
     path('nosotros/', views.vista_nosotros, name='nosotros'),
     path('contacto/', views.vista_contacto, name='contacto'),
     path('registrarse/', views.vista_registrarse, name='registrarse'),
-    path('panel/', views.dashboard_admin, name='dashboard_admin'),
+     # Dashboard admijistradror
+    path('dashboard/administrador/', views.dashboard_admin, name='dashboard_admin'),
+    path('contratos/crear/', views.crear_contrato, name='crear_contrato'),
+    path('contratos/<int:contrato_id>/', views.detalle_contrato, name='detalle_contrato'),
+    path('contratos/<int:contrato_id>/editar/', views.editar_contrato, name='editar_contrato'),
+    path('contratos/<int:contrato_id>/eliminar/', views.eliminar_contrato, name='eliminar_contrato'),
+    path('pagos/registrar/<int:pago_id>/', views.registrar_pago, name='registrar_pago'),
+    path('pagos/vencido/<int:pago_id>/', views.marcar_vencido, name='marcar_vencido'),
+
+
+    # Dashboard Arrendatario
+    path('dashboard/arrendatario/', views.dashboard_arrendatario, name='dashboard_arrendatario'),
+    path('dashboard/arrendatario/contratos/', views.contratos_arrendatario, name='contratos_arrendatario'),
+    path('dashboard/arrendatario/notificaciones/', views.notificaciones_arrendatario, name='notificaciones_arrendatario'),
+    path('dashboard/arrendatario/editar-perfil/', views.editar_perfil_arrendatario, name='editar_perfil_arrendatario'),
+    path('contrato/<int:contrato_id>/pdf/', views.contrato_pdf, name='contrato_pdf'),
+
+
     path('logout/', views.cerrar_sesion, name='logout'),
     path('usuarios/', views.usuarios_admin, name='usuarios_admin'),
     path('contratos/', views.contratos_admin, name='contratos_admin'),
     path('contratos/crear/', views.crear_contrato, name='crear_contrato'),
     path('reportes/', views.reportes_admin, name='reportes_admin'),
     path('arrendatarios/', lista_arrendatarios, name='lista_arrendatarios'),
-    path('admin/buscar/', views.admin_buscar, name='admin_buscar'),
-    path('vencimientos/', views.vencimientos_admin, name='vencimientos_admin'),
+
+
     path('pagos/', views.pagos_admin, name='pagos_admin'),
     path('notificaciones/', views.notificaciones_admin, name='notificaciones_admin'),
     path('notificacion/reintentar/<int:id>/', views.reintentar_notificacion, name='reintentar_notificacion'),
