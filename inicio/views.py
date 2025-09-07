@@ -24,7 +24,7 @@ from .cola_tareas import productor, iniciar_consumidor
 
 logger = logging.getLogger(__name__)
 
-# VISTAS PUBLICAS
+# VISTAS PÚBLICAS
 def bienvenida(request):
     return render(request, 'inicio/bienvenida.html')
 
@@ -113,6 +113,7 @@ def crear_admin_view(request):
         return redirect('/admin/')
     return render(request, 'admin/crear_admin_form.html')
 
+
 # DASHBOARD ADMIN
 
 @login_required
@@ -148,6 +149,7 @@ def usuarios_admin(request):
 @login_required
 def reportes_admin(request):
     return render(request, 'inicio/reportes_admin.html')
+
 
 # CONTRATOS ADMIN
 
@@ -398,6 +400,7 @@ def ejecutar_tarea_avanzada(request):
         messages.success(request, "Tarea avanzada encolada y procesándose en segundo plano.")
     return redirect(reverse("dashboard_admin"))
 
+
 # DASHBOARD ARRENDATARIO
 
 @login_required
@@ -461,6 +464,7 @@ def editar_perfil_arrendatario(request):
 
     return render(request, 'inicio/editar_perfil_arrendatario.html', {'usuario': request.user})
 
+
 # GENERAR CONTRATO PDF
 @login_required
 def contrato_pdf(request, contrato_id):
@@ -473,5 +477,3 @@ def contrato_pdf(request, contrato_id):
     response['Content-Disposition'] = f'attachment; filename="contrato_{contrato.id}.pdf"'
     response.write(result)
     return response
-
-
