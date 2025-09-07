@@ -1,32 +1,39 @@
-{% extends 'inicio/base_admin.html' %}
-
-{% block titulo %}Detalle del Contrato{% endblock %}
-
-{% block contenido %}
+{% extends 'inicio/base_admin.html' %} {% block titulo %}Detalle del Contrato{%
+endblock %} {% block contenido %}
 <div class="max-w-3xl mx-auto space-y-6 animate-fade-in">
   <div class="flex items-center justify-between">
     <h1 class="text-3xl font-bold text-gradient">Detalle del Contrato</h1>
-    <a href="{% url 'contratos_admin' %}"
-       class="px-4 py-2 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white font-medium shadow-md transition">
-       ⬅ Volver
+    <a
+      href="{% url 'contratos_admin' %}"
+      class="px-4 py-2 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white font-medium shadow-md transition"
+    >
+      ⬅ Volver
     </a>
   </div>
 
-  <div class="bg-gray-900/70 rounded-lg border border-white/10 shadow-lg p-6 space-y-4">
+  <div
+    class="bg-gray-900/70 rounded-lg border border-white/10 shadow-lg p-6 space-y-4"
+  >
     <div>
       <span class="text-gray-400 text-sm">Inquilino</span>
-      <p class="text-lg font-medium text-white">{{ contrato.arrendatario.username }}</p>
+      <p class="text-lg font-medium text-white">
+        {{ contrato.arrendatario.username }}
+      </p>
     </div>
 
     <div>
       <span class="text-gray-400 text-sm">Número de departamento</span>
-      <p class="text-lg font-medium text-white">{{ contrato.numero_departamento }}</p>
+      <p class="text-lg font-medium text-white">
+        {{ contrato.numero_departamento }}
+      </p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <span class="text-gray-400 text-sm">Fecha de inicio</span>
-        <p class="text-lg font-medium text-white">{{ contrato.fecha_inicio }}</p>
+        <p class="text-lg font-medium text-white">
+          {{ contrato.fecha_inicio }}
+        </p>
       </div>
       <div>
         <span class="text-gray-400 text-sm">Fecha de fin</span>
@@ -36,28 +43,36 @@
 
     <div>
       <span class="text-gray-400 text-sm">Tarifa mensual</span>
-      <p class="text-lg font-medium text-white">${{ contrato.tarifa_mensual }}</p>
+      <p class="text-lg font-medium text-white">
+        ${{ contrato.tarifa_mensual }}
+      </p>
     </div>
 
     <div>
       <span class="text-gray-400 text-sm">Términos adicionales</span>
       <p class="text-white whitespace-pre-line">
-        {% if contrato.terminos_adicionales %}
-          {{ contrato.terminos_adicionales }}
-        {% else %}
-          No se especificaron términos adicionales.
-        {% endif %}
+        {% if contrato.terminos_adicionales %} {{ contrato.terminos_adicionales
+        }} {% else %} No se especificaron términos adicionales. {% endif %}
       </p>
     </div>
 
     <div>
       <span class="text-gray-400 text-sm">Estado</span>
       {% if contrato.estado == 'activo' %}
-        <span class="px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-300 font-medium">Activo</span>
+      <span
+        class="px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-300 font-medium"
+        >Activo</span
+      >
       {% elif contrato.estado == 'por_vencer' %}
-        <span class="px-2 py-1 text-xs rounded-full bg-yellow-500/20 text-yellow-300 font-medium">Por vencer</span>
+      <span
+        class="px-2 py-1 text-xs rounded-full bg-yellow-500/20 text-yellow-300 font-medium"
+        >Por vencer</span
+      >
       {% else %}
-        <span class="px-2 py-1 text-xs rounded-full bg-gray-400/20 text-gray-300 font-medium">Finalizado</span>
+      <span
+        class="px-2 py-1 text-xs rounded-full bg-gray-400/20 text-gray-300 font-medium"
+        >Finalizado</span
+      >
       {% endif %}
     </div>
   </div>

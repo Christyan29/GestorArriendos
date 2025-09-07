@@ -56,7 +56,7 @@ urlpatterns = [
     path('accounts/login/', views.vista_login, name='login'),
     path('nosotros/', views.vista_nosotros, name='nosotros'),
     path('contacto/', views.vista_contacto, name='contacto'),
-    path('registrarse/', views.vista_registrarse, name='registrarse'),
+
      # Dashboard admijistradror
     path('dashboard/administrador/', views.dashboard_admin, name='dashboard_admin'),
     path('contratos/crear/', views.crear_contrato, name='crear_contrato'),
@@ -72,7 +72,6 @@ urlpatterns = [
     path('dashboard/arrendatario/contratos/', views.contratos_arrendatario, name='contratos_arrendatario'),
     path('dashboard/arrendatario/notificaciones/', views.notificaciones_arrendatario, name='notificaciones_arrendatario'),
     path('dashboard/arrendatario/editar-perfil/', views.editar_perfil_arrendatario, name='editar_perfil_arrendatario'),
-    path('contrato/<int:contrato_id>/pdf/', views.contrato_pdf, name='contrato_pdf'),
 
 
     path('logout/', views.cerrar_sesion, name='logout'),
@@ -91,6 +90,8 @@ urlpatterns = [
 
     path('exportar/pagos/', views.exportar_pagos_excel, name='exportar_pagos_excel'),
     path("tarea-avanzada/", views.ejecutar_tarea_avanzada, name="tarea_avanzada"),
+    path('contrato/<int:contrato_id>/pdf/', views.contrato_pdf, name='contrato_pdf'),
+
 
 
 ]

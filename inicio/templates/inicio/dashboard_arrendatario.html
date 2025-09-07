@@ -1,81 +1,104 @@
-{% extends 'inicio/base_arrendatario.html' %}
-{% block titulo %}Dashboard Arrendatario{% endblock %}
-
-{% block contenido %}
+{% extends 'inicio/base_arrendatario.html' %} {% block titulo %}Dashboard
+Arrendatario{% endblock %} {% block contenido %}
 <div class="space-y-6">
-  <h1 class="text-2xl font-bold text-gradient">Bienvenido, {{ request.user.get_full_name|default:request.user.username }}</h1>
+  <h1 class="text-2xl font-bold text-gradient">
+    Bienvenido, {{ request.user.get_full_name|default:request.user.username }}
+  </h1>
 
   <!-- Contrato principal -->
-  <div class="bg-gray-900/70 rounded-lg border border-white/10 shadow-lg overflow-hidden">
-    <div class="px-4 py-3 bg-white/5 text-gray-300 uppercase tracking-wide text-xs">
+  <div
+    class="bg-gray-900/70 rounded-lg border border-white/10 shadow-lg overflow-hidden"
+  >
+    <div
+      class="px-4 py-3 bg-white/5 text-gray-300 uppercase tracking-wide text-xs"
+    >
       Mi contrato
     </div>
     {% if contrato %}
-      <div class="p-4 space-y-2">
-        <p class="text-lg font-semibold text-white">
-          {{ contrato.numero_departamento }} — {{ contrato.arrendatario }}
-        </p>
-        <p class="text-sm text-gray-400">
-          Inicio: {{ contrato.fecha_inicio|date:"d/m/Y" }}
-          • Fin: {{ contrato.fecha_fin|date:"d/m/Y" }}
-        </p>
-        {% if contrato.tarifa_mensual %}
-          <p class="text-sm text-gray-400">
-            Tarifa mensual: ${{ contrato.tarifa_mensual|floatformat:2 }}
-          </p>
+    <div class="p-4 space-y-2">
+      <p class="text-lg font-semibold text-white">
+        {{ contrato.numero_departamento }} — {{ contrato.arrendatario }}
+      </p>
+      <p class="text-sm text-gray-400">
+        Inicio: {{ contrato.fecha_inicio|date:"d/m/Y" }} • Fin: {{
+        contrato.fecha_fin|date:"d/m/Y" }}
+      </p>
+      {% if contrato.tarifa_mensual %}
+      <p class="text-sm text-gray-400">
+        Tarifa mensual: ${{ contrato.tarifa_mensual|floatformat:2 }}
+      </p>
+      {% endif %}
+      <p class="text-sm">
+        Estado: {% if contrato.estado == 'activo' %}
+        <span
+          class="px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-300 font-medium"
+          >Activo</span
+        >
+        {% elif contrato.estado == 'finalizado' %}
+        <span
+          class="px-2 py-1 text-xs rounded-full bg-red-500/20 text-red-300 font-medium"
+          >Finalizado</span
+        >
+        {% else %}
+        <span
+          class="px-2 py-1 text-xs rounded-full bg-yellow-500/20 text-yellow-300 font-medium"
+          >{{ contrato.estado|capfirst }}</span
+        >
         {% endif %}
-        <p class="text-sm">
-          Estado:
-          {% if contrato.estado == 'activo' %}
-            <span class="px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-300 font-medium">Activo</span>
-          {% elif contrato.estado == 'finalizado' %}
-            <span class="px-2 py-1 text-xs rounded-full bg-red-500/20 text-red-300 font-medium">Finalizado</span>
-          {% else %}
-            <span class="px-2 py-1 text-xs rounded-full bg-yellow-500/20 text-yellow-300 font-medium">{{ contrato.estado|capfirst }}</span>
-          {% endif %}
-        </p>
-        <div class="pt-2">
-          <a href="{% url 'contratos_arrendatario' %}"
-             class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm">
-             Ver detalle
-          </a>
-        </div>
+      </p>
+      <div class="pt-2">
+        <a
+          href="{% url 'contratos_arrendatario' %}"
+          class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm"
+        >
+          Ver detalle
+        </a>
       </div>
+    </div>
     {% else %}
-      <div class="p-4 text-gray-400 italic">
-        No tienes un contrato registrado actualmente.
-      </div>
+    <div class="p-4 text-gray-400 italic">
+      No tienes un contrato registrado actualmente.
+    </div>
     {% endif %}
   </div>
 
   <!-- Notificaciones recientes -->
-  <div class="bg-gray-900/70 rounded-lg border border-white/10 shadow-lg overflow-hidden">
-    <div class="px-4 py-3 bg-white/5 text-gray-300 uppercase tracking-wide text-xs">
+  <div
+    class="bg-gray-900/70 rounded-lg border border-white/10 shadow-lg overflow-hidden"
+  >
+    <div
+      class="px-4 py-3 bg-white/5 text-gray-300 uppercase tracking-wide text-xs"
+    >
       Notificaciones recientes
     </div>
     <ul class="divide-y divide-white/5">
       {% for n in notificaciones %}
-        <li class="px-4 py-3 text-sm text-gray-200 flex justify-between items-center">
-          <span>
-            {{ n.tipo|capfirst }} — {{ n.programada_para|default:"Sin fecha"|date:"d/m/Y H:i" }}
-          </span>
-          {% if n.estado %}
-            <span class="text-xs px-2 py-1 rounded-full
-              {% if n.estado == 'pendiente' %} bg-yellow-500/20 text-yellow-300
-              {% elif n.estado == 'enviada' %} bg-green-500/20 text-green-300
-              {% elif n.estado == 'fallida' %} bg-red-500/20 text-red-300
-              {% elif n.estado == 'leida' %} bg-blue-500/20 text-blue-300
-              {% endif %}">
-              {{ n.estado|capfirst }}
-            </span>
-          {% endif %}
-        </li>
+      <li
+        class="px-4 py-3 text-sm text-gray-200 flex justify-between items-center"
+      >
+        <span>
+          {{ n.tipo|capfirst }} — {{ n.programada_para|default:"Sin
+          fecha"|date:"d/m/Y H:i" }}
+        </span>
+        {% if n.estado %}
+        <span
+          class="text-xs px-2 py-1 rounded-full {% if n.estado == 'pendiente' %} bg-yellow-500/20 text-yellow-300 {% elif n.estado == 'enviada' %} bg-green-500/20 text-green-300 {% elif n.estado == 'fallida' %} bg-red-500/20 text-red-300 {% elif n.estado == 'leida' %} bg-blue-500/20 text-blue-300 {% endif %}"
+        >
+          {{ n.estado|capfirst }}
+        </span>
+        {% endif %}
+      </li>
       {% empty %}
-        <li class="px-4 py-6 text-center text-gray-400">No tienes notificaciones.</li>
+      <li class="px-4 py-6 text-center text-gray-400">
+        No tienes notificaciones.
+      </li>
       {% endfor %}
     </ul>
     <div class="p-3 text-right">
-      <a href="{% url 'notificaciones_arrendatario' %}" class="text-sm text-blue-400 hover:underline">
+      <a
+        href="{% url 'notificaciones_arrendatario' %}"
+        class="text-sm text-blue-400 hover:underline"
+      >
         Ver todas
       </a>
     </div>
