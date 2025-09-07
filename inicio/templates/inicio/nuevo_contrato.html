@@ -10,18 +10,16 @@
       <p class="text-sm text-gray-300 mt-1">Complete la información para registrar un nuevo contrato en el sistema.</p>
     </div>
     <a href="{% url 'contratos_admin' %}"
-    class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-white font-medium shadow-md transition-all bg-indigo-500 hover:bg-indigo-600">
-   ⬅ Volver
-</a>
-
-
+       class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-white font-medium shadow-md transition-all bg-indigo-500 hover:bg-indigo-600">
+       ⬅ Volver
+    </a>
   </div>
 
-  <!-- formulario -->
+  <!-- Formulario -->
   <form method="post" class="bg-gray-900/70 rounded-lg border border-white/10 shadow-lg p-6 space-y-5">
     {% csrf_token %}
 
-    <!-- arendatario -->
+    <!-- Inquilino -->
     <div>
       <label class="block text-sm font-medium text-gray-300 mb-1">Inquilino</label>
       <select name="inquilino" required
@@ -29,59 +27,42 @@
                      focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-inner">
         <option value="">Seleccione un inquilino</option>
         {% for inquilino in inquilinos %}
-          <option value="{{ inquilino.id }}">{{ inquilino.nombre }}</option>
+          <option value="{{ inquilino.id }}">{{ inquilino.user.username }}</option>
         {% endfor %}
       </select>
     </div>
 
-    <!-- número de departamento -->
-<div>
-  <label class="block text-sm font-medium text-gray-300 mb-1">Número de departamento</label>
-  <input type="text" name="numero_departamento" required
-         placeholder="Ej: 101-A"
-         class="w-full bg-emerald-800 text-white rounded-lg px-3 py-2 placeholder-gray-400
-                focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-inner">
-</div>
+    <!-- Número de departamento -->
+    <div>
+      <label class="block text-sm font-medium text-gray-300 mb-1">Número de departamento</label>
+      <input type="text" name="numero_departamento" required
+             placeholder="Ej: 101-A"
+             class="w-full bg-emerald-800 text-white rounded-lg px-3 py-2 placeholder-gray-400
+                    focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-inner">
+    </div>
 
-
-    <!-- fechas -->
+    <!-- Fechas -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-300 mb-1">Fecha de inicio</label>
         <input type="date" name="fecha_inicio" required
-              class="w-full bg-emerald-800 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-inner">
-
-
+               class="w-full bg-emerald-800 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-inner">
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-300 mb-1">Fecha de fin</label>
         <input type="date" name="fecha_fin" required
-            class="w-full bg-emerald-800 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-inner">
-      </div>
-    </div>
-
-    <!-- Montos -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label class="block text-sm font-medium text-gray-300 mb-1">Monto de renta</label>
-        <input type="number" name="monto" step="0.01" required placeholder="Ej: 500.00"
                class="w-full bg-emerald-800 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-inner">
-
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-300 mb-1">Periodicidad de pago</label>
-        <select name="periodicidad" required
-                class="w-full bg-emerald-800 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-inner">
-
-          <option value="">Seleccione</option>
-          <option value="Mensual">Mensual</option>
-          <option value="Trimestral">Trimestral</option>
-          <option value="Anual">Anual</option>
-        </select>
       </div>
     </div>
 
-    <!-- condiciones de contrato -->
+    <!-- Monto -->
+    <div>
+      <label class="block text-sm font-medium text-gray-300 mb-1">Monto de renta</label>
+      <input type="number" name="monto" step="0.01" required placeholder="Ej: 500.00"
+             class="w-full bg-emerald-800 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-inner">
+    </div>
+
+    <!-- Condiciones -->
     <div>
       <label class="block text-sm font-medium text-gray-300 mb-1">Condiciones adicionales</label>
       <textarea name="condiciones" rows="4" placeholder="Escriba las condiciones..."

@@ -7,10 +7,7 @@
   <title>{% block titulo %}Panel Admin{% endblock %}</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Accesibilidad: focus visible */
     :focus-visible { outline: 2px solid rgba(99,102,241,0.9); outline-offset: 2px; }
-
-    /* Animación de partículas del bloque ambient */
     @keyframes float {
       0%   { transform: translateY(0) translateX(0); opacity: 0.9; }
       50%  { transform: translateY(-12px) translateX(6px); opacity: 1; }
@@ -20,10 +17,8 @@
     .animate-float.delay-100 { animation-delay: .1s; }
     .animate-float.delay-200 { animation-delay: .2s; }
     .animate-float.delay-300 { animation-delay: .3s; }
-
     .transition-base { transition: background-color .2s ease, color .2s ease; }
   </style>
-
   {% block extra_head %}{% endblock %}
 </head>
 <body class="relative min-h-screen bg-gradient-to-br from-indigo-600 via-violet-700 to-purple-800 text-white">
@@ -49,162 +44,144 @@
         <img src="{% static 'inicio/images/logo.png' %}" alt="Logo" class="h-8 w-auto">
         <span class="text-lg font-bold leading-tight">Panel de Administración</span>
       </a>
-      <!-- boton de cerrar -->
       <button type="button" class="md:hidden p-2 rounded hover:bg-gray-800 transition-base" id="btn-close-sidebar" aria-label="Cerrar menú">
         ✖
       </button>
     </div>
 
+    <!-- menú lateral -->
+    <nav class="flex-1 px-2 mt-4 space-y-1">
+      <a href="{% url 'dashboard_admin' %}"
+         class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-base
+         {% if request.resolver_match.url_name == 'dashboard_admin' %} bg-indigo-500/60 text-white shadow-sm {% else %} text-gray-300 hover:bg-indigo-400/40 hover:text-white {% endif %}"
+         {% if request.resolver_match.url_name == 'dashboard_admin' %}aria-current="page"{% endif %}>
+        📊 Resumen general
+      </a>
+      <a href="{% url 'contratos_admin' %}"
+         class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-base
+         {% if request.resolver_match.url_name == 'contratos_admin' %} bg-indigo-500/60 text-white shadow-sm {% else %} text-gray-300 hover:bg-indigo-400/40 hover:text-white {% endif %}"
+         {% if request.resolver_match.url_name == 'contratos_admin' %}aria-current="page"{% endif %}>
+        📁 Contratos Activos
+      </a>
 
-      <!-- barra de buscar -->
-      <div class="p-4">
-        <form action="{% url 'admin_buscar' %}" method="get" class="relative">
-          <input name="q" type="text"
-            value="{{ request.GET.q|default:'' }}"
-            class="w-full bg-gray-700 text-white rounded-lg pl-10 pr-4 py-2 text-sm placeholder-gray-400
-                   focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-inner"
-            placeholder="Buscar en el sistema...">
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <i class="fas fa-search text-pink-500"></i>
-          </div>
+      <a href="{% url 'pagos_admin' %}"
+         class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-base
+         {% if request.resolver_match.url_name == 'pagos_admin' %} bg-indigo-500/60 text-white shadow-sm {% else %} text-gray-300 hover:bg-indigo-400/40 hover:text-white {% endif %}"
+         {% if request.resolver_match.url_name == 'pagos_admin' %}aria-current="page"{% endif %}>
+        💳 Pagos Pendientes
+      </a>
+      <a href="{% url 'notificaciones_admin' %}"
+         class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-base
+         {% if request.resolver_match.url_name == 'notificaciones_admin' %} bg-indigo-500/60 text-white shadow-sm {% else %} text-gray-300 hover:bg-indigo-400/40 hover:text-white {% endif %}"
+         {% if request.resolver_match.url_name == 'notificaciones_admin' %}aria-current="page"{% endif %}>
+        🔔 Notificaciones (30d)
+      </a>
+    </nav>
+
+    <!-- perfil admin -->
+    <div class="mt-auto p-4 border-t border-gray-800 flex items-center space-x-3 bg-gray-900/80 rounded-t-lg">
+      <img src="{% static 'inicio/images/admi.png' %}" class="h-10 w-10 rounded-full border-2 border-pink-500" alt="Avatar">
+      <div class="flex flex-col w-full">
+        <p class="text-sm font-semibold text-white truncate">{{ request.user.get_full_name|default:request.user.username }}</p>
+        <span class="text-[11px] text-gray-400">Administrador</span>
+        <form method="post" action="{% url 'logout' %}" class="mt-2 w-full">
+          {% csrf_token %}
+          <button type="submit"
+            class="w-full px-3 py-1.5 text-xs font-semibold rounded-md
+                   bg-rose-300 text-rose-900
+                   hover:bg-rose-600 hover:text-white
+                   transition-colors duration-300 shadow">
+            <i class="fas fa-sign-out-alt mr-1"></i> Cerrar sesión
+          </button>
         </form>
       </div>
+    </div>
+  </aside>
 
-     <!-- panel laterall -->
-<nav class="flex-1 px-2 mt-4 space-y-1">
-  <a href="{% url 'dashboard_admin' %}"
-     class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-base
-     {% if request.resolver_match.url_name == 'dashboard_admin' %} bg-indigo-500/60 text-white shadow-sm {% else %} text-gray-300 hover:bg-indigo-400/40 hover:text-white {% endif %}">
-    📊 Resumen general
-  </a>
-  <a href="{% url 'contratos_admin' %}"
-     class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-base
-     {% if request.resolver_match.url_name == 'contratos_admin' %} bg-indigo-500/60 text-white shadow-sm {% else %} text-gray-300 hover:bg-indigo-400/40 hover:text-white {% endif %}">
-    📁 Contratos Activos
-  </a>
-  <a href="{% url 'vencimientos_admin' %}"
-     class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-base
-     {% if request.resolver_match.url_name == 'vencimientos_admin' %} bg-indigo-500/60 text-white shadow-sm {% else %} text-gray-300 hover:bg-indigo-400/40 hover:text-white {% endif %}">
-    📅 Vencimientos (30d)
-  </a>
-  <a href="{% url 'pagos_admin' %}"
-     class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-base
-     {% if request.resolver_match.url_name == 'pagos_admin' %} bg-indigo-500/60 text-white shadow-sm {% else %} text-gray-300 hover:bg-indigo-400/40 hover:text-white {% endif %}">
-    💳 Pagos Pendientes
-  </a>
-  <a href="{% url 'notificaciones_admin' %}"
-     class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-base
-     {% if request.resolver_match.url_name == 'notificaciones_admin' %} bg-indigo-500/60 text-white shadow-sm {% else %} text-gray-300 hover:bg-indigo-400/40 hover:text-white {% endif %}">
-    🔔 Notificaciones (30d)
-  </a>
-</nav>
+  <div id="overlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-30 hidden md:hidden"></div>
 
-       <!-- perfil de administrador y boton de ceerrar -->
-<div class="mt-auto p-4 border-t border-gray-800 flex items-center space-x-3 bg-gray-900/80 rounded-t-lg">
-  <img src="{% static 'inicio/images/admi.png' %}" class="h-10 w-10 rounded-full border-2 border-pink-500" alt="Avatar">
-  <div class="flex flex-col w-full">
-    <p class="text-sm font-semibold text-white truncate">{{ request.user.get_full_name|default:request.user.username }}</p>
-    <span class="text-[11px] text-gray-400">Administrador</span>
-    <form method="post" action="{% url 'logout' %}" class="mt-2 w-full">
-      {% csrf_token %}
-      <button type="submit"
-        class="w-full px-3 py-1.5 text-xs font-semibold rounded-md
-               bg-rose-300 text-rose-900
-               hover:bg-rose-600 hover:text-white
-               transition-colors duration-300 shadow">
-        <i class="fas fa-sign-out-alt mr-1"></i> Cerrar sesión
-      </button>
-    </form>
-  </div>
+  <!-- contenido principal -->
+  <main id="contenido-principal" class="flex-1 overflow-y-auto p-4 md:p-6 md:ml-0 ml-0 md:relative md:z-auto z-10">
+    <div class="flex items-center justify-between mb-4 md:mb-6">
+      <div>
+        {% block breadcrumbs %}{% endblock %}
+        {% block encabezado %}{% endblock %}
+      </div>
+      <div class="flex items-center gap-2">
+        {% block acciones_encabezado %}{% endblock %}
+        <button type="button" class="md:hidden p-2 rounded bg-gray-900/70 hover:bg-gray-800 transition-base" id="btn-open-sidebar" aria-label="Abrir menú">
+          ☰
+        </button>
+      </div>
+    </div>
+
+    {% if messages %}
+    <div class="space-y-2 mb-4">
+      {% for message in messages %}
+        {% with tags=message.tags %}
+          <div class="rounded border px-4 py-3 text-sm
+                      {% if 'error' in tags %} bg-red-600/20 border-red-500 text-red-200 {% endif %}
+                      {% if 'success' in tags %} bg-green-600/20 border-green-500 text-green-200 {% endif %}
+                      {% if 'warning' in tags %} bg-yellow-600/20 border-yellow-500 text-yellow-200 {% endif %}
+                      {% if 'info' in tags %} bg-blue-600/20 border-blue-500 text-blue-200 {% endif %}">
+                      {{ message }}
+          </div>
+        {% endwith %}
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="max-w-7xl mx-auto">
+      {% block contenido %}{% endblock %}
+    </div>
+  </main>
 </div>
 
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const openBtn = document.getElementById('btn-open-sidebar');
+  const closeBtn = document.getElementById('btn-close-sidebar');
 
-    </aside>
-    <div id="overlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-30 hidden md:hidden"></div>
+  function openSidebar() {
+    sidebar.classList.remove('-left-64');
+    sidebar.classList.add('left-0');
+    overlay.classList.remove('hidden');
+  }
+  function closeSidebar() {
+    sidebar.classList.add('-left-64');
+    sidebar.classList.remove('left-0');
+    overlay.classList.add('hidden');
+  }
 
-    <!-- menu principal -->
-    <main id="contenido-principal" class="flex-1 overflow-y-auto p-4 md:p-6 md:ml-0 ml-0 md:relative md:z-auto z-10">
-      <!-- barra superio -->
-      <div class="flex items-center justify-between mb-4 md:mb-6">
-        <div>
-          {% block breadcrumbs %}{% endblock %}
-          {% block encabezado %}{% endblock %}
-        </div>
-        <div class="flex items-center gap-2">
-          {% block acciones_encabezado %}{% endblock %}
-          <!-- abrir barra lateral en celuar -->
-          <button type="button" class="md:hidden p-2 rounded bg-gray-900/70 hover:bg-gray-800 transition-base" id="btn-open-sidebar" aria-label="Abrir menú">
-            ☰
-          </button>
-        </div>
-      </div>
+  if (openBtn) openBtn.addEventListener('click', openSidebar);
+  if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+  if (overlay) overlay.addEventListener('click', closeSidebar);
 
-      <!-- mensajes de error -->
-      {% if messages %}
-      <div class="space-y-2 mb-4">
-        {% for message in messages %}
-          {% with tags=message.tags %}
-            <div class="rounded border px-4 py-3 text-sm
-                        {% if 'error' in tags %} bg-red-600/20 border-red-500 text-red-100
-                        {% elif 'warning' in tags %} bg-yellow-600/20 border-yellow-500 text-yellow-100
-                        {% elif 'success' in tags %} bg-emerald-600/20 border-emerald-500 text-emerald-100
-                        {% else %} bg-indigo-600/20 border-indigo-500 text-indigo-100 {% endif %}">
-              {{ message }}
-            </div>
-          {% endwith %}
-        {% endfor %}
-      </div>
-      {% endif %}
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeSidebar();
+  });
 
-      <div class="max-w-7xl mx-auto">
-        {% block contenido %}{% endblock %}
-      </div>
-    </main>
-  </div>
-
-  {% block extra_scripts %}
-  <script>
-    // resposividad de la barra lateral
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const openBtn = document.getElementById('btn-open-sidebar');
-    const closeBtn = document.getElementById('btn-close-sidebar');
-
-    function openSidebar() {
-      sidebar.classList.remove('-left-64');
-      sidebar.classList.add('left-0');
-      overlay.classList.remove('hidden');
+  document.querySelectorAll('button[aria-controls]').forEach(button => {
+    const target = document.getElementById(button.getAttribute('aria-controls'));
+    const chevron = button.querySelector('svg:last-child');
+    const expanded = button.getAttribute('aria-expanded') === 'true';
+    if (expanded && target) {
+      target.classList.remove('hidden');
+      if (chevron) chevron.classList.add('rotate-180');
     }
-    function closeSidebar() {
-      sidebar.classList.add('-left-64');
-      sidebar.classList.remove('left-0');
-      overlay.classList.add('hidden');
-    }
-    if (openBtn) openBtn.addEventListener('click', openSidebar);
-    if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
-    if (overlay) overlay.addEventListener('click', closeSidebar);
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeSidebar();
+    button.addEventListener('click', () => {
+      if (!target) return;
+      const isExpanded = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', String(!isExpanded));
+      target.classList.toggle('hidden');
+      if (chevron) chevron.classList.toggle('rotate-180');
     });
-
-    document.querySelectorAll('button[aria-controls]').forEach(button => {
-      const target = document.getElementById(button.getAttribute('aria-controls'));
-      const chevron = button.querySelector('svg:last-child');
-      const expanded = button.getAttribute('aria-expanded') === 'true';
-      if (expanded && target) {
-        target.classList.remove('hidden');
-        if (chevron) chevron.classList.add('rotate-180');
-      }
-      button.addEventListener('click', () => {
-        if (!target) return;
-        const isExpanded = button.getAttribute('aria-expanded') === 'true';
-        button.setAttribute('aria-expanded', String(!isExpanded));
-        target.classList.toggle('hidden');
-        if (chevron) chevron.classList.toggle('rotate-180');
-      });
-    });
-  </script>
-  {% endblock %}
+  });
+});
+</script>
+{% endblock %}
 </body>
 </html>

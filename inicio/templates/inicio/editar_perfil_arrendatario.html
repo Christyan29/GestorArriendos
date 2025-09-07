@@ -1,0 +1,34 @@
+{% extends 'inicio/base_arrendatario.html' %}
+{% block titulo %}Editar perfil{% endblock %}
+
+{% block contenido %}
+<h1 class="text-2xl font-bold mb-4">Editar mi perfil</h1>
+
+<form method="post" class="space-y-4 max-w-lg">
+    {% csrf_token %}
+    <div>
+        <label class="block text-sm mb-1">Nombre</label>
+        <input type="text" name="first_name" value="{{ usuario.first_name }}"
+               class="bg-gray-700 text-white rounded px-3 py-2 w-full">
+    </div>
+    <div>
+        <label class="block text-sm mb-1">Correo</label>
+        <input type="email" name="email" value="{{ usuario.email }}"
+               class="bg-gray-700 text-white rounded px-3 py-2 w-full">
+    </div>
+    <div>
+        <label class="block text-sm mb-1">Teléfono</label>
+        <input type="text" name="telefono" value="{{ usuario.perfilusuario.telefono }}"
+               class="bg-gray-700 text-white rounded px-3 py-2 w-full">
+    </div>
+    <div>
+        <label class="block text-sm mb-1">Nueva contraseña</label>
+        <input type="password" name="password"
+               class="bg-gray-700 text-white rounded px-3 py-2 w-full">
+    </div>
+    <button type="submit"
+            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded">
+        Guardar cambios
+    </button>
+</form>
+{% endblock %}
