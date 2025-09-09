@@ -11,7 +11,7 @@
     </div>
     <a href="{% url 'crear_contrato' %}"
        class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-white font-medium shadow-md transition-all bg-indigo-500 hover:bg-indigo-600">
-       ➕ Nuevo contrato
+        Nuevo contrato
     </a>
   </div>
 
@@ -38,7 +38,6 @@
   </button>
 </form>
 
- <!-- contador -->
 <p class="text-sm text-gray-400 mt-1">
   Resultados encontrados: <span class="font-semibold text-white">{{ total_resultados }}</span>
 </p>
@@ -91,9 +90,7 @@
     </table>
   </div>
 
-
-
-<!-- paginación -->
+<!-- paginacion -->
 {% if is_paginated %}
 <div class="flex justify-center items-center gap-1 mt-4">
   {% if page_obj.has_previous %}

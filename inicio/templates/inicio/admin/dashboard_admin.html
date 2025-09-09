@@ -1,7 +1,7 @@
 {% extends 'inicio/base_admin.html' %}
 {% load static %}
 
-{% block titulo %}Dashboard General{% endblock %}
+{% block titulo %}Dashboard Administrador{% endblock %}
 
 {% block encabezado %}
   <h1 class="text-3xl font-bold text-gradient animate-fade-in">Bienvenido al Panel</h1>
@@ -12,24 +12,24 @@
 
 {% block contenido %}
 
-  <!-- acciones rápidas en formato de tarjetas -->
+  <!-- acciones rapidas-->
   <section class="mb-10 animate-fade-in delay-200">
     <h2 class="text-lg font-semibold text-gradient mb-4">⚡ Acciones rápidas</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       <a href="{% url 'contratos_admin' %}" class="bg-pink-700 hover:bg-pink-600 p-6 rounded-lg shadow-lg flex flex-col items-center justify-center text-white transition-colors">
-        📁
+
         <span class="mt-2 font-semibold">Ver contratos</span>
       </a>
       <a href="{% url 'pagos_admin' %}" class="bg-yellow-700 hover:bg-yellow-600 p-6 rounded-lg shadow-lg flex flex-col items-center justify-center text-white transition-colors">
-        💳
+
         <span class="mt-2 font-semibold">Ver pagos</span>
       </a>
       <a href="{% url 'exportar_pagos_excel' %}" class="bg-green-700 hover:bg-green-600 p-6 rounded-lg shadow-lg flex flex-col items-center justify-center text-white transition-colors">
-        📤
+
         <span class="mt-2 font-semibold">Exportar pagos</span>
       </a>
       <a href="{% url 'crear_contrato' %}" class="bg-indigo-700 hover:bg-indigo-600 p-6 rounded-lg shadow-lg flex flex-col items-center justify-center text-white transition-colors">
-        ➕
+
         <span class="mt-2 font-semibold">Crear contrato</span>
       </a>
     </div>
@@ -37,7 +37,7 @@
 
   <!-- actividad reciente -->
   <section class="animate-fade-in delay-300">
-    <h2 class="text-xl font-bold text-gradient mb-4">📢 Actividad reciente</h2>
+    <h2 class="text-xl font-bold text-gradient mb-4"> Actividad reciente</h2>
     {% if notificaciones is not None %}
       {% if notificaciones %}
         <ul class="space-y-4 max-h-64 overflow-y-auto pr-2">

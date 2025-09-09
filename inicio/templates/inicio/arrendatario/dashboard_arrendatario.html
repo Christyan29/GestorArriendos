@@ -5,7 +5,7 @@ Arrendatario{% endblock %} {% block contenido %}
     Bienvenido, {{ request.user.get_full_name|default:request.user.username }}
   </h1>
 
-  <!-- Contrato principal -->
+  <!-- contrato -->
   <div
     class="bg-gray-900/70 rounded-lg border border-white/10 shadow-lg overflow-hidden"
   >
@@ -62,7 +62,7 @@ Arrendatario{% endblock %} {% block contenido %}
     {% endif %}
   </div>
 
-  <!-- Notificaciones recientes -->
+  <!-- notificaciones recientes -->
   <div
     class="bg-gray-900/70 rounded-lg border border-white/10 shadow-lg overflow-hidden"
   >

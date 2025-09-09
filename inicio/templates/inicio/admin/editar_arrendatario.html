@@ -1,0 +1,38 @@
+{% extends 'inicio/base_admin.html' %}
+{% block titulo %}Editar Arrendatario{% endblock %}
+
+{% block contenido %}
+<div class="space-y-6 animate-fade-in max-w-lg mx-auto">
+
+  <h1 class="text-2xl font-bold text-gradient">Editar arrendatario</h1>
+
+  {% if messages %}
+    <div class="space-y-2">
+      {% for message in messages %}
+        <div class="px-4 py-2 rounded-lg
+                    {% if message.tags == 'success' %} bg-green-600 text-white
+                    {% elif message.tags == 'error' %} bg-red-600 text-white
+                    {% else %} bg-gray-700 text-white {% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <form method="post" class="space-y-4 bg-gray-900/70 p-6 rounded-lg border border-white/10 shadow-lg">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <div class="flex gap-3">
+      <button type="submit"
+              class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg shadow">
+        Guardar cambios
+      </button>
+      <a href="{% url 'lista_arrendatarios' %}"
+         class="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg shadow">
+        Cancelar
+      </a>
+    </div>
+  </form>
+</div>
+{% endblock %}

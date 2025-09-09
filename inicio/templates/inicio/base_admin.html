@@ -20,6 +20,7 @@
     .transition-base { transition: background-color .2s ease, color .2s ease; }
   </style>
   {% block extra_head %}{% endblock %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="relative min-h-screen bg-gradient-to-br from-indigo-600 via-violet-700 to-purple-800 text-white">
 
@@ -37,7 +38,7 @@
   {% endblock %}
 
  <div class="flex min-h-screen">
-  <!-- barra lateral -->
+  <!-- barra latera -->
   <aside id="sidebar" class="w-64 bg-gray-900/95 backdrop-blur text-white flex flex-col overflow-y-auto fixed md:static inset-y-0 -left-64 md:left-0 transition-all duration-200 z-40">
     <div class="p-4 border-b border-gray-800 flex items-center justify-between">
       <a href="{% url 'dashboard_admin' %}" class="flex items-center space-x-2">
@@ -49,36 +50,50 @@
       </button>
     </div>
 
-    <!-- menú lateral -->
+    <!-- menu lateral -->
     <nav class="flex-1 px-2 mt-4 space-y-1">
       <a href="{% url 'dashboard_admin' %}"
-         class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-base
-         {% if request.resolver_match.url_name == 'dashboard_admin' %} bg-indigo-500/60 text-white shadow-sm {% else %} text-gray-300 hover:bg-indigo-400/40 hover:text-white {% endif %}"
-         {% if request.resolver_match.url_name == 'dashboard_admin' %}aria-current="page"{% endif %}>
-        📊 Resumen general
-      </a>
-      <a href="{% url 'contratos_admin' %}"
-         class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-base
-         {% if request.resolver_match.url_name == 'contratos_admin' %} bg-indigo-500/60 text-white shadow-sm {% else %} text-gray-300 hover:bg-indigo-400/40 hover:text-white {% endif %}"
-         {% if request.resolver_match.url_name == 'contratos_admin' %}aria-current="page"{% endif %}>
-        📁 Contratos Activos
-      </a>
+   class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-base
+   {% if request.resolver_match.url_name == 'dashboard_admin' %} bg-indigo-500/60 text-white shadow-sm {% else %} text-gray-300 hover:bg-indigo-400/40 hover:text-white {% endif %}"
+   {% if request.resolver_match.url_name == 'dashboard_admin' %}aria-current="page"{% endif %}>
+  <i class="fas fa-chart-line mr-2"></i> Resumen general
+</a>
+<a href="{% url 'contratos_admin' %}"
+   class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-base
+   {% if request.resolver_match.url_name == 'contratos_admin' %} bg-indigo-500/60 text-white shadow-sm {% else %} text-gray-300 hover:bg-indigo-400/40 hover:text-white {% endif %}"
+   {% if request.resolver_match.url_name == 'contratos_admin' %}aria-current="page"{% endif %}>
+  <i class="fas fa-file-contract mr-2"></i> Contratos Activos
+</a>
 
-      <a href="{% url 'pagos_admin' %}"
-         class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-base
-         {% if request.resolver_match.url_name == 'pagos_admin' %} bg-indigo-500/60 text-white shadow-sm {% else %} text-gray-300 hover:bg-indigo-400/40 hover:text-white {% endif %}"
-         {% if request.resolver_match.url_name == 'pagos_admin' %}aria-current="page"{% endif %}>
-        💳 Pagos Pendientes
-      </a>
-      <a href="{% url 'notificaciones_admin' %}"
-         class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-base
-         {% if request.resolver_match.url_name == 'notificaciones_admin' %} bg-indigo-500/60 text-white shadow-sm {% else %} text-gray-300 hover:bg-indigo-400/40 hover:text-white {% endif %}"
-         {% if request.resolver_match.url_name == 'notificaciones_admin' %}aria-current="page"{% endif %}>
-        🔔 Notificaciones (30d)
-      </a>
-    </nav>
+<a href="{% url 'lista_arrendatarios' %}"
+   class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-base
+   {% if request.resolver_match.url_name == 'lista_arrendatarios' %} bg-indigo-500/60 text-white shadow-sm {% else %} text-gray-300 hover:bg-indigo-400/40 hover:text-white {% endif %}">
+  <i class="fas fa-users mr-2"></i> Arrendatarios
+</a>
 
-    <!-- perfil admin -->
+<a href="{% url 'pagos_admin' %}"
+   class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-base
+   {% if request.resolver_match.url_name == 'pagos_admin' %} bg-indigo-500/60 text-white shadow-sm {% else %} text-gray-300 hover:bg-indigo-400/40 hover:text-white {% endif %}"
+   {% if request.resolver_match.url_name == 'pagos_admin' %}aria-current="page"{% endif %}>
+  <i class="fas fa-credit-card mr-2"></i> Pagos
+</a>
+
+<a href="{% url 'historial_validaciones' %}"
+   class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-base
+   {% if request.resolver_match.url_name == 'historial_validaciones' %} bg-indigo-500/60 text-white shadow-sm {% else %} text-gray-300 hover:bg-indigo-400/40 hover:text-white {% endif %}"
+   {% if request.resolver_match.url_name == 'historial_validaciones' %}aria-current="page"{% endif %}>
+  <i class="fas fa-receipt mr-2"></i> Historial de Validaciones
+</a>
+
+<a href="{% url 'notificaciones_admin' %}"
+   class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-base
+   {% if request.resolver_match.url_name == 'notificaciones_admin' %} bg-indigo-500/60 text-white shadow-sm {% else %} text-gray-300 hover:bg-indigo-400/40 hover:text-white {% endif %}"
+   {% if request.resolver_match.url_name == 'notificaciones_admin' %}aria-current="page"{% endif %}>
+  <i class="fas fa-bell mr-2"></i> Notificaciones
+</a>
+</nav>
+
+    <!-- perfil del admin -->
     <div class="mt-auto p-4 border-t border-gray-800 flex items-center space-x-3 bg-gray-900/80 rounded-t-lg">
       <img src="{% static 'inicio/images/admi.png' %}" class="h-10 w-10 rounded-full border-2 border-pink-500" alt="Avatar">
       <div class="flex flex-col w-full">
@@ -99,8 +114,6 @@
   </aside>
 
   <div id="overlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-30 hidden md:hidden"></div>
-
-  <!-- contenido principal -->
   <main id="contenido-principal" class="flex-1 overflow-y-auto p-4 md:p-6 md:ml-0 ml-0 md:relative md:z-auto z-10">
     <div class="flex items-center justify-between mb-4 md:mb-6">
       <div>

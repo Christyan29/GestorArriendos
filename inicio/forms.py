@@ -5,10 +5,66 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 
 
+class CrearArrendatarioForm(forms.Form):
+    username = forms.CharField(
+        max_length=150,
+        label="Usuario",
+        widget=forms.TextInput(attrs={
+            'class': 'w-full bg-gray-800 text-white px-3 py-2 rounded-lg border border-gray-600 '
+                     'focus:outline-none focus:ring-2 focus:ring-indigo-500',
+            'placeholder': 'Nombre de usuario'
+        })
+    )
+    first_name = forms.CharField(
+        max_length=150,
+        label="Nombre",
+        widget=forms.TextInput(attrs={
+            'class': 'w-full bg-gray-800 text-white px-3 py-2 rounded-lg border border-gray-600 '
+                     'focus:outline-none focus:ring-2 focus:ring-indigo-500',
+            'placeholder': 'Nombre'
+        })
+    )
+    last_name = forms.CharField(
+        max_length=150,
+        label="Apellido",
+        widget=forms.TextInput(attrs={
+            'class': 'w-full bg-gray-800 text-white px-3 py-2 rounded-lg border border-gray-600 '
+                     'focus:outline-none focus:ring-2 focus:ring-indigo-500',
+            'placeholder': 'Apellido'
+        })
+    )
+    email = forms.EmailField(
+        label="Correo electrónico",
+        widget=forms.EmailInput(attrs={
+            'class': 'w-full bg-gray-800 text-white px-3 py-2 rounded-lg border border-gray-600 '
+                     'focus:outline-none focus:ring-2 focus:ring-indigo-500',
+            'placeholder': 'correo@ejemplo.com'
+        })
+    )
+    telefono = forms.CharField(
+        max_length=20,
+        required=False,
+        label="Teléfono",
+        widget=forms.TextInput(attrs={
+            'class': 'w-full bg-gray-800 text-white px-3 py-2 rounded-lg border border-gray-600 '
+                     'focus:outline-none focus:ring-2 focus:ring-indigo-500',
+            'placeholder': 'Teléfono'
+        })
+    )
+    password = forms.CharField(
+        label="Contraseña",
+        widget=forms.PasswordInput(attrs={
+            'class': 'w-full bg-gray-800 text-white px-3 py-2 rounded-lg border border-gray-600 '
+                     'focus:outline-none focus:ring-2 focus:ring-indigo-500',
+            'placeholder': 'Contraseña'
+        })
+    )
+
+
 class CustomPasswordResetForm(PasswordResetForm):
     def send_mail(self, subject_template_name, email_template_name,
-                context, from_email, to_email, html_email_template_name=None):
-    
+                  context, from_email, to_email, html_email_template_name=None):
+
         subject = "Instrucciones para restablecer tu contraseña"
         reset_link = f"{context['protocol']}://{context['domain']}/password-reset-confirm/{context['uid']}/{context['token']}/"
 
@@ -21,7 +77,7 @@ class CustomPasswordResetForm(PasswordResetForm):
             f"Saludos,\n"
             f"El equipo de Edificio Cartagena"
         )
-        
+
         email = EmailMessage(subject, message, from_email, [to_email])
         email.send()
 
@@ -75,3 +131,50 @@ class CustomSetPasswordForm(SetPasswordForm):
                     self.add_error('new_password1', mensaje)
 
         return cleaned_data
+
+class EditarArrendatarioForm(forms.Form):
+    username = forms.CharField(
+        max_length=150,
+        label="Usuario",
+        widget=forms.TextInput(attrs={
+            'class': 'w-full bg-gray-800 text-white px-3 py-2 rounded-lg border border-gray-600 '
+                     'focus:outline-none focus:ring-2 focus:ring-indigo-500',
+            'placeholder': 'Nombre de usuario'
+        })
+    )
+    first_name = forms.CharField(
+        max_length=150,
+        label="Nombre",
+        widget=forms.TextInput(attrs={
+            'class': 'w-full bg-gray-800 text-white px-3 py-2 rounded-lg border border-gray-600 '
+                     'focus:outline-none focus:ring-2 focus:ring-indigo-500',
+            'placeholder': 'Nombre'
+        })
+    )
+    last_name = forms.CharField(
+        max_length=150,
+        label="Apellido",
+        widget=forms.TextInput(attrs={
+            'class': 'w-full bg-gray-800 text-white px-3 py-2 rounded-lg border border-gray-600 '
+                     'focus:outline-none focus:ring-2 focus:ring-indigo-500',
+            'placeholder': 'Apellido'
+        })
+    )
+    email = forms.EmailField(
+        label="Correo electrónico",
+        widget=forms.EmailInput(attrs={
+            'class': 'w-full bg-gray-800 text-white px-3 py-2 rounded-lg border border-gray-600 '
+                     'focus:outline-none focus:ring-2 focus:ring-indigo-500',
+            'placeholder': 'correo@ejemplo.com'
+        })
+    )
+    telefono = forms.CharField(
+        max_length=20,
+        required=False,
+        label="Teléfono",
+        widget=forms.TextInput(attrs={
+            'class': 'w-full bg-gray-800 text-white px-3 py-2 rounded-lg border border-gray-600 '
+                     'focus:outline-none focus:ring-2 focus:ring-indigo-500',
+            'placeholder': 'Teléfono'
+        })
+    )

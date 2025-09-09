@@ -153,9 +153,6 @@ STATICFILES_DIRS = [
 
 LOGIN_URL = '/login/'
 
-
-
-# clase para darle color a los logs en consola
 class ColoresLogs:
     RESET = "\033[0m"
     VERDE = "\033[92m"
@@ -182,9 +179,9 @@ class FormatoColoreado(logging.Formatter):
 
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,  # no apaga los loggers que ya trae django
+    'disable_existing_loggers': False,
     'handlers': {
-        'console': {  # manda los mensajes a la consola
+        'console': {
             'class': 'logging.StreamHandler',
             'formatter': 'coloreado',
         },
@@ -192,21 +189,24 @@ LOGGING = {
     'formatters': {
         'coloreado': {
             '()': FormatoColoreado,
-            'format': '%(message)s',  # solo mostramos el mensaje, sin fecha ni nivel
+            'format': '%(message)s',
         },
     },
     'loggers': {
-        # este es pa tu app inicio
         'inicio': {
             'handlers': ['console'],
-            'level': 'INFO',     # desde info pa arriba
-            'propagate': False,  # pa que no se duplique
+            'level': 'INFO',
+            'propagate': False,
         },
-        # este es pa django en general
+
         'django': {
             'handlers': ['console'],
-            'level': 'WARNING',  # solo warnings y errores
+            'level': 'WARNING',
             'propagate': True,
         },
     },
 }
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

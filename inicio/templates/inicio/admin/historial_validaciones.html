@@ -1,0 +1,40 @@
+{% extends 'inicio/base_admin.html' %}
+{% block titulo %}Historial de Validaciones{% endblock %}
+
+{% block contenido %}
+<div class="space-y-6 animate-fade-in">
+  <h1 class="text-3xl font-bold text-gradient">Historial de Validaciones</h1>
+  <p class="text-sm text-gray-300">Pagos validados por los administradores del edificio.</p>
+
+  <div class="bg-gray-900/70 rounded-lg border border-white/10 shadow-lg overflow-x-auto">
+    <table class="min-w-full text-sm table-fixed">
+      <thead class="bg-white/5 text-gray-300 uppercase tracking-wide text-xs">
+        <tr>
+          <th class="px-4 py-3 text-left w-2/12">Contrato</th>
+          <th class="px-4 py-3 text-left w-2/12">Departamento</th>
+          <th class="px-4 py-3 text-left w-2/12">Arrendatario</th>
+          <th class="px-4 py-3 text-left w-1/12">Monto</th>
+          <th class="px-4 py-3 text-left w-2/12">Fecha de Validación</th>
+          <th class="px-4 py-3 text-left w-2/12">Validado por</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-white/5">
+        {% for pago in pagos_validados %}
+        <tr class="hover:bg-white/5 transition-colors">
+          <td class="px-4 py-3 text-gray-200">{{ pago.contrato.numero_contrato }}</td>
+          <td class="px-4 py-3 text-gray-200">{{ pago.contrato.numero_departamento }}</td>
+          <td class="px-4 py-3 text-gray-200">{{ pago.contrato.arrendatario }}</td>
+          <td class="px-4 py-3 text-gray-200">{{ pago.monto }}</td>
+          <td class="px-4 py-3 text-gray-200">{{ pago.fecha_validacion|date:"d/m/Y H:i" }}</td>
+          <td class="px-4 py-3 text-gray-200">{{ pago.validado_por.username }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="px-4 py-6 text-center text-gray-400">No hay pagos validados aún.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

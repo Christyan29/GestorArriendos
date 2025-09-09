@@ -9,7 +9,7 @@ from django.utils.html import format_html
 from .models import PerfilUsuario, EnlaceCrearAdmin
 from inicio.utils.crear_admin_logic import crear_admin
 
-# 1. Admin personalizado
+# admin personalizado
 class MyAdminSite(admin.AdminSite):
     site_header = "Administración de Django"
     site_title = "Panel de Administración"
@@ -17,24 +17,25 @@ class MyAdminSite(admin.AdminSite):
 
     def logout(self, request, extra_context=None):
         logout(request)
-        return redirect('login')  # tu login personalizado
+        return redirect('login')
 
-# Instancia del admin personalizado
 my_admin_site = MyAdminSite(name='myadmin')
 
-# 2. ModelAdmin para EnlaceCrearAdmin
+# Model de Admin para el enlace crearadmin
 class EnlaceCrearAdminAdmin(admin.ModelAdmin):
     def changelist_view(self, request, extra_context=None):
-        return HttpResponseRedirect(reverse('crear_admin'))
+        return HttpResponseRedirect(reverse('admin:inicio_perfilusuario_crear-admin'))
 
-# 3. Formulario para crear admin
+
+
+# formulario para crear admin
 class CrearAdminForm(forms.Form):
     usuario = forms.CharField()
     email = forms.EmailField()
     telefono = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput, required=False)
 
-# 4. ModelAdmin para PerfilUsuario
+# modelo de admin para Perfilusuario
 class PerfilUsuarioAdmin(admin.ModelAdmin):
     list_display = ('user', 'tipo_usuario', 'telefono', 'boton_crear_admin')
     list_filter = ('tipo_usuario',)
@@ -65,7 +66,7 @@ class PerfilUsuarioAdmin(admin.ModelAdmin):
         else:
             form = CrearAdminForm()
 
-        return render(request, 'admin/crear_admin_form.html', {
+        return render(request, 'inicio/autenticacion/crear_admin_form.html', {
             'form': form,
             'mensaje': mensaje
         })
@@ -75,6 +76,6 @@ class PerfilUsuarioAdmin(admin.ModelAdmin):
         return format_html('<a class="button" href="{}">➕ Crear administrador</a>', url)
     boton_crear_admin.short_description = "Crear Admin"
 
-# 5. Registrar modelos en el admin personalizado (AL FINAL)
+# registrar modelos en el admin personalizado
 my_admin_site.register(EnlaceCrearAdmin, EnlaceCrearAdminAdmin)
 my_admin_site.register(PerfilUsuario, PerfilUsuarioAdmin)

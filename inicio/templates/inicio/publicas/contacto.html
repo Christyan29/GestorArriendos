@@ -6,14 +6,19 @@
 <div class="pt-32 pb-20">
   <div class="max-w-6xl mx-auto flex flex-col lg:flex-row items-stretch px-6 gap-0">
 
-    <div class="w-full lg:w-1/2 overflow-hidden rounded-l-xl">
+    <div class="w-full lg:w-1/2 overflow-hidden rounded-l-xl relative">
       <img
         src="{% static 'inicio/images/contacto.jpg' %}"
         alt="Contacto"
         class="w-full h-full object-cover"
       >
+      <div class="absolute bottom-4 left-4 bg-black/30 text-gray-300 text-sm px-3 py-2 rounded-md max-w-xs">
+        <p>Desarrollado por <span class="font-semibold text-pink-300">CSystem Solutions</span></p>
+        <p>Contacto: <span class="text-gray-100 font-medium">0982343834</span></p>
+      </div>
     </div>
 
+    <!-- formulario -->
     <div class="w-full lg:w-1/2 bg-[#2a2540]/90 backdrop-blur-md rounded-r-xl shadow-xl p-10 border border-[#4b4370] flex flex-col justify-center">
       <h2 class="text-3xl font-bold text-pink-400 text-center mb-2">Contáctanos</h2>
       <p class="text-sm text-gray-300 text-center mb-6">¿Tienes preguntas? Llena el formulario y te responderemos pronto.</p>
@@ -32,7 +37,7 @@
         <input
           type="text"
           name="nombre"
-          placeholder="Nombres completos"
+          placeholder="Nombre y apellido"
           required
           class="w-full px-4 py-3 rounded-lg bg-[#3a345c]/90 border border-[#4b4370] text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500"
         >
@@ -49,6 +54,10 @@
           type="tel"
           name="telefono"
           placeholder="Teléfono"
+          pattern="\d{10}"
+          maxlength="10"
+          title="Debe contener exactamente 10 dígitos numéricos"
+          required
           class="w-full px-4 py-3 rounded-lg bg-[#3a345c]/90 border border-[#4b4370] text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500"
         >
 

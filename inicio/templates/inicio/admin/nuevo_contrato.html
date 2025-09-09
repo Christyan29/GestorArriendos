@@ -15,11 +15,11 @@
     </a>
   </div>
 
-  <!-- Formulario -->
+  <!-- formulario -->
   <form method="post" class="bg-gray-900/70 rounded-lg border border-white/10 shadow-lg p-6 space-y-5">
     {% csrf_token %}
 
-    <!-- Inquilino -->
+    <!-- Arrendatario-->
     <div>
       <label class="block text-sm font-medium text-gray-300 mb-1">Inquilino</label>
       <select name="inquilino" required
@@ -32,7 +32,7 @@
       </select>
     </div>
 
-    <!-- Número de departamento -->
+    <!-- numero del departamento -->
     <div>
       <label class="block text-sm font-medium text-gray-300 mb-1">Número de departamento</label>
       <input type="text" name="numero_departamento" required
@@ -41,7 +41,7 @@
                     focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-inner">
     </div>
 
-    <!-- Fechas -->
+    <!-- fechas -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-300 mb-1">Fecha de inicio</label>
@@ -55,14 +55,14 @@
       </div>
     </div>
 
-    <!-- Monto -->
+    <!-- monto -->
     <div>
       <label class="block text-sm font-medium text-gray-300 mb-1">Monto de renta</label>
       <input type="number" name="monto" step="0.01" required placeholder="Ej: 500.00"
              class="w-full bg-emerald-800 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-inner">
     </div>
 
-    <!-- Condiciones -->
+    <!-- condiciones -->
     <div>
       <label class="block text-sm font-medium text-gray-300 mb-1">Condiciones adicionales</label>
       <textarea name="condiciones" rows="4" placeholder="Escriba las condiciones..."

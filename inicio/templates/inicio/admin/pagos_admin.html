@@ -1,0 +1,210 @@
+{% extends 'inicio/base_admin.html' %}
+
+{% block titulo %}Pagos y Vencimientos{% endblock %}
+
+{% block contenido %}
+<div class="space-y-6 animate-fade-in">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div>
+      <h1 class="text-3xl font-bold text-gradient">Gestión y conciliación de pagos</h1>
+      <p class="text-sm text-gray-300 mt-1">Administra pagos pendientes, realizados, vencidos y próximos a vencer.</p>
+    </div>
+    <a href="{% url 'exportar_pagos_excel' %}?{{ request.GET.urlencode }}"
+       class="px-4 py-2 rounded-lg bg-green-500 hover:bg-green-600 text-white text-sm font-medium shadow-md transition">
+        Exportar Lista
+    </a>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+    <a href="?estado=pendiente"
+       class="bg-teal-700 border border-teal-500 rounded-lg p-4 text-center shadow-md hover:bg-teal-600 transition-colors">
+      <p class="text-sm text-white font-medium">Pendientes</p>
+      <p class="mt-1 text-2xl font-bold text-white">{{ total_pendientes }}</p>
+    </a>
+    <a href="?estado=pagado"
+       class="bg-cyan-700 border border-cyan-500 rounded-lg p-4 text-center shadow-md hover:bg-cyan-600 transition-colors">
+      <p class="text-sm text-white font-medium">Pagados</p>
+      <p class="mt-1 text-2xl font-bold text-white">{{ total_pagados }}</p>
+    </a>
+    <a href="?estado=vencido"
+       class="bg-amber-700 border border-amber-500 rounded-lg p-4 text-center shadow-md hover:bg-amber-600 transition-colors">
+      <p class="text-sm text-white font-medium">Vencidos</p>
+      <p class="mt-1 text-2xl font-bold text-white">{{ total_vencidos }}</p>
+    </a>
+    <a href="?vence_en=7"
+       class="bg-blue-700 border border-blue-500 rounded-lg p-4 text-center shadow-md hover:bg-blue-600 transition-colors">
+      <p class="text-sm text-white font-medium">Vencen en 7 días</p>
+      <p class="mt-1 text-2xl font-bold text-white">{{ conteo_7 }}</p>
+    </a>
+  </div>
+
+  <!-- filtros -->
+  <form method="get" class="flex flex-wrap gap-3">
+    <select name="vence_en"
+            class="bg-gray-700 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-inner">
+      <option value="">Todos</option>
+      <option value="7" {% if dias_filtro == '7' %}selected{% endif %}>Vence en 7 días</option>
+      <option value="15" {% if dias_filtro == '15' %}selected{% endif %}>Vence en 15 días</option>
+      <option value="30" {% if dias_filtro == '30' %}selected{% endif %}>Vence en 30 días</option>
+    </select>
+
+    <input type="text" name="contrato" placeholder="Buscar contrato o depto..."
+           value="{{ contrato_q }}"
+           class="flex-1 min-w-[200px] bg-gray-700 text-white rounded-lg px-3 py-2 text-sm placeholder-gray-400
+                  focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-inner">
+
+    <input type="text" name="arrendatario" placeholder="Buscar arrendatario..."
+           value="{{ arrendatario_q }}"
+           class="flex-1 min-w-[200px] bg-gray-700 text-white rounded-lg px-3 py-2 text-sm placeholder-gray-400
+                  focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-inner">
+
+    <button type="submit"
+            class="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg text-sm font-medium shadow-md transition">
+      Filtrar
+    </button>
+  </form>
+
+  <!-- tablas -->
+<div class="bg-gray-900/70 rounded-lg border border-white/10 shadow-lg overflow-x-auto">
+  <table class="min-w-full text-sm table-fixed">
+    <thead class="bg-white/5 text-gray-300 uppercase tracking-wide text-xs">
+      <tr>
+        <th class="px-4 py-3 text-left w-2/12">Contrato / Arrendatario</th>
+        <th class="px-4 py-3 text-left w-2/12">Fechas</th>
+        <th class="px-4 py-3 text-left w-1/12">Monto</th>
+        <th class="px-4 py-3 text-left w-1/12">Estado</th>
+        <th class="px-4 py-3 text-left w-2/12">Pago</th>
+        <th class="px-4 py-3 text-left w-1/12">Comprobante</th>
+        <th class="px-4 py-3 text-left w-1/12">Validado por</th>
+        <th class="px-4 py-3 text-center w-2/12">Acciones</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-white/5">
+      {% for pago in pagos %}
+      <tr class="hover:bg-white/5 transition-colors align-top">
+
+        <td class="px-4 py-3 text-gray-200 whitespace-pre-line break-words truncate">
+          Contrato {{ pago.contrato.numero_contrato }}
+          Departamento {{ pago.contrato.numero_departamento }}
+          Arrendatario: {{ pago.contrato.arrendatario }}
+        </td>
+
+        <td class="px-4 py-3 text-gray-200 whitespace-pre-line break-words truncate">
+          Inicio: {{ pago.periodo|date:"d/m/Y" }}
+          Vence: {{ pago.fecha_vencimiento|date:"d/m/Y" }}
+          Pago: {{ pago.fecha_pago|date:"d/m/Y" }}
+        </td>
+
+        <td class="px-4 py-3 text-gray-200 truncate">{{ pago.monto }}</td>
+
+        <td class="px-4 py-3">
+          {% if pago.estado == 'pendiente' %}
+            <span class="px-2 py-1 text-xs rounded-full bg-yellow-500/20 text-yellow-300 font-medium">Pendiente</span>
+          {% elif pago.estado == 'pagado' %}
+            <span class="px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-300 font-medium">Pagado</span>
+          {% else %}
+            <span class="px-2 py-1 text-xs rounded-full bg-red-500/20 text-red-300 font-medium">Vencido</span>
+          {% endif %}
+        </td>
+
+        <td class="px-4 py-3 text-gray-200 whitespace-pre-line break-words truncate">
+          Método: {{ pago.metodo_pago }}
+          Ref: {{ pago.referencia }}
+        </td>
+
+        <td class="px-4 py-3 text-gray-200">
+          {% if pago.comprobante %}
+            <a href="{{ pago.comprobante.url }}" target="_blank" class="text-blue-400 hover:underline">Ver</a>
+          {% else %}
+            <span class="text-gray-500">—</span>
+          {% endif %}
+        </td>
+
+        <td class="px-4 py-3 text-gray-200">
+          {% if pago.validado_por %}
+            {{ pago.validado_por.username }}
+          {% else %}
+            —
+          {% endif %}
+        </td>
+
+
+        <!--acciones -->
+        <td class="px-4 py-3 text-center">
+  <div class="grid grid-cols-2 gap-2">
+    {% if pago.estado != 'pagado' %}
+      <a href="{% url 'registrar_pago' pago.id %}"
+         class="px-3 py-2 text-sm font-medium rounded bg-green-600 hover:bg-green-500 text-white">Registrar</a>
+    {% endif %}
+
+    {% if pago.estado != 'vencido' %}
+      <a href="{% url 'marcar_vencido' pago.id %}"
+         class="px-3 py-2 text-sm font-medium rounded bg-red-600 hover:bg-red-500 text-white">Vencido</a>
+    {% endif %}
+
+    <a href="{% url 'detalle_contrato' pago.contrato.id %}"
+       class="px-3 py-2 text-sm font-medium rounded bg-indigo-600 hover:bg-indigo-500 text-white">Detalle</a>
+
+    {% if pago.comprobante %}
+      {% if not pago.validado %}
+        <a href="{% url 'validar_comprobante' pago.id %}"
+           class="px-3 py-2 text-sm font-medium rounded bg-teal-600 hover:bg-teal-500 text-white">Validar</a>
+      {% else %}
+        <a href="{% url 'rechazar_comprobante' pago.id %}"
+           class="px-3 py-2 text-sm font-medium rounded bg-yellow-600 hover:bg-yellow-500 text-white">Rechazar</a>
+      {% endif %}
+    {% else %}
+      <a href="{% url 'subir_comprobante_admin' pago.id %}"
+         class="px-3 py-2 text-sm font-medium rounded bg-pink-600 hover:bg-pink-500 text-white">Subir</a>
+    {% endif %}
+  </div>
+</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="8" class="px-4 py-6 text-center text-gray-400">
+          No se encontraron pagos con los filtros actuales.
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Paginación -->
+  {% if pagos.has_other_pages %}
+  <div class="flex justify-center mt-4">
+    <nav class="flex items-center space-x-1">
+      {% if pagos.has_previous %}
+        <a href="?page=1&{{ request.GET.urlencode }}" class="px-3 py-1 rounded bg-gray-700 text-white hover:bg-gray-600">«</a>
+        <a href="?page={{ pagos.previous_page_number }}&{{ request.GET.urlencode }}" class="px-3 py-1 rounded bg-gray-700 text-white hover:bg-gray-600">‹</a>
+      {% endif %}
+
+      {% for num in pagos.paginator.page_range %}
+        {% if pagos.number == num %}
+          <span class="px-3 py-1 rounded bg-pink-500 text-white font-semibold">{{ num }}</span>
+        {% elif num > pagos.number|add:-3 and num < pagos.number|add:3 %}
+          <a href="?page={{ num }}&{{ request.GET.urlencode }}" class="px-3 py-1 rounded bg-gray-700 text-white hover:bg-gray-600">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if pagos.has_next %}
+        <a href="?page={{ pagos.next_page_number }}&{{ request.GET.urlencode }}" class="px-3 py-1 rounded bg-gray-700 text-white hover:bg-gray-600">›</a>
+        <a href="?page={{ pagos.paginator.num_pages }}&{{ request.GET.urlencode }}" class="px-3 py-1 rounded bg-gray-700 text-white hover:bg-gray-600">»</a>
+      {% endif %}
+    </nav>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

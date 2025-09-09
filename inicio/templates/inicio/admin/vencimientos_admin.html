@@ -13,7 +13,6 @@
     </div>
   </div>
 
-  <!-- kpis -->
 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
   <div class="bg-teal-700 border border-teal-500 rounded-lg p-4 text-center shadow-md">
     <p class="text-sm text-white font-medium">Vencen en 7 días</p>
@@ -31,9 +30,7 @@
   </div>
 </div>
 
-
-
-  <!-- Filtros -->
+  <!-- filtros -->
   <form method="get" class="flex flex-wrap gap-3">
     <select name="dias"
       class="bg-gray-700 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-inner">
@@ -58,7 +55,7 @@
     </button>
   </form>
 
-  <!-- Tabla -->
+  <!-- tablas -->
   <div class="bg-gray-900/70 rounded-lg border border-white/10 shadow-lg overflow-hidden">
     <table class="w-full text-sm">
       <thead class="bg-white/5 text-gray-300 uppercase tracking-wide text-xs">
@@ -109,7 +106,7 @@
     </table>
   </div>
 
-  <!-- Paginación -->
+  <!-- paginacion -->
   {% if is_paginated %}
   <div class="flex justify-center items-center gap-1">
     {% if page_obj.has_previous %}

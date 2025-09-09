@@ -8,12 +8,12 @@ from openpyxl import load_workbook
 
 class ExportarPagosTest(TestCase):
     def setUp(self):
-        # Se crea un usuario de arrendatario de prueba
+        #usuario de prueba
         self.user = User.objects.create_user(username='admin', password='intesud_123')
         PerfilUsuario.objects.create(user=self.user, tipo_usuario='arrendatario')
         self.client.force_login(self.user)
 
-        # Se crea un contrato de prueba
+        # contrato de prueba
         contrato = Contrato.objects.create(
             arrendatario=self.user,
             numero_departamento='C-001',
@@ -23,7 +23,7 @@ class ExportarPagosTest(TestCase):
             estado='activo'
         )
 
-        # Se crea un pago del arrendatario
+        # pago de arrendatario
         pago = Pago.objects.create(
             contrato=contrato,
             periodo=date.today(),
@@ -42,6 +42,6 @@ class ExportarPagosTest(TestCase):
         wb = load_workbook(filename=BytesIO(response.content))
         ws = wb.active
 
-        self.assertEqual(ws['A2'].value, 'C-001')  # número de departamento
-        self.assertEqual(ws['C2'].value, 100)      # monto pagado
-        self.assertEqual(ws['D2'].value, 'pagado') # estado del pago
+        self.assertEqual(ws['A2'].value, 'C-001')
+        self.assertEqual(ws['C2'].value, 100)
+        self.assertEqual(ws['D2'].value, 'pagado')

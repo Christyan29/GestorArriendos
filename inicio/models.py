@@ -1,12 +1,14 @@
-from django.utils import timezone
-
-from django.db import models
-from django.conf import settings
-from django.core.exceptions import ValidationError
-from django.db.models import Q, F
-from django.utils import timezone
 from datetime import date, datetime, timedelta
 import calendar
+
+from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.db import models
+from django.db.models import Q, F
+from django.utils import timezone
+
+from .validacion import validar_extension, validar_tamano
+from django.contrib.auth.models import User
 
 
 class EnlaceCrearAdmin(models.Model):
@@ -31,7 +33,6 @@ class PerfilUsuario(models.Model):
         return f"{self.user.username} - {self.get_tipo_usuario_display()}"
 
 # --contratos ---
-
 class Contrato(models.Model):
     ESTADO_CHOICES = [
         ('pendiente', 'Pendiente'),
@@ -127,8 +128,7 @@ class Contrato(models.Model):
             }
         )
 
-# --pagos -
-
+#--pagos--
 class Pago(models.Model):
     ESTADO_CHOICES = [
         ('pendiente', 'Pendiente'),
@@ -152,6 +152,24 @@ class Pago(models.Model):
     metodo_pago = models.CharField(max_length=20, choices=METODO_CHOICES, null=True, blank=True)
     referencia = models.CharField(max_length=120, blank=True)
 
+    #  Validacion del comprobantes
+    comprobante = models.FileField(
+        upload_to='comprobantes/',
+        validators=[validar_extension, validar_tamano],
+        blank=True, null=True
+    )
+    validado = models.BooleanField(default=False)
+    fecha_validacion = models.DateTimeField(blank=True, null=True)
+
+    validado_por = models.ForeignKey(
+        User,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='pagos_validados',
+        help_text='Administrador que validó el comprobante'
+    )
+
     creado_en = models.DateTimeField(auto_now_add=True)
     actualizado_en = models.DateTimeField(auto_now=True)
 
@@ -163,6 +181,8 @@ class Pago(models.Model):
         indexes = [
             models.Index(fields=['contrato', 'estado']),
             models.Index(fields=['periodo']),
+            models.Index(fields=['fecha_vencimiento']),
+            models.Index(fields=['validado']),
         ]
 
     def __str__(self):
@@ -211,6 +231,7 @@ class Pago(models.Model):
         )
 
         dt_vencido = datetime.combine(fecha_vencimiento + timedelta(days=1), datetime.min.time()).replace(hour=8)
+
 
 #---notificaciones----
 class Notificacion(models.Model):
@@ -261,3 +282,61 @@ class Notificacion(models.Model):
             raise ValidationError({'pago': 'Esta notificación requiere una cuota de pago asociada.'})
         if self.tipo == 'fin_contrato' and not self.contrato_id:
             raise ValidationError({'contrato': 'Esta notificación requiere un contrato asociado.'})
+
+class Documento(models.Model):
+    TIPO_CHOICES = [
+        ('contrato', 'Contrato'),
+        ('reglamento', 'Reglamento'),
+        ('anexo', 'Anexo'),
+        ('otro', 'Otro'),
+    ]
+    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES, db_index=True)
+    archivo = models.FileField(
+        upload_to='documentos/',
+        validators=[validar_extension, validar_tamano]
+    )
+    contrato = models.ForeignKey('Contrato', on_delete=models.CASCADE, blank=True, null=True, related_name='documentos')
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True, related_name='documentos')
+    descripcion = models.CharField(max_length=200, blank=True)
+    subido_en = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['tipo']),
+            models.Index(fields=['subido_en']),
+            models.Index(fields=['usuario']),
+        ]
+
+    def __str__(self):
+        sujeto = f"Contrato {self.contrato_id}" if self.contrato_id else f"Usuario {self.usuario_id}" if self.usuario_id else "General"
+        return f"Documento {self.tipo} • {sujeto}"
+
+
+class Prospecto(models.Model):
+    nombre = models.CharField(max_length=120)
+    email = models.EmailField()
+    telefono = models.CharField(max_length=30, blank=True)
+    mensaje = models.TextField(max_length=2000, blank=True)
+    atendido = models.BooleanField(default=False, db_index=True)
+    fecha = models.DateTimeField(auto_now_add=True, db_index=True)
+    atendido_por = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True, related_name='prospectos_atendidos'
+    )
+    observaciones = models.TextField(max_length=1000, blank=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['atendido']),
+            models.Index(fields=['fecha']),
+            models.Index(fields=['email']),
+        ]
+
+    def __str__(self):
+        estado = "Atendido" if self.atendido else "Pendiente"
+        return f"{self.nombre} • {estado} • {self.email}"
+    def marcar_como_atendido(self, usuario, observaciones=''):
+        self.atendido = True
+        self.atendido_por = usuario
+        self.observaciones = observaciones
+        self.save()
+        return self
